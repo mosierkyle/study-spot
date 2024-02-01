@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL")
+}
+
+model StudySpot {
+  id              String       @default(cuid()) @id
+  name            String
+  location        Location?     @relation(fields: [locationId], references: [id])
+  locationId      String        @unique
+  photos          String[]
+  freeWifi        Boolean
+  noiseLevel      String
+  seatingCapacity String
+  hours           String?
+  powerOutlets    Boolean
+  accessibility   String?
+  publicRestrooms Boolean
+  indoorOutdoor   String
+  studyResources  String[]
+  reviews         Review[]
+  school          School       @relation(fields: [schoolId], references: [id])
+  schoolId        String
+  user            User[]   
+}
+
+model Location {
+  id        String     @default(cuid()) @id
+  address   String
+  latitude  String?
+  longitude String?
+  StudySpot StudySpot?
+}
+
+model Review {
+  id          String   @default(cuid()) @id
+  content     String
+  likes       Like[]
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  studySpot   StudySpot @relation(fields: [studySpotId], references: [id])
+  studySpotId String
+}
+
+model Like {
+  id         String  @default(cuid()) @id
+  review     Review  @relation(fields: [reviewId], references: [id])
+  reviewId   String
+  student    User    @relation(fields: [studentId], references: [id])
+  studentId  String
+}
+
+model User {
+  id          String   @default(cuid()) @id
+  name        String?
+  email       String   @unique
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  reviews     Review[]
+  studySpots  StudySpot[]
+  schools     School[]   
+  likes       Like[]
+}
+
+model School {
+  id         String   @default(cuid()) @id
+  name       String
+  students   User[]
+  address    String
+  photos     String[]
+  studySpots StudySpot[]
+}
