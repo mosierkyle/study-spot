@@ -66,8 +66,9 @@ datasource db {
 model User {
   id          String   @default(cuid()) @id
   email       String   @unique
-  name        String?
+  name        String
   avatar      String?
+  password    String
   // accounts      Account[]
   // sessions      Session[]
   createdAt   DateTime @default(now())
