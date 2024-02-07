@@ -4,6 +4,7 @@
   justify-content: start;
   align-items: center;
   min-height: 100vh;
+  max-width: 100vw;
 }
 
 .landingHeader {
@@ -93,21 +94,23 @@
   z-index: 2;
 }
 
-.heroText {
+.heroContent {
   position: absolute;
-  top: 20%;
+  top: 28%;
   left: 50%;
-  transform: translate(-50%, -20%);
+  transform: translate(-50%, -28%);
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroText {
   font-size: 52px;
   color: #ffffff;
 }
 
 .searchDiv {
-  position: absolute;
-  top: 37%;
-  left: 50%;
-  transform: translate(-50%, -37%);
   z-index: 2;
 }
 
@@ -124,4 +127,51 @@
 .search:focus {
   border: none;
   outline: none;
+}
+
+.info {
+  height: calc(100vh - 100px);
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 50px 0;
+  gap: 150px;
+  min-height: 1000px;
+}
+
+.step {
+  width: 50%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 75px;
+}
+
+.stepImgDiv {
+  max-height: 300px;
+  width: 80%;
+}
+
+.stepImg {
+  object-fit: cover;
+  object-position: center;
+  height: fit-content;
+  width: 100%;
+  object-position: 50% 10%;
+  max-height: 300px;
+  min-height: 225px;
+}
+
+.stepText {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+}
+
+.stepText p {
+  margin: 0;
 }
