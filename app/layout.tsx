@@ -26,7 +26,7 @@ export default function RootLayout({
           </div>
           <div className={styles.links}>
             <ul className={styles.navLinks}>
-              <li className={styles.navLink}>Search</li>
+              {/* <li className={styles.navLink}>Search</li> */}
               <li className={styles.navLink}>Login</li>
               <Link href="api/auth/signin" className={styles.signUp}>
                 Sign up

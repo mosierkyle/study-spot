@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
   min-height: 100vh;
 }
@@ -11,8 +11,7 @@
   justify-content: space-between;
   flex-direction: row;
   height: 75px;
-  padding: 10px 30px;
-  border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+  padding: 5px 30px;
   background-color: #ffffff;
 }
 
@@ -26,10 +25,7 @@
 .landingLogo p {
   font-weight: 700;
   font-size: 30px;
-}
-
-.landingLogo span {
-  color: #32bb78;
+  color: #ff735c;
 }
 
 .links {
@@ -62,7 +58,70 @@
   border-radius: 25px;
   font-size: 16px;
   text-decoration: none;
-  background-color: #32bb78;
+  background-color: #ff735c;
   color: #ffffff;
   width: fit-content;
+}
+
+.hero {
+  position: relative;
+}
+
+.heroImgDiv {
+  height: calc(100vh - 95px);
+  width: 100vw;
+  overflow: hidden;
+  object-fit: contain;
+  justify-content: center;
+}
+
+.heroImg {
+  object-fit: cover;
+  object-position: center;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+.heroImgDiv::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 95px);
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.heroText {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  z-index: 3;
+  font-size: 52px;
+  color: #ffffff;
+}
+
+.searchDiv {
+  position: absolute;
+  top: 37%;
+  left: 50%;
+  transform: translate(-50%, -37%);
+  z-index: 2;
+}
+
+.search {
+  height: 50px;
+  width: 60vw;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 20px;
+  font-size: 20px;
+}
+
+.search:focus {
+  border: none;
+  outline: none;
 }
