@@ -1,11 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../lib/prisma';
 import { hash } from 'bcrypt';
 
-const prisma = new PrismaClient();
-
 async function main() {
-  const password = await hash('test', 12);
-
   const school = await prisma.school.upsert({
     where: { name: 'Cal Poly SLO' },
     update: {},
@@ -15,8 +11,9 @@ async function main() {
     },
   });
 
-  const schoolId = school.id;
+  const schoolId = await school.id;
 
+  const password = await hash('test', 12);
   const user = await prisma.user.upsert({
     where: { email: 'kcmosier@calpoly.edu' },
     update: {},
@@ -24,9 +21,8 @@ async function main() {
       email: 'kcmosier@calpoly.edu',
       name: 'Kyle Mosier',
       password,
-      schoolId,
+      schoolId: schoolId,
     },
-    include: { school: true },
   });
 
   const userId = user.id;
@@ -62,7 +58,7 @@ async function main() {
       email: 'test@test.com',
       name: 'Random Student',
       password: password2,
-      schoolId,
+      schoolId: schoolId,
     },
 
     include: { school: true },

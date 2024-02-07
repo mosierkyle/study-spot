@@ -1,14 +1,19 @@
-// import { School } from '@prisma/client';
-import { prisma } from '../../lib/prisma';
+import { getSchool, createUser } from '@/lib/userManipulation';
 
 const About = async () => {
-  //   const feed = await prisma.school.findMany();
+  const calpoly = await getSchool('Cal Poly SLO');
+  createUser({
+    email: 'jondoe@email.com',
+    name: 'Jon Doe',
+    avatar: undefined,
+    password: 'test123',
+    schoolName: 'Cal Poly SLO',
+  });
+
   return (
     <div>
       <h1>About Page</h1>
-      {/* {feed.map((school: School) => {
-        return <p key={school.id}>{school.name}</p>;
-      })} */}
+      <p>{calpoly.address}</p>
     </div>
   );
 };
