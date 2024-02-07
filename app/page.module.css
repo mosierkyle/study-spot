@@ -3,6 +3,66 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
   min-height: 100vh;
+}
+
+.landingHeader {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 75px;
+  padding: 10px 30px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+}
+
+.landingLogo {
+  align-items: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.landingLogo p {
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.landingLogo span {
+  color: #32bb78;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items: center;
+  height: 100%;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items: center;
+  height: 100%;
+  gap: 24px;
+}
+
+.navLink {
+  padding: 10px;
+  list-style-type: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.signUp {
+  font-weight: 600;
+  padding: 16px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  text-decoration: none;
+  background-color: #32bb78;
+  color: #ffffff;
+  width: fit-content;
 }

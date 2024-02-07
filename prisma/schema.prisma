@@ -26,7 +26,7 @@ model StudySpot {
   reviews         Review[]
   school          School       @relation(fields: [schoolId], references: [id])
   schoolId        String
-  user            User   @relation(fields: [userId], references: [id])
+  user            User         @relation(fields: [userId], references: [id])
   userId          String
 }
 
@@ -50,7 +50,7 @@ model Like {
 
 model School {
   id         String   @default(cuid()) @id
-  name       String @unique
+  name       String   @unique
   students   User[]
   address    String
   photos     String[]

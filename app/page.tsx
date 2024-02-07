@@ -1,9 +1,7 @@
-import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { getUserSession } from '@/lib/session';
 import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { User } from './user';
 
 export default async function Home() {
