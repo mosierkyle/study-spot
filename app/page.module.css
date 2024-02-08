@@ -137,7 +137,7 @@
   justify-content: start;
   align-items: center;
   padding: 50px 0;
-  gap: 150px;
+  gap: 120px;
   min-height: 1000px;
 }
 
@@ -174,4 +174,66 @@
 
 .stepText p {
   margin: 0;
+}
+
+.footer {
+  height: 200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 25px;
+}
+
+.logoSocial {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: end;
+}
+
+.footerLogo {
+  text-decoration: none;
+  color: #ff735c;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.footerSocial {
+  font-size: 20px;
+  color: #ff735c;
+  text-decoration: none;
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: end;
+}
+
+.footerHelp {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: end;
+}
+
+.footerLink1 {
+  font-size: 14px;
+  color: #303030;
+  text-decoration: none;
+}
+
+.footerLink2 {
+  font-size: 12px;
+  color: #343434;
+  text-decoration: none;
 }
