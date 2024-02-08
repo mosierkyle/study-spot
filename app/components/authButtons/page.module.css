@@ -1,0 +1,51 @@
+.google {
+  height: 56px;
+  padding: 30px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  background-color: #ffffff;
+  color: #000;
+  border: 2px solid #d2d2d2;
+  justify-content: center;
+  border-radius: 40px;
+  gap: 1rem;
+  width: 100%;
+}
+
+.google:hover {
+  cursor: pointer;
+}
+
+.googleText {
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.email {
+  height: 56px;
+  padding: 30px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  background-color: #ff735c;
+  color: rgb(255, 255, 255);
+  border: none;
+  justify-content: center;
+  border-radius: 40px;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.email:hover {
+  cursor: pointer;
+}
+
+.emailText {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+}

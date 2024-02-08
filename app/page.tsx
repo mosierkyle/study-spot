@@ -8,14 +8,19 @@ import school1 from '../public/school1.jpg';
 import search from '../public/search.jpg';
 import study from '../public/study.jpg';
 import review from '../public/review.jpg';
-import SignIn from './components/signin';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'StudySpot',
+  description:
+    'A community driven app to find the best study places on your campus',
+};
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
   // const user = await getUserSession();
   return (
     <main className={styles.main}>
-      <SignIn />
       <section className={styles.hero}>
         <div className={styles.heroImgDiv}>
           <Image

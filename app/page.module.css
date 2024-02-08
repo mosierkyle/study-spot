@@ -53,6 +53,10 @@
   font-size: 16px;
 }
 
+.navLink:hover {
+  cursor: pointer;
+}
+
 .signUp {
   font-weight: 600;
   padding: 16px 20px;
@@ -62,6 +66,10 @@
   background-color: #ff735c;
   color: #ffffff;
   width: fit-content;
+}
+
+.signUp:hover {
+  cursor: pointer;
 }
 
 .hero {
