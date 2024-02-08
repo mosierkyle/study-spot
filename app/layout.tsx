@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
-import { inter } from '@/app/fonts';
+'use client';
+
 import './globals.css';
 import { Providers } from './providers';
 import styles from './page.module.css';
@@ -8,21 +8,23 @@ import github2 from '../public/github2.png';
 import linkedin2 from '../public/linkedin2.png';
 import Image from 'next/image';
 import twitter from '../public/twitter.png';
-
-export const metadata: Metadata = {
-  title: 'StudySpot',
-  description:
-    'A community driven app to find the best study places on your campus',
-};
+import { useState } from 'react';
+import SignIn from './components/signin/signin';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [showSignin, setshowSignin] = useState<boolean>(false);
+
+  const handleShowSignin = () => {
+    showSignin ? setshowSignin(false) : setshowSignin(true);
+  };
+
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <div className={styles.landingHeader}>
           <div className={styles.landingLogo}>
             <p>
@@ -32,7 +34,12 @@ export default function RootLayout({
           <div className={styles.links}>
             <ul className={styles.navLinks}>
               {/* <li className={styles.navLink}>Search</li> */}
-              <li className={styles.navLink}>Login</li>
+              <li onClick={handleShowSignin} className={styles.navLink}>
+                Login
+              </li>
+              {showSignin && (
+                <SignIn setshowSignin={setshowSignin} showSignin={showSignin} />
+              )}
               <Link href="api/auth/signin" className={styles.signUp}>
                 Sign up
               </Link>
