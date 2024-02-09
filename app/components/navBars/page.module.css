@@ -1,0 +1,73 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  min-height: 100vh;
+  /* max-width: 100vw; */
+}
+
+.landingHeader {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  height: 75px;
+  padding: 5px 30px;
+  background-color: #ffffff;
+}
+
+.landingLogo {
+  align-items: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.landingLogo p {
+  font-weight: 700;
+  font-size: 30px;
+  color: #ff735c;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items: center;
+  height: 100%;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items: center;
+  height: 100%;
+  gap: 24px;
+}
+
+.navLink {
+  padding: 10px;
+  list-style-type: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.navLink:hover {
+  cursor: pointer;
+}
+
+.signUp {
+  font-weight: 600;
+  padding: 16px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  text-decoration: none;
+  background-color: #ff735c;
+  color: #ffffff;
+  width: fit-content;
+}
+
+.signUp:hover {
+  cursor: pointer;
+}

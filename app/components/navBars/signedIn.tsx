@@ -1,0 +1,40 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import account from '../../../public/account.png';
+import styles from './page.module.css';
+import type { StaticImageData } from 'next/image';
+
+interface SignedInNavProps {
+  userEmail?: string;
+  //   userAvatar?: StaticImageData;
+}
+
+const SignedInNav: React.FC<SignedInNavProps> = ({ userEmail = '' }) => {
+  return (
+    <div className={styles.landingHeader}>
+      <div className={styles.landingLogo}>
+        <p>
+          Study<span>Spot</span>
+        </p>
+      </div>
+      <div className={styles.links}>
+        <ul className={styles.navLinks}>
+          <p>{userEmail}</p>
+          {userEmail && (
+            <Image
+              className={styles.navLink}
+              src={account}
+              alt="Account Avatar"
+              width={35}
+              height={35}
+            />
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default SignedInNav;
+
+// userAvatar = account,

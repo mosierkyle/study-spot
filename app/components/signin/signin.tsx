@@ -13,6 +13,7 @@ import Link from 'next/link';
 interface SignInProps {
   showSignin: boolean;
   setshowSignin: React.Dispatch<React.SetStateAction<boolean>>;
+  csrfToken?: string;
 }
 
 const SignIn: React.FC<SignInProps> = ({ showSignin, setshowSignin }) => {
@@ -26,7 +27,6 @@ const SignIn: React.FC<SignInProps> = ({ showSignin, setshowSignin }) => {
     const signInResponse = await signIn('credentials', {
       email: data.get('email'),
       password: data.get('password'),
-      redirect: false,
     });
 
     if (signInResponse && !signInResponse.error) {
@@ -88,7 +88,9 @@ const SignIn: React.FC<SignInProps> = ({ showSignin, setshowSignin }) => {
           {/* <button type="submit" className={styles.submit}>
             Log in
           </button> */}
-          <CredentialsSignInButton />
+          <button type="submit" className={styles.submit}>
+            Continue with Email
+          </button>
           <p className={styles.already}>
             Dont have an account?
             <Link href="signup" className={styles.alreadyLink}>

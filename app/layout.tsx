@@ -1,5 +1,3 @@
-'use client';
-
 import './globals.css';
 import { Providers } from './providers';
 import styles from './page.module.css';
@@ -8,44 +6,36 @@ import github2 from '../public/github2.png';
 import linkedin2 from '../public/linkedin2.png';
 import Image from 'next/image';
 import twitter from '../public/twitter.png';
-import { useState } from 'react';
-import SignIn from './components/signin/signin';
+import SignedOutNav from './components/navBars/signedOut';
+import SignedInNav from './components/navBars/signedIn';
+import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import type { StaticImageData } from 'next/image';
 
-export default function RootLayout({
+export const metadata: Metadata = {
+  title: 'StudySpot',
+  description:
+    'A community driven app to find the best study places on your campus',
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [showSignin, setshowSignin] = useState<boolean>(false);
-
-  const handleShowSignin = () => {
-    showSignin ? setshowSignin(false) : setshowSignin(true);
-  };
+  const session = await getServerSession(authOptions);
+  console.log('Session: ', session);
+  const user = session?.user;
 
   return (
     <html lang="en">
       <body>
-        <div className={styles.landingHeader}>
-          <div className={styles.landingLogo}>
-            <p>
-              Study<span>Spot</span>
-            </p>
-          </div>
-          <div className={styles.links}>
-            <ul className={styles.navLinks}>
-              {/* <li className={styles.navLink}>Search</li> */}
-              <li onClick={handleShowSignin} className={styles.navLink}>
-                Login
-              </li>
-              {showSignin && (
-                <SignIn setshowSignin={setshowSignin} showSignin={showSignin} />
-              )}
-              <Link href="api/auth/signin" className={styles.signUp}>
-                Sign up
-              </Link>
-            </ul>
-          </div>
-        </div>
+        {session ? (
+          <SignedInNav userEmail={user?.email || undefined} />
+        ) : (
+          <SignedOutNav />
+        )}
         <div>
           <Providers>{children}</Providers>
         </div>
@@ -100,3 +90,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+// userAvatar={user?.image}

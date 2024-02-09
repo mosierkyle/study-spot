@@ -64,6 +64,9 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ profile, user }) {
+      if (user.email && user.id && !profile?.email) {
+        return true;
+      }
       if (!profile?.email) {
         throw new Error('No profile');
       }
