@@ -5,21 +5,22 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styles from './page.module.css';
 import x from '../../../public/x.png';
+import back from '../../../public/back.png';
 import Image from 'next/image';
 import CredentialsSignInButton from '../authButtons/authEmail';
 import GoogleSignInButton from '../authButtons/authGoogle';
 import Link from 'next/link';
 
-interface SignInProps {
-  showSignin: boolean;
-  setshowSignin: React.Dispatch<React.SetStateAction<boolean>>;
+interface SignupEmailProps {
+  showSignupEmail: boolean;
+  setshowSignupEmail: React.Dispatch<React.SetStateAction<boolean>>;
   setshowSignup: React.Dispatch<React.SetStateAction<boolean>>;
   csrfToken?: string;
 }
 
-const SignIn: React.FC<SignInProps> = ({
-  showSignin,
-  setshowSignin,
+const SignupEmail: React.FC<SignupEmailProps> = ({
+  showSignupEmail,
+  setshowSignupEmail,
   setshowSignup,
 }) => {
   const router = useRouter();
@@ -43,11 +44,11 @@ const SignIn: React.FC<SignInProps> = ({
   };
 
   const handleShowSignin = () => {
-    showSignin ? setshowSignin(false) : setshowSignin(true);
+    showSignupEmail ? setshowSignupEmail(false) : setshowSignupEmail(true);
   };
 
-  const handleSignUp = () => {
-    setshowSignin(false);
+  const goBack = () => {
+    setshowSignupEmail(false);
     setshowSignup(true);
   };
 
@@ -64,25 +65,45 @@ const SignIn: React.FC<SignInProps> = ({
           height={25}
           width={25}
         />
-        <p className={styles.heading}>Login</p>
+        <Image
+          onClick={goBack}
+          className={styles.back}
+          src={back}
+          alt="X"
+          height={29}
+          width={29}
+        />
+        <p className={styles.heading}>Sign up with Email</p>
         <p className={styles.text}>
           Find the perfect place to study and help others do the same
         </p>
-        <GoogleSignInButton />
-        <div className={styles.dividerDiv}>
-          <hr className={styles.divider} data-content="or sign in with email" />
-        </div>
         <div className={styles.formElements}>
-          <div className={styles.passwordForgot}>
-            <label className={styles.label}>Email</label>
+          <div className={styles.topInputs}>
+            <div className={styles.smallInputs}>
+              <div className={styles.passwordForgot}>
+                <label className={styles.label}>Name</label>
+              </div>
+              <input
+                type="Name"
+                name="Name"
+                // placeholder="Email"
+                required
+                className={styles.inputSmall}
+              />
+            </div>
+            <div className={styles.smallInputs}>
+              <div className={styles.passwordForgot}>
+                <label className={styles.label}>Email</label>
+              </div>
+              <input
+                type="email"
+                name="email"
+                // placeholder="Email"
+                required
+                className={styles.inputSmall}
+              />
+            </div>
           </div>
-          <input
-            type="email"
-            name="email"
-            // placeholder="Email"
-            required
-            className={styles.input}
-          />
           <div className={styles.passwordForgot}>
             <label className={styles.label}>Password</label>
             <p className={styles.forgot}>Forgot?</p>
@@ -103,9 +124,9 @@ const SignIn: React.FC<SignInProps> = ({
           </button>
           <p className={styles.already}>
             Dont have an account?
-            <a onClick={handleSignUp} className={styles.alreadyLink}>
+            <Link href="signup" className={styles.alreadyLink}>
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </form>
@@ -113,4 +134,4 @@ const SignIn: React.FC<SignInProps> = ({
   );
 };
 
-export default SignIn;
+export default SignupEmail;
