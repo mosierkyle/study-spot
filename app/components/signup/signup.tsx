@@ -9,18 +9,23 @@ import Image from 'next/image';
 import CredentialsSignInButton from '../authButtons/authEmail';
 import GoogleSignInButton from '../authButtons/authGoogle';
 import Link from 'next/link';
+import SignupEmail from './signupEmail';
 
-interface SignInProps {
+interface SignupProps {
+  showSignup: boolean;
+  setshowSignup: React.Dispatch<React.SetStateAction<boolean>>;
+  showSignupEmail: boolean;
+  setshowSignupEmail: React.Dispatch<React.SetStateAction<boolean>>;
   showSignin: boolean;
   setshowSignin: React.Dispatch<React.SetStateAction<boolean>>;
-  setshowSignup: React.Dispatch<React.SetStateAction<boolean>>;
   csrfToken?: string;
 }
 
-const SignIn: React.FC<SignInProps> = ({
-  showSignin,
-  setshowSignin,
+const Signup: React.FC<SignupProps> = ({
+  showSignup,
   setshowSignup,
+  setshowSignupEmail,
+  setshowSignin,
 }) => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -43,12 +48,17 @@ const SignIn: React.FC<SignInProps> = ({
   };
 
   const handleShowSignin = () => {
-    showSignin ? setshowSignin(false) : setshowSignin(true);
+    showSignup ? setshowSignup(false) : setshowSignup(true);
   };
 
-  const handleSignUp = () => {
-    setshowSignin(false);
-    setshowSignup(true);
+  const handleEmail = () => {
+    setshowSignup(false);
+    setshowSignupEmail(true);
+  };
+
+  const handleSignIn = () => {
+    setshowSignup(false);
+    setshowSignin(true);
   };
 
   return (
@@ -64,53 +74,30 @@ const SignIn: React.FC<SignInProps> = ({
           height={25}
           width={25}
         />
-        <p className={styles.heading}>Login</p>
+        <p className={styles.heading}>Sign Up</p>
         <p className={styles.text}>
           Find the perfect place to study and help others do the same
         </p>
         <GoogleSignInButton />
         <div className={styles.dividerDiv}>
-          <hr className={styles.divider} data-content="or sign in with email" />
+          <hr className={styles.divider} data-content="or sign up with email" />
         </div>
-        <div className={styles.formElements}>
-          <div className={styles.passwordForgot}>
-            <label className={styles.label}>Email</label>
-          </div>
-          <input
-            type="email"
-            name="email"
-            // placeholder="Email"
-            required
-            className={styles.input}
-          />
-          <div className={styles.passwordForgot}>
-            <label className={styles.label}>Password</label>
-            <p className={styles.forgot}>Forgot?</p>
-          </div>
-          <input
-            type="password"
-            name="password"
-            // placeholder="Password"
-            required
-            className={styles.input}
-          />
-
-          {/* <button type="submit" className={styles.submit}>
-            Log in
-          </button> */}
-          <button type="submit" className={styles.submit}>
-            Continue with Email
-          </button>
-          <p className={styles.already}>
-            Dont have an account?
-            <a onClick={handleSignUp} className={styles.alreadyLink}>
-              Sign up
-            </a>
-          </p>
-        </div>
+        <button onClick={handleEmail} type="submit" className={styles.submit}>
+          Continue with Email
+        </button>
+        <p className={styles.terms}>
+          By creating an account you agree with our Terms of Service, Privacy
+          Policy, and our default Notification Settings.
+        </p>
+        <p className={styles.already}>
+          Already have an account?
+          <a onClick={handleSignIn} className={styles.alreadyLink}>
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );
 };
 
-export default SignIn;
+export default Signup;

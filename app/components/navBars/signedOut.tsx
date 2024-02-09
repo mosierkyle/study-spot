@@ -5,14 +5,27 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import SignIn from '../../components/signin/signin';
+import SignIn from '../signin/signin';
+import Signup from '../signup/signup';
+import SignupEmail from '../signup/signupEmail';
 
 const SignedOutNav = () => {
   const [showSignin, setshowSignin] = useState<boolean>(false);
+  const [showSignup, setshowSignup] = useState<boolean>(true);
+  const [showSignupEmail, setshowSignupEmail] = useState<boolean>(false);
 
   const handleShowSignin = () => {
     showSignin ? setshowSignin(false) : setshowSignin(true);
   };
+
+  const handleShowSignup = () => {
+    showSignin ? setshowSignup(false) : setshowSignup(true);
+  };
+
+  const handleShowSignupEmail = () => {
+    showSignin ? setshowSignupEmail(false) : setshowSignupEmail(true);
+  };
+
   return (
     <div className={styles.landingHeader}>
       <div className={styles.landingLogo}>
@@ -27,11 +40,32 @@ const SignedOutNav = () => {
             Login
           </li>
           {showSignin && (
-            <SignIn setshowSignin={setshowSignin} showSignin={showSignin} />
+            <SignIn
+              setshowSignup={setshowSignup}
+              setshowSignin={setshowSignin}
+              showSignin={showSignin}
+            />
           )}
-          <Link href="api/auth/signin" className={styles.signUp}>
+          <li onClick={handleShowSignup} className={styles.signUp}>
             Sign up
-          </Link>
+          </li>
+          {showSignup && (
+            <Signup
+              setshowSignin={setshowSignin}
+              showSignin={showSignin}
+              setshowSignup={setshowSignup}
+              showSignup={showSignup}
+              setshowSignupEmail={setshowSignupEmail}
+              showSignupEmail={showSignupEmail}
+            />
+          )}
+          {showSignupEmail && (
+            <SignupEmail
+              setshowSignupEmail={setshowSignupEmail}
+              showSignupEmail={showSignupEmail}
+              setshowSignup={setshowSignup}
+            />
+          )}
         </ul>
       </div>
     </div>
