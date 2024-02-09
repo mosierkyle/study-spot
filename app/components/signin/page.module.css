@@ -78,6 +78,10 @@
   margin-top: 10px;
 }
 
+.submit:hover {
+  cursor: pointer;
+}
+
 .divider {
   font-size: 15px;
   line-height: 1em;
