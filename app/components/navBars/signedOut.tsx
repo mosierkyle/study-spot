@@ -11,7 +11,7 @@ import SignupEmail from '../signup/signupEmail';
 
 const SignedOutNav = () => {
   const [showSignin, setshowSignin] = useState<boolean>(false);
-  const [showSignup, setshowSignup] = useState<boolean>(true);
+  const [showSignup, setshowSignup] = useState<boolean>(false);
   const [showSignupEmail, setshowSignupEmail] = useState<boolean>(false);
 
   const handleShowSignin = () => {

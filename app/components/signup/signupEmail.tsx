@@ -7,15 +7,15 @@ import styles from './page.module.css';
 import x from '../../../public/x.png';
 import back from '../../../public/back.png';
 import Image from 'next/image';
-import CredentialsSignInButton from '../authButtons/authEmail';
-import GoogleSignInButton from '../authButtons/authGoogle';
 import Link from 'next/link';
+import createUser from '@/lib/createUser';
+import { prisma } from '@/lib/prisma';
+import { hash } from 'bcrypt';
 
 interface SignupEmailProps {
   showSignupEmail: boolean;
   setshowSignupEmail: React.Dispatch<React.SetStateAction<boolean>>;
   setshowSignup: React.Dispatch<React.SetStateAction<boolean>>;
-  csrfToken?: string;
 }
 
 const SignupEmail: React.FC<SignupEmailProps> = ({
@@ -28,19 +28,33 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
 
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    console.log(name, email, password);
+    // try {
+    // Create the user
+    await createUser({ email, name, password });
+    // Sign in the user after successful creation
     const signInResponse = await signIn('credentials', {
-      email: data.get('email'),
-      password: data.get('password'),
+      email,
+      password,
+      redirect: false,
     });
 
-    if (signInResponse && !signInResponse.error) {
-      router.push('/');
-    } else {
-      console.log('Error: ', signInResponse);
-      setError('Your Email or Password is wrong!');
+    if (signInResponse?.error) {
+      throw new Error('Failed to sign in user');
     }
+
+    // Redirect the user to the home page
+    router.push('/');
+    // } catch (error) {
+    //   console.error('Error creating user:', error);
+    //   setError('Failed to create user');
+    // }
   };
 
   const handleShowSignin = () => {
@@ -84,9 +98,8 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
                 <label className={styles.label}>Name</label>
               </div>
               <input
-                type="Name"
-                name="Name"
-                // placeholder="Email"
+                type="name"
+                name="name"
                 required
                 className={styles.inputSmall}
               />
