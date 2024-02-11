@@ -1,14 +1,7 @@
-import { getSchool, createUser } from '@/lib/userManipulation';
+import { getSchool } from '@/lib/getSchool';
 
 const About = async () => {
   const calpoly = await getSchool('Cal Poly SLO');
-  createUser({
-    email: 'jondoe@email.com',
-    name: 'Jon Doe',
-    avatar: undefined,
-    password: 'test123',
-    schoolName: 'Cal Poly SLO',
-  });
 
   return (
     <div>
