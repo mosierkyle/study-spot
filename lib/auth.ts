@@ -6,8 +6,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt';
 import { NextAuthOptions, User, getServerSession } from 'next-auth';
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID ?? '';
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? '';
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -39,7 +39,7 @@ const authOptions: NextAuthOptions = {
           },
         });
 
-        if (!user) {
+        if (!user || !user.password) {
           return null;
         }
 
@@ -47,7 +47,6 @@ const authOptions: NextAuthOptions = {
           credentials.password,
           user.password
         );
-        console.log('Is the password correct ' + isPasswordValid);
 
         if (!isPasswordValid) {
           return null;
@@ -92,7 +91,6 @@ const authOptions: NextAuthOptions = {
           },
         });
       }
-      console.log('User signed in successfully');
       return true;
     },
 

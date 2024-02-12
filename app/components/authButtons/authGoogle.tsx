@@ -11,7 +11,7 @@ export default function GoogleSignInButton() {
   };
 
   return (
-    <button onClick={handleClick} className={styles.google}>
+    <button type="button" onClick={handleClick} className={styles.google}>
       <Image src={googleLogo} alt="Google Logo" width={20} height={20} />
       <span className={styles.googleText}>Continue with Google</span>
     </button>

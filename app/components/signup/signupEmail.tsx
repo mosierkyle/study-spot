@@ -8,7 +8,6 @@ import x from '../../../public/x.png';
 import back from '../../../public/back.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import createUser from '@/lib/createUser';
 import { prisma } from '@/lib/prisma';
 import { hash } from 'bcrypt';
 
@@ -34,27 +33,35 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    console.log(name, email, password);
-    // try {
-    // Create the user
-    await createUser({ email, name, password });
-    // Sign in the user after successful creation
-    const signInResponse = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      console.log(name, email, password);
+      const response = await fetch('/api/user/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    if (signInResponse?.error) {
-      throw new Error('Failed to sign in user');
+      if (response.ok) {
+        const signInResponse = await signIn('credentials', {
+          email,
+          password,
+          redirect: false,
+        });
+        console.log('signed in');
+        if (signInResponse && !signInResponse.error) {
+          router.push('/');
+          window.location.reload();
+        }
+      } else {
+        const data = await response.json();
+        throw new Error(data.error);
+      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+      setError('Failed to create user');
     }
-
-    // Redirect the user to the home page
-    router.push('/');
-    // } catch (error) {
-    //   console.error('Error creating user:', error);
-    //   setError('Failed to create user');
-    // }
   };
 
   const handleShowSignin = () => {
