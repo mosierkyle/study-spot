@@ -82,7 +82,7 @@ const Signup: React.FC<SignupProps> = ({
         <div className={styles.dividerDiv}>
           <hr className={styles.divider} data-content="or sign up with email" />
         </div>
-        <button onClick={handleEmail} type="submit" className={styles.submit}>
+        <button onClick={handleEmail} type="button" className={styles.submit}>
           Continue with Email
         </button>
         <p className={styles.terms}>

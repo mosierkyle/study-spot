@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import type { Prisma } from '@prisma/client';
+import type { Prisma, User } from '@prisma/client';
 import { hash } from 'bcrypt';
 
 interface CreateUserProps {
@@ -8,11 +8,8 @@ interface CreateUserProps {
   password?: string;
 }
 
-const createUser = async (
-  props: CreateUserProps
-): Promise<Prisma.UserSelect> => {
+const createUser = async (props: CreateUserProps): Promise<User> => {
   const { email, name, password } = props;
-
   if (!password) {
     throw new Error('Password is required');
   }
@@ -26,18 +23,18 @@ const createUser = async (
     throw new Error('Student with this email already exists');
   }
 
-  //   const hashedPassword = await hash(password, 12);
+  const hashedPassword = await hash(password, 12);
 
   const user = await prisma.user.upsert({
     where: { email: email },
     update: {
       name: name,
-      password: password,
+      password: hashedPassword,
     },
     create: {
       email: email,
       name: name,
-      password: password,
+      password: hashedPassword,
     },
   });
   console.log(user);

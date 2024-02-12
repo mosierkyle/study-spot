@@ -20,6 +20,7 @@ export default async function Home() {
             className={styles.heroImg}
             alt="University photo"
             src={school1}
+            priority
           />
         </div>
         <div className={styles.heroContent}>
