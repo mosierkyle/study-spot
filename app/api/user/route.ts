@@ -28,9 +28,7 @@ export async function POST(
       { status: 201 }
     );
   } catch (error: any) {
-    return NextResponse.json(
-      { error: 'User could not be created' },
-      { status: 500 }
-    );
+    console.log(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

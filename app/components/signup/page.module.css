@@ -69,6 +69,17 @@
   margin-bottom: 20px;
 }
 
+.input:focus {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+}
+
+.input:focus-visible {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+  outline: none;
+}
+
 .smallInputs {
   width: 45%;
 }
@@ -84,6 +95,17 @@
   border-radius: 12px;
   color: rgb(0, 0, 0);
   margin-bottom: 20px;
+}
+
+.inputSmall:focus {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+}
+
+.inputSmall:focus-visible {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+  outline: none;
 }
 
 .submit {
@@ -209,4 +231,12 @@
   margin-top: 25px;
   font-size: 13px;
   padding: 0px 15px;
+}
+
+.error {
+  text-align: center;
+  font-size: 16px;
+  color: red;
+  font-weight: 600;
+  margin-bottom: 30px;
 }

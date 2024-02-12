@@ -34,7 +34,6 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
     const password = formData.get('password') as string;
 
     try {
-      console.log(name, email, password);
       const response = await fetch('/api/user/', {
         method: 'POST',
         headers: {
@@ -45,10 +44,11 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
 
       if (response.ok) {
         const signInResponse = await signIn('credentials', {
+          redirect: false,
           email,
           password,
-          redirect: false,
         });
+        console.log(signInResponse?.error);
         console.log('signed in');
         if (signInResponse && !signInResponse.error) {
           router.push('/');
@@ -59,8 +59,8 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
         throw new Error(data.error);
       }
     } catch (error) {
-      console.error('Error creating user:', error);
-      setError('Failed to create user');
+      console.error(error);
+      setError(`${error}`);
     }
   };
 
@@ -77,7 +77,6 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
     <div className={styles.formDiv}>
       <div onClick={handleShowSignin} className={styles.overlay}></div>
       <form className={styles.form} onSubmit={handleSubmit}>
-        {error && <span className={styles.error}>{error}</span>}
         <Image
           onClick={handleShowSignin}
           className={styles.x}
@@ -95,9 +94,13 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
           width={29}
         />
         <p className={styles.heading}>Sign up with Email</p>
-        <p className={styles.text}>
-          Find the perfect place to study and help others do the same
-        </p>
+        {error ? (
+          <p className={styles.error}>{error}</p>
+        ) : (
+          <p className={styles.text}>
+            Find the perfect place to study and help others do the same
+          </p>
+        )}
         <div className={styles.formElements}>
           <div className={styles.topInputs}>
             <div className={styles.smallInputs}>
