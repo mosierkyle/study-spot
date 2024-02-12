@@ -29,8 +29,9 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        console.log('3');
         if (!credentials?.email || !credentials.password) {
-          return null;
+          throw new Error('Enter Email and Password');
         }
 
         const user = await prisma.user.findUnique({
@@ -40,7 +41,7 @@ const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.password) {
-          return null;
+          throw new Error('No user with this Email');
         }
 
         const isPasswordValid = await compare(
@@ -49,7 +50,7 @@ const authOptions: NextAuthOptions = {
         );
 
         if (!isPasswordValid) {
-          return null;
+          throw new Error('Incorrect Password');
         }
 
         return {

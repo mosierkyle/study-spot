@@ -24,22 +24,25 @@ const SignIn: React.FC<SignInProps> = ({
 }) => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
     const signInResponse = await signIn('credentials', {
+      redirect: false,
       email: data.get('email'),
       password: data.get('password'),
     });
-
     if (signInResponse && !signInResponse.error) {
       router.push('/');
     } else {
-      console.log('Error: ', signInResponse);
-      setError('Your Email or Password is wrong!');
+      console.log('Error: ', signInResponse?.error);
+      setError('Incorrect Email or Password!');
     }
+    setIsLoading(false);
   };
 
   const handleShowSignin = () => {
@@ -55,7 +58,6 @@ const SignIn: React.FC<SignInProps> = ({
     <div className={styles.formDiv}>
       <div onClick={handleShowSignin} className={styles.overlay}></div>
       <form className={styles.form} onSubmit={handleSubmit}>
-        {error && <span className={styles.error}>{error}</span>}
         <Image
           onClick={handleShowSignin}
           className={styles.x}
@@ -65,9 +67,13 @@ const SignIn: React.FC<SignInProps> = ({
           width={25}
         />
         <p className={styles.heading}>Login</p>
-        <p className={styles.text}>
-          Find the perfect place to study and help others do the same
-        </p>
+        {error ? (
+          <p className={styles.error}>{error}</p>
+        ) : (
+          <p className={styles.text}>
+            Find the perfect place to study and help others do the same
+          </p>
+        )}
         <GoogleSignInButton />
         <div className={styles.dividerDiv}>
           <hr className={styles.divider} data-content="or sign in with email" />
