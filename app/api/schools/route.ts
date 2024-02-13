@@ -1,6 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import createUser from '@/lib/createUser';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getSchools } from '@/lib/getSchools';
 
 type ResponseData = {
@@ -8,8 +6,8 @@ type ResponseData = {
 };
 
 export async function GET(
-  req: NextApiRequest | Request,
-  res: NextApiResponse<ResponseData>
+  req: Request | NextRequest,
+  res: NextResponse<ResponseData>
 ) {
   try {
     const schools = await getSchools();
