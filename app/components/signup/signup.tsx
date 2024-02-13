@@ -6,10 +6,8 @@ import { useState } from 'react';
 import styles from './page.module.css';
 import x from '../../../public/x.png';
 import Image from 'next/image';
-import CredentialsSignInButton from '../authButtons/authEmail';
 import GoogleSignInButton from '../authButtons/authGoogle';
 import Link from 'next/link';
-import SignupEmail from './signupEmail';
 
 interface SignupProps {
   showSignup: boolean;

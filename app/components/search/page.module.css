@@ -1,0 +1,48 @@
+.searchDiv {
+  z-index: 2;
+}
+
+.search {
+  height: 50px;
+  width: 60vw;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 20px;
+  font-size: 20px;
+}
+
+.search:focus {
+  border: none;
+  outline: none;
+}
+
+.searchResults {
+  height: fit-content;
+  width: calc(100% - 3rem);
+  padding: 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.searchNoResults {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 12px;
+}
+
+.searchResult {
+  padding: 10px 5px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.searchResult:hover {
+  background-color: rgb(240, 240, 240);
+  cursor: pointer;
+}
+
+.searchResultName {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.8);
+}
