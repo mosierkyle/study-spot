@@ -1,6 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import createUser from '@/lib/createUser';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 async function streamToString(stream: any) {
   const chunks = [];
@@ -15,8 +14,8 @@ type ResponseData = {
 };
 
 export async function POST(
-  req: NextApiRequest | Request,
-  res: NextApiResponse<ResponseData>
+  req: Request | NextRequest,
+  res: NextResponse<ResponseData>
 ) {
   const data = JSON.parse(await streamToString(req.body));
   const { name, email, password } = data;
