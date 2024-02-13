@@ -8,8 +8,6 @@ import x from '../../../public/x.png';
 import back from '../../../public/back.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import { prisma } from '@/lib/prisma';
-import { hash } from 'bcrypt';
 
 interface SignupEmailProps {
   showSignupEmail: boolean;

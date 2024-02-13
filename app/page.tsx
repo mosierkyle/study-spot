@@ -2,16 +2,15 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { User } from './user';
 import Image from 'next/image';
 import school1 from '../public/school1.jpg';
 import search from '../public/search.jpg';
 import study from '../public/study.jpg';
 import review from '../public/review.jpg';
+import Search from './components/search/page';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  // const user = await getUserSession();
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
@@ -25,13 +24,14 @@ export default async function Home() {
         </div>
         <div className={styles.heroContent}>
           <h1 className={styles.heroText}>Find a better place to study</h1>
-          <div className={styles.searchDiv}>
+          {/* <div className={styles.searchDiv}>
             <input
               className={styles.search}
               type="text"
               placeholder="Search for your school"
             />
-          </div>
+          </div> */}
+          <Search />
         </div>
       </section>
       <section className={styles.info}>
@@ -82,13 +82,4 @@ export default async function Home() {
       </section>
     </main>
   );
-}
-
-{
-  /* <Link href="api/auth/signin">Sign In</Link>
-        <Link href="about">Link to About Page</Link>
-        <h2>Server Session</h2>
-        <pre>{JSON.stringify(session)}</pre>
-        <h2>Client Call</h2>
-        <User /> */
 }
