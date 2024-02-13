@@ -51,6 +51,7 @@ model Like {
 model School {
   id         String   @default(cuid()) @id
   name       String   @unique
+  city       String?
   students   User[]
   address    String
   photos     String[]

@@ -49,43 +49,53 @@ const Search = () => {
     }
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSearch('');
-    router.push(`/${search}/`);
-  };
+  //   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
+  //     setSearch('');
+  //     router.push(`/${search}/`);
+  //   };
+  // onSubmit={handleSubmit}
+
   return (
     <div>
-      <form onSubmit={handleSubmit} className={styles.searchDiv}>
-        <input
-          className={styles.search}
-          type="text"
-          value={search}
-          onChange={handleSearch}
-          placeholder="Search for your school"
-        />
-      </form>
-      <div className={styles.searchResults}>
-        {searchResults.length === 0 ? (
-          <p className={styles.SearchNoResults}>No results found</p>
+      <form className={styles.searchDiv}>
+        {search ? (
+          <input
+            className={styles.searchWithResults}
+            type="text"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search for your school"
+          />
         ) : (
-          <p className={styles.searchNoResults}>
-            Items({searchResults.length})
-          </p>
+          <input
+            className={styles.search}
+            type="text"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search for your school"
+          />
         )}
-        {searchResults.length !== 0 &&
-          searchResults.map((school) => (
-            <div key={school.id}>
+      </form>
+      {search && (
+        <div className={styles.searchResults}>
+          {search && searchResults.length === 0 && (
+            <p className={styles.searchNoResults}>No results found</p>
+          )}
+          {searchResults.length !== 0 &&
+            searchResults.map((school) => (
+              //   <div className={styles.searchResult} key={school.id}>
               <Link
-                className={styles.searchResultJName}
-                href={`/${search}/`}
-                passHref
+                key={school.id}
+                className={styles.searchResult}
+                href={`/${school.id}/`}
               >
                 {school.name}
               </Link>
-            </div>
-          ))}
-      </div>
+              //   </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 };
