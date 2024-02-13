@@ -74,3 +74,11 @@
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+
+.searchResultCity {
+  font-size: 14px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  margin-left: 10px;
+}

@@ -13,9 +13,9 @@ const SignedInNav: React.FC<SignedInNavProps> = ({ userEmail = '' }) => {
   return (
     <div className={styles.landingHeader}>
       <div className={styles.landingLogo}>
-        <p>
+        <Link className={styles.logo} href={'/'}>
           Study<span>Spot</span>
-        </p>
+        </Link>
       </div>
       <div className={styles.links}>
         <ul className={styles.navLinks}>

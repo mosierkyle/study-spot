@@ -6,6 +6,5 @@ import { get } from 'http';
 
 export const getSchools = cache(async () => {
   const schools = await prisma.school.findMany();
-  console.log(schools);
   return schools;
 });
