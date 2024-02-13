@@ -29,6 +29,13 @@
   color: #ff735c;
 }
 
+.logo {
+  font-weight: 700;
+  font-size: 30px;
+  color: #ff735c;
+  text-decoration: none;
+}
+
 .links {
   display: flex;
   flex-direction: row;

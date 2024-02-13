@@ -49,6 +49,12 @@ const Search = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission
+    }
+  };
+
   //   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
   //     e.preventDefault();
   //     setSearch('');
@@ -66,6 +72,7 @@ const Search = () => {
             value={search}
             onChange={handleSearch}
             placeholder="Search for your school"
+            onKeyDown={handleKeyDown}
           />
         ) : (
           <input
@@ -74,6 +81,7 @@ const Search = () => {
             value={search}
             onChange={handleSearch}
             placeholder="Search for your school"
+            onKeyDown={handleKeyDown}
           />
         )}
       </form>
@@ -91,6 +99,7 @@ const Search = () => {
                 href={`/${school.id}/`}
               >
                 {school.name}
+                <span className={styles.searchResultCity}>{school.city}</span>
               </Link>
               //   </div>
             ))}

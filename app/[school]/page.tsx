@@ -1,5 +1,9 @@
 import { getSchool } from '@/lib/getSchool';
 import { School } from '@prisma/client';
+import styles from './page.module.css';
+import Image from 'next/image';
+import calpoly from '../../public/schools/calpoly.png';
+import library from '../../public/schools/library.jpg';
 
 interface Props {
   params: {
@@ -23,8 +27,48 @@ const School = async ({ params: { school } }: Props) => {
   console.log(schoolData);
 
   return (
-    <div className="main">
-      <h1 className="header">{schoolData?.name}</h1>
+    <div className={styles.main}>
+      <section className={styles.left}>
+        <div className={styles.header}>
+          <div>
+            <h1 className="header">{schoolData?.name}</h1>
+            <h3>{`17 places to study`}</h3>
+          </div>
+          <button className={styles.sort} type="button">
+            Sort
+          </button>
+        </div>
+        <div className={styles.spots}>
+          <div className={styles.spot}>
+            <div className={styles.photos}>
+              <Image
+                alt="school header"
+                className={styles.spotPhoto}
+                src={library}
+              />
+            </div>
+            <div className={styles.info}>
+              <p className={styles.spotName}>Kennedy Library</p>
+              <div className={styles.spotOpinion}>
+                <p className={styles.spotRating}>4/5 stars</p>
+                <p className={styles.spotReviews}>9 reviews</p>
+              </div>
+              <p className={styles.spotAddress}>
+                1 Grand Ave Building 35, San Luis Obispo, CA 93401
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className={styles.right}>
+        {schoolData?.photos && (
+          <Image
+            alt="school header"
+            className={styles.rightImg}
+            src={calpoly}
+          />
+        )}
+      </section>
     </div>
   );
 };

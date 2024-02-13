@@ -54,7 +54,7 @@ model School {
   city       String?
   students   User[]
   address    String
-  photos     String[]
+  photos     String?
   studySpots StudySpot[]
 }
 

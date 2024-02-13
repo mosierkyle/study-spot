@@ -1,0 +1,74 @@
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.left {
+  width: 50%;
+}
+
+.header {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort {
+  height: 20px;
+}
+
+.right {
+  height: calc(100vh - 95px);
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rightImg {
+  object-fit: contain;
+  width: 100%;
+  object-position: 0% -20%;
+  overflow: hidden;
+}
+
+.spot {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 30px;
+  gap: 10px;
+}
+
+.photos {
+  height: 175px;
+  width: 175px;
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.spotPhoto {
+  width: 175px;
+  height: 175px;
+  object-fit: cover; /* Adjust the value to cover, contain, or others based on your preference */
+  object-position: center; /* Adjust the value to control the position of the image */
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1rem;
+}
+
+.info p {
+  margin: 0;
+}
+
+.spotName {
+  font-weight: 600;
+  font-size: 20px;
+}
