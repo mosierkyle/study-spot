@@ -3,7 +3,7 @@ import type { Prisma, School } from '@prisma/client';
 import { error } from 'console';
 
 const About = async () => {
-  const calpoly: School | null = await getSchool('Cal Poly SLO');
+  const calpoly: School | undefined = await getSchool('Cal Poly SLO');
   if (!calpoly) {
     return (
       <div>

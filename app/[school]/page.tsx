@@ -3,14 +3,24 @@ import { School } from '@prisma/client';
 
 interface Props {
   params: {
-    schoolName: string;
+    school: string;
+  };
+}
+export async function generateMetadata({ params: { school } }: Props) {
+  const schoolData: School | undefined = await getSchool(school);
+
+  const displayTerm = schoolData?.name.replaceAll('%20', ' ');
+
+  return {
+    title: displayTerm,
+    description: `Search Results for ${displayTerm}`,
   };
 }
 
-const School = async ({ params: { schoolName } }: Props) => {
-  console.log(schoolName);
-  const schoolData: School | null = await getSchool(schoolName);
-  console.log('we out here');
+const School = async ({ params: { school } }: Props) => {
+  console.log(school);
+  const schoolData: School | undefined = await getSchool(school);
+  console.log(schoolData);
 
   return (
     <div className="main">
