@@ -8,9 +8,18 @@ import search from '../public/search.jpg';
 import study from '../public/study.jpg';
 import review from '../public/review.jpg';
 import Search from './components/search/page';
+import { Storage } from '@google-cloud/storage';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
+
+  const gc = new Storage({
+    keyFilename: process.env.GOOGLE_KEY_FILE,
+    projectId: process.env.GOOGLE_PROJECT_ID,
+  });
+
+  const studySpotBucket = gc.bucket('studyspot');
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>

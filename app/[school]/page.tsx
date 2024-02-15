@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import calpoly from '../../public/schools/calpoly.png';
 import library from '../../public/schools/library.jpg';
+import Link from 'next/link';
 
 interface Props {
   params: {
@@ -22,7 +23,6 @@ export async function generateMetadata({ params: { school } }: Props) {
 }
 
 const School = async ({ params: { school } }: Props) => {
-  console.log(school);
   const schoolData: School | undefined = await getSchool(school);
   console.log(schoolData);
 
@@ -34,9 +34,12 @@ const School = async ({ params: { school } }: Props) => {
             <h1 className="header">{schoolData?.name}</h1>
             <h3>{`17 places to study`}</h3>
           </div>
-          <button className={styles.sort} type="button">
+          <Link
+            href={`/${schoolData?.id}/add/${schoolData?.id}/`}
+            className={styles.sort}
+          >
             Sort
-          </button>
+          </Link>
         </div>
         <div className={styles.spots}>
           <div className={styles.spot}>
