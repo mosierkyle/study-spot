@@ -19,6 +19,9 @@ const SignedInNav: React.FC<SignedInNavProps> = ({ userEmail = '' }) => {
       </div>
       <div className={styles.links}>
         <ul className={styles.navLinks}>
+          <Link className={styles.navLink} href={'/api/auth/signout'}>
+            Sign Out
+          </Link>
           <p>{userEmail}</p>
           {userEmail && (
             <Image
