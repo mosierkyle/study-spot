@@ -1,5 +1,6 @@
 import { getSchool } from '@/lib/getSchool';
 import { School } from '@prisma/client';
+import styles from './page.module.css';
 
 interface Props {
   params: {
@@ -17,16 +18,16 @@ export async function generateMetadata({ params: { studyspot } }: Props) {
   };
 }
 
-const School = async ({ params: { studyspot } }: Props) => {
+const StudySpot = async ({ params: { studyspot } }: Props) => {
   console.log(studyspot);
   const schoolData: School | undefined = await getSchool(studyspot);
   console.log(schoolData);
 
   return (
-    <div className="main">
-      <h1 className="header">{schoolData?.name}</h1>
+    <div className={styles.main}>
+      <h1 className={styles.header}>{schoolData?.name}</h1>
     </div>
   );
 };
 
-export default School;
+export default StudySpot;

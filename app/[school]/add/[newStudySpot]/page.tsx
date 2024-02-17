@@ -9,6 +9,7 @@ import Image from 'next/image';
 import study from '../../../../public/study2.jpg';
 import back from '../../../../public/back.png';
 import upload from '../../../../public/upload3.png';
+import StudySpotForm from '@/app/components/forms/spotform';
 
 interface Props {
   params: {
@@ -19,7 +20,6 @@ interface Props {
 const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
   const [school, setSchool] = useState<School | null>(null);
   const [formPage, setformPage] = useState<Number>(1);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -58,15 +58,6 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
     router.push(`/${newStudySpot}`);
   };
 
-  const fileInput = () => {
-    const fileInput: HTMLElement | null =
-      document.querySelector('input[type="file"]');
-
-    if (fileInput) {
-      fileInput.click();
-    }
-  };
-
   return (
     <div>
       <section className={styles.hero}>
@@ -98,72 +89,7 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
             <p className={styles.backText}>{school?.name} study spots</p>
           </div>
         </div>
-        <form className={styles.formPage}>
-          {formPage === 1 && (
-            <div className={styles.formPage1}>
-              <div className={styles.inputDiv}>
-                <p className={styles.header}>Name</p>
-                <p className={styles.desc}>
-                  Share the name or nickname of your study spot.
-                </p>
-                <input
-                  type="text"
-                  name="name"
-                  // placeholder="Email"
-                  required
-                  className={styles.input}
-                />
-              </div>
-              <div className={styles.inputDiv}>
-                <p className={styles.header}>Address</p>
-                <p className={styles.desc}>
-                  Share the address of your study spot. If you are unsure of the
-                  address you can enter the name or number of the building (e.g.
-                  Math and Science Building, {school?.name}).
-                </p>
-                <input
-                  type="text"
-                  name="address"
-                  required
-                  className={styles.input}
-                />
-              </div>
-              <div className={styles.inputDiv}>
-                <p className={styles.header}>Photos</p>
-                <p className={styles.desc}>
-                  Share some photos of your study spot. The photos could be of
-                  the working spaces, key features, the building, or whatever
-                  helps the most.
-                </p>
-                <label
-                  onClick={fileInput}
-                  htmlFor="photos"
-                  className={styles.fileLabel}
-                >
-                  <Image src={upload} alt="" height={50} width={50}></Image>
-
-                  <p className={styles.preview}>Click to browse files</p>
-                  <input
-                    type="file"
-                    name="photos"
-                    className={styles.fileInput}
-                    accept=".jpg, .jpeg, .png"
-                    multiple
-                  />
-                </label>
-              </div>
-              <div className={styles.buttons}>
-                <button
-                  type="button"
-                  className={styles.next}
-                  onClick={() => setformPage(2)}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
-        </form>
+        <StudySpotForm schoolData={school} />
       </section>
     </div>
   );
