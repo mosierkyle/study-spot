@@ -366,3 +366,51 @@
   color: red;
   font-weight: 600;
 }
+
+.photos {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.photoPreview {
+  max-height: 300px;
+  width: 150px;
+  object-fit: contain;
+  justify-content: flex-start;
+  overflow: visible;
+  position: relative;
+}
+
+.uploadedPhotoPreview {
+  object-fit: cover;
+  /* object-position: center; */
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.removePhoto {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  background-color: #000;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  transform: scale(0.8);
+}
+
+.removePhoto:hover {
+  cursor: pointer;
+  background-color: #323232;
+}

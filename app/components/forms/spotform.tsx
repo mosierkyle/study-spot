@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, ChangeEvent, FormEvent, use } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 import upload from '../../../public/upload3.png';
+import x from '../../../public/x2.png';
 import { School } from '@prisma/client';
 
 interface StudySpotFormProps {
@@ -35,12 +36,25 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
 
   const handlePhotosChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+    console.log(files);
     if (files) {
       const selectedFiles = Array.from(files);
       setPhotos(selectedFiles);
+      console.log(selectedFiles);
       const urls = selectedFiles.map((file) => URL.createObjectURL(file));
       setPhotoURLs(urls);
+      console.log(urls);
     }
+  };
+
+  const removePhoto = (indexToRemove: number) => {
+    const updatedPhotos = photos.filter((_, index) => index !== indexToRemove);
+    const updatedPhotoURLs = photoURLs.filter(
+      (_, index) => index !== indexToRemove
+    );
+
+    setPhotos(updatedPhotos);
+    setPhotoURLs(updatedPhotoURLs);
   };
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -153,7 +167,31 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
               working spaces, key features, the building, or whatever helps the
               most.
             </p>
-
+            {photos.length != 0 && (
+              <div className={styles.photos}>
+                <div className={styles.photoPreview}>
+                  {photoURLs.map((url, index) => (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(index)}
+                        className={styles.removePhoto}
+                      >
+                        <Image src={x} alt="x" height={20} width={20} />
+                      </button>
+                      <Image
+                        key={`${url}${index}`}
+                        src={url}
+                        alt={`Photo ${index + 1}`}
+                        className={styles.uploadedPhotoPreview}
+                        width={150}
+                        height={300}
+                      />
+                    </>
+                  ))}
+                </div>
+              </div>
+            )}
             <label
               onClick={handleFileInput}
               htmlFor="photos"
@@ -183,6 +221,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
                 } else {
                   setFormError(null);
                   setFormPage(2);
+                  window.scrollTo(0, 0);
                 }
               }}
             >
@@ -378,7 +417,10 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
             <button
               type="button"
               className={styles.previous}
-              onClick={() => setFormPage(1)}
+              onClick={() => {
+                setFormPage(1);
+                window.scrollTo(0, 0);
+              }}
             >
               Back
             </button>
@@ -393,6 +435,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
                 } else {
                   setFormError(null);
                   setFormPage(3);
+                  window.scrollTo(0, 0);
                 }
               }}
             >
@@ -466,7 +509,10 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
             <button
               type="button"
               className={styles.previous}
-              onClick={() => setFormPage(2)}
+              onClick={() => {
+                setFormPage(2);
+                window.scrollTo(0, 0);
+              }}
             >
               Back
             </button>

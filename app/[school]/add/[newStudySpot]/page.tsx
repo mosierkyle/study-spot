@@ -22,6 +22,7 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
   const [formPage, setformPage] = useState<Number>(1);
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [loading, setLoading] = useState<Boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +73,9 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
         <div className={styles.heroContent}>
           <h1 className={styles.heroText}>
             New study spot for{' '}
-            <span className={styles.schoolName}>{school?.name}</span>
+            <span className={styles.schoolName}>
+              {!school?.name ? '...' : school?.name}
+            </span>
           </h1>
         </div>
       </section>
@@ -86,7 +89,10 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
               height={29}
               width={29}
             />
-            <p className={styles.backText}>{school?.name} study spots</p>
+            <p className={styles.backText}>
+              {' '}
+              {!school?.name ? 'School' : school?.name} study spots
+            </p>
           </div>
         </div>
         <StudySpotForm schoolData={school} />
