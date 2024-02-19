@@ -5,6 +5,7 @@ import Image from 'next/image';
 import calpoly from '../../public/schools/calpoly.png';
 import library from '../../public/schools/library.jpg';
 import Link from 'next/link';
+import study from '../../public/study6.jpg';
 
 interface Props {
   params: {
@@ -28,50 +29,65 @@ const School = async ({ params: { school } }: Props) => {
 
   return (
     <div className={styles.main}>
-      <section className={styles.left}>
-        <div className={styles.header}>
-          <div>
-            <h1 className="header">{schoolData?.name}</h1>
-            <h3>{`17 places to study`}</h3>
-          </div>
-          <Link
-            href={`/${schoolData?.id}/add/${schoolData?.id}/`}
-            className={styles.sort}
-          >
-            Sort
-          </Link>
-        </div>
-        <div className={styles.spots}>
-          <div className={styles.spot}>
-            <div className={styles.photos}>
-              <Image
-                alt="school header"
-                className={styles.spotPhoto}
-                src={library}
-              />
-            </div>
-            <div className={styles.info}>
-              <p className={styles.spotName}>Kennedy Library</p>
-              <div className={styles.spotOpinion}>
-                <p className={styles.spotRating}>4/5 stars</p>
-                <p className={styles.spotReviews}>9 reviews</p>
-              </div>
-              <p className={styles.spotAddress}>
-                1 Grand Ave Building 35, San Luis Obispo, CA 93401
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className={styles.right}>
-        {schoolData?.photos && (
+      <section className={styles.hero}>
+        <div className={styles.heroImgDiv}>
           <Image
-            alt="school header"
-            className={styles.rightImg}
-            src={calpoly}
+            className={styles.heroImg}
+            alt="University photo"
+            src={study}
+            priority
           />
-        )}
+        </div>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroText}>{schoolData?.name}</h1>
+        </div>
       </section>
+      <div className={styles.bottom}>
+        <section className={styles.left}>
+          <div className={styles.header}>
+            <div>
+              {/* <h1 className="header">{schoolData?.name}</h1> */}
+              <h3>{`17 places to study`}</h3>
+            </div>
+            <Link
+              href={`/${schoolData?.id}/add/${schoolData?.id}/`}
+              className={styles.sort}
+            >
+              Sort
+            </Link>
+          </div>
+          <div className={styles.spots}>
+            <div className={styles.spot}>
+              <div className={styles.photos}>
+                <Image
+                  alt="school header"
+                  className={styles.spotPhoto}
+                  src={library}
+                />
+              </div>
+              <div className={styles.info}>
+                <p className={styles.spotName}>Kennedy Library</p>
+                <div className={styles.spotOpinion}>
+                  <p className={styles.spotRating}>4/5 stars</p>
+                  <p className={styles.spotReviews}>9 reviews</p>
+                </div>
+                <p className={styles.spotAddress}>
+                  1 Grand Ave Building 35, San Luis Obispo, CA 93401
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className={styles.right}>
+          {schoolData?.photos && (
+            <Image
+              alt="school header"
+              className={styles.rightImg}
+              src={calpoly}
+            />
+          )}
+        </section>
+      </div>
     </div>
   );
 };
