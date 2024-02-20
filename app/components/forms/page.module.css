@@ -376,12 +376,15 @@
 }
 
 .photoPreview {
-  max-height: 300px;
-  width: 150px;
+  max-height: 250px;
+  width: auto;
+  max-width: 250px;
   object-fit: contain;
   justify-content: flex-start;
   overflow: visible;
   position: relative;
+  display: flex;
+  flex-direction: row;
 }
 
 .uploadedPhotoPreview {
@@ -401,7 +404,7 @@
   position: absolute;
   right: -10px;
   top: -10px;
-  background-color: #000;
+  background-color: #ff735c;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -412,5 +415,34 @@
 
 .removePhoto:hover {
   cursor: pointer;
-  background-color: #323232;
+  background-color: #f16b56;
+}
+
+.photos2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 15px;
+  max-height: 750px;
+}
+
+.photoPreview2 {
+  max-height: 150px;
+  width: 100%;
+  object-fit: contain;
+  justify-content: flex-start;
+  overflow: visible;
+  position: relative;
+}
+
+.uploadedPhotoPreview2 {
+  object-fit: contain;
+
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  border-radius: 10px;
 }

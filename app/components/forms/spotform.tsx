@@ -35,15 +35,23 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
   };
 
   const handlePhotosChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (photos.length == 5) {
+      setFormError('Photo limit exceeded: 5 photos max');
+      window.scrollTo(0, 400);
+      return;
+    }
     const files = e.target.files;
-    console.log(files);
+
     if (files) {
       const selectedFiles = Array.from(files);
-      setPhotos(selectedFiles);
-      console.log(selectedFiles);
+      if (selectedFiles.length + photos.length > 5) {
+        setFormError('Photo limit exceeded: 5 photos max');
+        window.scrollTo(0, 400);
+        return;
+      }
+      setPhotos((prevPhotos) => [...prevPhotos, ...selectedFiles]);
       const urls = selectedFiles.map((file) => URL.createObjectURL(file));
-      setPhotoURLs(urls);
-      console.log(urls);
+      setPhotoURLs((prevURLs) => [...prevURLs, ...urls]);
     }
   };
 
@@ -55,6 +63,12 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
 
     setPhotos(updatedPhotos);
     setPhotoURLs(updatedPhotoURLs);
+
+    const fileInput =
+      document.querySelector<HTMLInputElement>('input[type="file"]');
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -169,27 +183,24 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
             </p>
             {photos.length != 0 && (
               <div className={styles.photos}>
-                <div className={styles.photoPreview}>
-                  {photoURLs.map((url, index) => (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(index)}
-                        className={styles.removePhoto}
-                      >
-                        <Image src={x} alt="x" height={20} width={20} />
-                      </button>
-                      <Image
-                        key={`${url}${index}`}
-                        src={url}
-                        alt={`Photo ${index + 1}`}
-                        className={styles.uploadedPhotoPreview}
-                        width={150}
-                        height={300}
-                      />
-                    </>
-                  ))}
-                </div>
+                {photoURLs.map((url, index) => (
+                  <div key={`photo-${url}`} className={styles.photoPreview}>
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(index)}
+                      className={styles.removePhoto}
+                    >
+                      <Image src={x} alt="x" height={20} width={20} />
+                    </button>
+                    <Image
+                      src={url}
+                      alt={`Photo ${index + 1}`}
+                      className={styles.uploadedPhotoPreview}
+                      width={150}
+                      height={300}
+                    />
+                  </div>
+                ))}
               </div>
             )}
             <label
@@ -498,7 +509,24 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
             <div className={styles.right}>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Photos</p>
-                <p className={styles.inputPreview}>{photoURLs}</p>
+                {photos.length != 0 && (
+                  <div className={styles.photos2}>
+                    {photoURLs.map((url, index) => (
+                      <div
+                        key={`photo-${url}`}
+                        className={styles.photoPreview2}
+                      >
+                        <Image
+                          src={url}
+                          alt={`Photo ${index + 1}`}
+                          className={styles.uploadedPhotoPreview2}
+                          width={150}
+                          height={300}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

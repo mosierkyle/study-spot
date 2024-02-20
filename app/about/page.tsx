@@ -1,21 +1,15 @@
 import { getSchool } from '@/lib/getSchool';
 import type { Prisma, School } from '@prisma/client';
 import { error } from 'console';
+import getLatLong from '@/lib/getLatLong';
 
 const About = async () => {
-  const calpoly: School | undefined = await getSchool('Cal Poly SLO');
-  if (!calpoly) {
-    return (
-      <div>
-        <h1>About Page</h1>
-        <p>Cal Poly SLO not found</p>
-      </div>
-    );
-  }
+  const location = await getLatLong('2134 Santa Ynez Ave San Luis Obispo');
+
   return (
     <div>
       <h1>About Page</h1>
-      <p>{calpoly.address}</p>
+      <p>{`${location[1]}, ${location[0]}`}</p>
     </div>
   );
 };
