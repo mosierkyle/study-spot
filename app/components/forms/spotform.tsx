@@ -113,10 +113,52 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
       );
     }
   };
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Submit logic here
+  };
+
+  const savePhotos = async () => {
+    const formData = new FormData();
+    try {
+      photos.forEach((photo, index) => {
+        formData.append(`photo${index}`, photo);
+      });
+
+      const response = await fetch('/api/uploadPhoto/', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate signed URLs');
+      }
+
+      const signedUrls = await response.json();
+
+      for (let i = 0; i < photos.length; i++) {
+        const file = photos[i];
+        const signedUrl = signedUrls.signedUrls[i];
+        console.log(signedUrl);
+        try {
+          const uploadResponse = await fetch(signedUrl, {
+            method: 'POST',
+            body: file,
+            headers: {
+              'Content-Type': 'image/jpeg', // Adjust content type as needed
+            },
+          });
+          // console.log(uploadResponse.body);
+
+          if (!uploadResponse.ok) {
+            console.error(`Failed to upload photo ${i}`);
+          }
+        } catch (error) {
+          console.error(`Error uploading photo ${i}:`, error);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -237,6 +279,9 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
               }}
             >
               Next
+            </button>
+            <button type="button" onClick={handleSubmit}>
+              WORKING
             </button>
           </div>
         </div>
