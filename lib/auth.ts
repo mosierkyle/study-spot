@@ -29,7 +29,6 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log('3');
         if (!credentials?.email || !credentials.password) {
           throw new Error('Enter Email and Password');
         }
