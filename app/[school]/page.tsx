@@ -1,3 +1,5 @@
+'use client';
+
 import { getSchool } from '@/lib/getSchool';
 import { School } from '@prisma/client';
 import styles from './page.module.css';
@@ -6,26 +8,62 @@ import calpoly from '../../public/schools/calpoly.png';
 import library from '../../public/schools/library.jpg';
 import Link from 'next/link';
 import study from '../../public/study6.jpg';
+import React, { useRef, useEffect, useState } from 'react';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
 
 interface Props {
   params: {
     school: string;
   };
 }
-export async function generateMetadata({ params: { school } }: Props) {
-  const schoolData: School | undefined = await getSchool(school);
 
-  const displayTerm = schoolData?.name.replaceAll('%20', ' ');
+const School = ({ params: { school } }: Props) => {
+  const mapContainer = useRef<HTMLDivElement | null>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const [lng, setLng] = useState(-120.6625);
+  const [lat, setLat] = useState(35.305);
+  const [zoom, setZoom] = useState(13.9);
+  const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
+  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-  return {
-    title: displayTerm,
-    description: `Search Results for ${displayTerm}`,
-  };
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/school/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(school),
+        });
+        if (response.ok) {
+          const responseData = await response.json();
+          const parsedData = await responseData.school;
+          setSchoolData(parsedData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
 
-const School = async ({ params: { school } }: Props) => {
-  const schoolData: School | undefined = await getSchool(school);
-  console.log(schoolData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    mapboxgl.accessToken = mapboxToken ?? '';
+    if (!mapContainer.current || map.current) {
+      return;
+    }
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [lng, lat],
+      zoom: zoom,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.main}>
@@ -79,13 +117,7 @@ const School = async ({ params: { school } }: Props) => {
           </div>
         </section>
         <section className={styles.right}>
-          {schoolData?.photos && (
-            <Image
-              alt="school header"
-              className={styles.rightImg}
-              src={calpoly}
-            />
-          )}
+          <div className={styles.mapContainer} ref={mapContainer}></div>
         </section>
       </div>
     </div>
