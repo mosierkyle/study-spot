@@ -3,29 +3,30 @@
   display: flex;
   flex-direction: column;
 }
+
+.filters {
+  width: 15%;
+  padding-top: 30px;
+}
+
 .left {
   width: 50%;
+  border-right: 1px solid rgba(235, 235, 235, 1);
+  padding: 10px 10px;
 }
 
 .header {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 10px 30px;
+  /* border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+  padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .sort {
   height: 20px;
-}
-
-.right {
-  height: calc(100vh - 95px);
-  width: 50%;
-  background-color: rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .rightImg {
@@ -35,11 +36,24 @@
   overflow: hidden;
 }
 
+.spots {
+  padding-right: 30px;
+}
+
 .spot {
   display: flex;
   flex-direction: row;
-  padding: 10px 30px;
-  gap: 10px;
+  padding: 30px 30px;
+  gap: 20px;
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+}
+
+.spot:hover {
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
 }
 
 .photos {
@@ -128,9 +142,48 @@
 .bottom {
   display: flex;
   flex-direction: row;
+  padding-left: 30px;
+  padding-bottom: 50px;
+  border-top: 1px solid rgba(235, 235, 235, 1);
 }
 
 .mapContainer {
-  height: 400px;
+  height: 100%;
   width: 100%;
+  overflow: hidden;
+}
+
+.right {
+  height: calc(100vh - 95px);
+  width: 35%;
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+  background-color: rgb(35 55 75 / 90%);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: relative;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.breadCrumbs {
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  border: none;
+}
+.breadCrumbText {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.7);
 }
