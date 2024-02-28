@@ -1,16 +1,17 @@
 'use client';
 
-import { getSchool } from '@/lib/getSchool';
 import { School, StudySpot } from '@prisma/client';
 import styles from './page.module.css';
 import Image from 'next/image';
 import calpoly from '../../public/schools/calpoly.png';
 import library from '../../public/schools/library.jpg';
 import Link from 'next/link';
-import study from '../../public/study6.jpg';
 import React, { useRef, useEffect, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
+import SpotCard from '../../components/spotCard/spotCard';
+import type { LngLatLike } from 'mapbox-gl';
+import marker from '../../public/icons8-location-24.png';
 
 interface Props {
   params: {
@@ -18,41 +19,21 @@ interface Props {
   };
 }
 
-const markers = [
-  {
-    name: 'BUS lab',
-    latCoord: 35.3,
-    longCoord: -120.66505,
-  },
-  {
-    name: 'Baker',
-    latCoord: 35.30148,
-    longCoord: -120.66048,
-  },
-  {
-    name: 'Kennedy Library',
-    latCoord: 35.30188,
-    longCoord: -120.66382,
-  },
-  {
-    name: 'University Union',
-    latCoord: 35.30001,
-    longCoord: -120.65869,
-  },
-];
-
 const School = ({ params: { school } }: Props) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [lng, setLng] = useState(-120.6625);
   const [lat, setLat] = useState(35.305);
-  const [zoom, setZoom] = useState(14.2);
+  const [zoom, setZoom] = useState(14.7);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
-  const [spotsData, setSpotsData] = useState<StudySpot | undefined>(undefined);
+  const [spotsData, setSpotsData] = useState<StudySpot[] | undefined>(
+    undefined
+  );
+  const [geoJson, setGeoJson] = useState<any>(null);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const bounds: mapboxgl.LngLatBoundsLike = [
-    [lng - 0.01, lat - 0.01], // Southwest coordinates
-    [lng + 0.01, lat + 0.01], // Northeast coordinates
+    [lng - 0.01, lat - 0.01],
+    [lng + 0.01, lat + 0.01],
   ];
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +55,7 @@ const School = ({ params: { school } }: Props) => {
       }
     };
     fetchData();
+
     mapboxgl.accessToken = mapboxToken ?? '';
     if (!mapContainer.current || map.current) {
       return;
@@ -84,15 +66,23 @@ const School = ({ params: { school } }: Props) => {
       center: [lng, lat],
       zoom: zoom,
       maxZoom: 20,
-      minZoom: 13,
+      minZoom: 14.5,
     });
+    map.current?.scrollZoom.disable();
     map.current?.addControl(new mapboxgl.NavigationControl());
-    map.current?.on('load', () => {
-      map.current?.fitBounds(bounds, {
-        padding: 0,
-        linear: true,
-      });
-    });
+    // map.current?.on('load', () => {
+    //   if (geoJson && map.current) {
+    //     map.current?.addLayer({
+    //       id: 'locations',
+    //       type: 'circle',
+    //       /* Add a GeoJSON source containing place coordinates and information. */
+    //       source: {
+    //         type: 'geojson',
+    //         data: geojson,
+    //       },
+    //     });
+    //   }
+    // });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -121,17 +111,39 @@ const School = ({ params: { school } }: Props) => {
   }, []);
 
   useEffect(() => {
-    map.current?.on('load', () => {
-      markers.forEach((marker) => {
-        // console.log(marker);
-        if (map.current)
-          new mapboxgl.Marker()
-            .setLngLat([marker.longCoord, marker.latCoord])
-            .addTo(map.current);
-      });
+    spotsData?.forEach((spot) => {
+      if (map.current)
+        new mapboxgl.Marker({ color: '#ff735c' })
+          .setLngLat([Number(spot.longitude), Number(spot.latitude)])
+          .addTo(map.current);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    //   const features =
+    //     spotsData?.map((spot, i) => ({
+    //       type: 'Feature',
+    //       geometry: {
+    //         type: 'Point',
+    //         coordinates: [Number(spot.longitude), Number(spot.latitude)],
+    //       },
+    //       properties: {
+    //         name: spot.name,
+    //         address: spot.address,
+    //         description: spot.description,
+    //         id: i,
+    //       },
+    //     })) ?? [];
+
+    //   const spotsGeoJSON = {
+    //     type: 'FeatureCollection',
+    //     features: features,
+    //   };
+    //   setGeoJson(spotsGeoJSON);
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotsData]);
+
+  // useEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [geoJson]);
 
   map.current?.on('move', () => {
     setLng(
@@ -148,23 +160,8 @@ const School = ({ params: { school } }: Props) => {
     );
   });
 
-  console.log(spotsData);
-
   return (
     <div className={styles.main}>
-      {/* <section className={styles.hero}>
-        <div className={styles.heroImgDiv}>
-          <Image
-            className={styles.heroImg}
-            alt="University photo"
-            src={study}
-            priority
-          />
-        </div>
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroText}>{schoolData?.name}</h1>
-        </div>
-      </section> */}
       <div className={styles.bottom}>
         <section className={styles.filters}>
           <div>Filters</div>
@@ -182,7 +179,7 @@ const School = ({ params: { school } }: Props) => {
             </div>
             <div>
               <h1 className="header">{schoolData?.name} study spots</h1>
-              <h3>{`17 places to study`}</h3>
+              <h3>{spotsData && `${spotsData?.length} places to study`}</h3>
             </div>
             <Link
               href={`/${schoolData?.id}/add/${schoolData?.id}/`}
@@ -191,27 +188,17 @@ const School = ({ params: { school } }: Props) => {
               Sort
             </Link>
           </div>
-          <div className={styles.spots}>
-            <div className={styles.spot}>
-              <div className={styles.photos}>
-                <Image
-                  alt="school header"
-                  className={styles.spotPhoto}
-                  src={library}
-                />
-              </div>
-              <div className={styles.info}>
-                <p className={styles.spotName}>Kennedy Library</p>
-                <div className={styles.spotOpinion}>
-                  <p className={styles.spotRating}>4/5 stars</p>
-                  <p className={styles.spotReviews}>9 reviews</p>
-                </div>
-                <p className={styles.spotAddress}>
-                  1 Grand Ave Building 35, San Luis Obispo, CA 93401
-                </p>
-              </div>
+          {spotsData ? (
+            <div className={styles.spots}>
+              {spotsData.map((spot) => (
+                <SpotCard key={spot.id} spotData={spot} />
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className={styles.spots}>
+              <p className={styles.loadingText}>Loading...</p>
+            </div>
+          )}
         </section>
         <section className={styles.right}>
           {/* <div className={styles.sidebar}>
