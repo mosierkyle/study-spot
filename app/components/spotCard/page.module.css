@@ -1,0 +1,58 @@
+.spot {
+  display: flex;
+  flex-direction: row;
+  padding: 30px 30px;
+  gap: 20px;
+  border-bottom: 1px solid rgba(235, 235, 235, 1);
+}
+
+.spot:hover {
+  border-radius: 5px;
+
+  /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  border: none;
+}
+
+.spot p {
+  color: black;
+}
+
+.photos {
+  height: 175px;
+  width: 175px;
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.spotPhoto {
+  width: 175px;
+  height: 175px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1rem;
+}
+
+.info p {
+  margin: 0;
+  color: black;
+}
+
+.spotName {
+  font-weight: 600;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.link {
+  text-decoration: none;
+}

@@ -115,7 +115,72 @@ async function main() {
       hours: 'Hub 24 is 24 hours with a poly card',
       seating: 'lots',
       restrooms: 'yes',
-      studyResources: ['printers', 'whiteboards', 'chargers', 'etc.'],
+      studyResources: ['printers', 'whiteboards', 'chargers'],
+    },
+    include: { school: true },
+  });
+
+  const studyspot2 = await prisma.studySpot.upsert({
+    where: { name: 'Baker Science' },
+    update: {},
+    create: {
+      name: 'Baker Science',
+      address: 'Baker Science San Luis Obispo, CA 93407',
+      description:
+        'Baker science building, located at the center of campus, Many different study locations here.',
+      schoolId,
+      userId,
+      latitude: '35.30148',
+      longitude: '-120.66048',
+      wifi: 'yes',
+      noiseLevel: 'Not bad, but in between classes it can get loud',
+      hours: 'Building hours',
+      seating: 'lots but spread out',
+      restrooms: 'yes',
+      studyResources: ['chargers'],
+    },
+    include: { school: true },
+  });
+
+  const studyspot3 = await prisma.studySpot.upsert({
+    where: { name: 'BUS Lab' },
+    update: {},
+    create: {
+      name: 'BUS Lab',
+      address: '1 Grand Avenue Building 3. San Luis Obispo, CA 93407',
+      description:
+        'This is the Business building study room located on the third floor',
+      schoolId,
+      userId,
+      latitude: '35.3',
+      longitude: '-120.66505',
+      wifi: 'yes',
+      noiseLevel: 'not bad unless its between classes',
+      hours: 'Building hours',
+      seating: 'lots',
+      restrooms: 'yes',
+      studyResources: ['printers', 'whiteboards', 'chargers'],
+    },
+    include: { school: true },
+  });
+
+  const studyspot4 = await prisma.studySpot.upsert({
+    where: { name: 'University Union' },
+    update: {},
+    create: {
+      name: 'Universiy Union',
+      address: 'S Poly View Dr, San Luis Obispo, CA 93405',
+      description: 'The lobby area of the university union building',
+      schoolId,
+      userId,
+      latitude: '35.30001',
+      longitude: ' -120.65869',
+      wifi: 'yes',
+      noiseLevel: 'mild',
+      hours: 'Building hours',
+      seating: 'lots',
+      restrooms: 'yes',
+      studyResources: ['chargers'],
     },
     include: { school: true },
   });

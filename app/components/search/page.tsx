@@ -96,7 +96,7 @@ const Search = () => {
               <Link
                 key={school.id}
                 className={styles.searchResult}
-                href={`/${school.id}/`}
+                href={`school/${school.id}/`}
               >
                 {school.name}
                 <span className={styles.searchResultCity}>{school.city}</span>

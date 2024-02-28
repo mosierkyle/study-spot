@@ -13,6 +13,10 @@
   width: 50%;
   border-right: 1px solid rgba(235, 235, 235, 1);
   padding: 10px 10px;
+  height: calc(100vh - 130px);
+  overflow: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .header {
@@ -23,6 +27,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  padding-bottom: 0px;
 }
 
 .sort {
@@ -38,57 +43,20 @@
 
 .spots {
   padding-right: 30px;
-}
-
-.spot {
-  display: flex;
-  flex-direction: row;
-  padding: 30px 30px;
-  gap: 20px;
-  border-bottom: 1px solid rgba(235, 235, 235, 1);
-}
-
-.spot:hover {
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  background-color: rgb(255, 255, 255);
-  cursor: pointer;
-}
-
-.photos {
-  height: 175px;
-  width: 175px;
-  background-color: rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.spotPhoto {
-  width: 175px;
-  height: 175px;
-  object-fit: cover; /* Adjust the value to cover, contain, or others based on your preference */
-  object-position: center; /* Adjust the value to control the position of the image */
-}
-
-.info {
+  height: calc(100% - 130px);
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   display: flex;
   flex-direction: column;
-  align-items: start;
-  gap: 1rem;
+  justify-content: start;
+}
+.spots::-webkit-scrollbar {
+  display: none;
 }
 
-.info p {
-  margin: 0;
-}
-
-.spotName {
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.schoolName {
-  color: #ff735c;
+.left::-webkit-scrollbar {
+  display: none;
 }
 
 .heroImgDiv {
@@ -186,4 +154,8 @@
 .breadCrumbText {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.7);
+}
+
+.loadingText {
+  padding-left: 30px;
 }
