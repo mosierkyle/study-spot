@@ -1,7 +1,7 @@
 'use client';
 
 import { getSchool } from '@/lib/getSchool';
-import { School } from '@prisma/client';
+import { School, StudySpot } from '@prisma/client';
 import styles from './page.module.css';
 import Image from 'next/image';
 import calpoly from '../../public/schools/calpoly.png';
@@ -48,6 +48,7 @@ const School = ({ params: { school } }: Props) => {
   const [lat, setLat] = useState(35.305);
   const [zoom, setZoom] = useState(14.2);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
+  const [spotsData, setSpotsData] = useState<StudySpot | undefined>(undefined);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const bounds: mapboxgl.LngLatBoundsLike = [
     [lng - 0.01, lat - 0.01], // Southwest coordinates
@@ -97,9 +98,32 @@ const School = ({ params: { school } }: Props) => {
   }, []);
 
   useEffect(() => {
+    const fetchMoreData = async () => {
+      try {
+        const response = await fetch('/api/studySpots/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(school),
+        });
+        if (response.ok) {
+          const responseData = await response.json();
+          const parsedData = await responseData.spots;
+          setSpotsData(parsedData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchMoreData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     map.current?.on('load', () => {
       markers.forEach((marker) => {
-        console.log(marker);
+        // console.log(marker);
         if (map.current)
           new mapboxgl.Marker()
             .setLngLat([marker.longCoord, marker.latCoord])
@@ -123,6 +147,8 @@ const School = ({ params: { school } }: Props) => {
         Number(map.current?.getZoom().toFixed(2)) ?? prevZoom
     );
   });
+
+  console.log(spotsData);
 
   return (
     <div className={styles.main}>
