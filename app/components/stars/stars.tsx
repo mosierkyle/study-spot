@@ -16,21 +16,21 @@ const Stars: React.FC<StarsProps> = ({ rating }) => {
     for (let i = 0; i < 5; i++) {
       if (i < filledStars) {
         stars.push(
-          <div className={styles.star} key={i}>
+          <span className={styles.star} key={i}>
             <Image src={star} alt="star" />
-          </div>
+          </span>
         );
       } else if (i === filledStars && hasHalfStar) {
         stars.push(
-          <div className={styles.starHalf} key={i}>
+          <span className={styles.starHalf} key={i}>
             <Image src={star} alt="star" />
-          </div>
+          </span>
         );
       } else {
         stars.push(
-          <div className={styles.starEmpty} key={i}>
+          <span className={styles.starEmpty} key={i}>
             <Image src={star} alt="star" />
-          </div>
+          </span>
         );
       }
     }
