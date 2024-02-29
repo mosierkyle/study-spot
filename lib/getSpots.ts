@@ -5,7 +5,6 @@ import { hash } from 'bcrypt';
 import { get } from 'http';
 
 export const getSpots = cache(async (id: string) => {
-  console.log('we here at aleast');
   try {
     const spots = await prisma.studySpot.findMany();
     return spots;

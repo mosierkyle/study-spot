@@ -36,7 +36,7 @@
   background-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.4),
-    rgba(0, 0, 0, 0.65)
+    rgba(0, 0, 0, 0.7)
   );
   z-index: 2;
 }
@@ -55,7 +55,7 @@
   position: absolute;
   top: 260px;
   left: 0px;
-  margin-left: 30px;
+  margin-left: 90px;
   /* transform: translate(-50%, -325px); */
   z-index: 100; /* Updated z-index value */
   display: flex;
@@ -73,7 +73,7 @@
 .seePhotos {
   position: absolute;
   top: 310px;
-  right: 30px;
+  right: 88px;
   color: white;
   /* background-color: #ffffff;
   color: #ff735c; */
@@ -90,4 +90,203 @@
 
 .seePhotos:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+.back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  margin-left: 82px;
+}
+
+.back:hover {
+  cursor: pointer;
+}
+
+.backText {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+
+.buttons {
+  height: 50px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 25px 0;
+}
+
+.rightButtons {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-right: 80px;
+}
+
+.writeReview {
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff735c;
+  font-weight: 500;
+  transition: background-color 0.3s ease; /* Add transition property */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.writeReview:hover {
+  background-color: #ff8471;
+}
+
+.rightButton {
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease; /* Add transition property */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rightButton:hover {
+  background-color: #f0f0f0;
+}
+
+.buttonImg {
+  height: 25px;
+  width: 25px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 100px;
+  padding: 20px 0;
+  margin-right: 110px;
+  margin-left: 88px;
+}
+
+.contentTitle {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.left {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  width: 60%;
+}
+
+.right {
+  /* border: 1px solid rgba(0, 0, 0, 0.4); */
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.info {
+  width: 505px;
+}
+
+.infoTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.infoContent {
+  width: 100%;
+  height: fit-content;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  color: rgba(0, 0, 0, 0.85);
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.amenities {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  grid-template-rows: repeat(2, auto); /* 2 rows */
+  gap: 20px; /* gap between grid items */
+  justify-content: center;
+  padding: 10px;
+}
+
+.amenity {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 2px;
+}
+.hours {
+  width: 45%;
+}
+
+.hour {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+
+.hour p {
+  margin: 0;
+}
+
+.directions {
+  width: 45%;
+}
+
+.getDirections {
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease; /* Add transition property */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  width: 88%;
+}
+
+.mapContainer {
+  width: 100%;
+  height: 100px;
+}
+
+.address {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: row;
+  padding: 15px 0;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: -10px;
 }
