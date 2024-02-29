@@ -7,6 +7,7 @@ import Image from 'next/image';
 import study from '../../../public/study6.jpg';
 import { useEffect, useState } from 'react';
 import Stars from '@/app/components/stars/stars';
+import Link from 'next/link';
 
 interface Props {
   params: {
@@ -45,6 +46,9 @@ const Spot = ({ params: { studyspot } }: Props) => {
   return (
     <div className={styles.main}>
       <section className={styles.hero}>
+        <Link className={styles.seePhotos} href={'/'}>
+          {`See all photos`}
+        </Link>
         <div className={styles.heroImgDiv}>
           <Image
             className={styles.heroImg}
@@ -54,8 +58,13 @@ const Spot = ({ params: { studyspot } }: Props) => {
           />
         </div>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroText}>{`Study at ${spotData?.name}`}</h1>
-          <Stars rating={Math.floor(Math.random() * 5) + 1} />
+          <h1 className={styles.heroText}>
+            {spotData ? `Study at ${spotData?.name}` : 'Study at ...'}
+          </h1>
+          <div className={styles.heroTextBottom}>
+            <Stars rating={Math.floor(Math.random() * 5) + 1} />
+            <p>4.2 (9 reviews)</p>
+          </div>
         </div>
       </section>
     </div>

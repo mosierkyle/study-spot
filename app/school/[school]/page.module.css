@@ -43,6 +43,9 @@
 
 .spots {
   padding-right: 30px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
   height: calc(100% - 130px);
   overflow: auto;
   -ms-overflow-style: none; /* IE and Edge */
