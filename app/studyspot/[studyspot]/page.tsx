@@ -1,6 +1,6 @@
 'use client';
 
-import { School, StudySpot } from '@prisma/client';
+import { Review, School, StudySpot } from '@prisma/client';
 import styles from './page.module.css';
 import { getSpot } from '@/lib/getSpot';
 import Image from 'next/image';
@@ -28,6 +28,7 @@ interface Props {
 
 const Spot = ({ params: { studyspot } }: Props) => {
   const [spotData, setSpotData] = useState<StudySpot | undefined>(undefined);
+  const [reviewData, setReviewData] = useState<Review | undefined>(undefined);
   const router = useRouter();
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -63,7 +64,6 @@ const Spot = ({ params: { studyspot } }: Props) => {
 
   useEffect(() => {
     if (lat && lng) {
-      console.log([Number(lng), Number(lat)]);
       mapboxgl.accessToken = mapboxToken ?? '';
       if (!mapContainer.current || map.current) {
         return;
@@ -83,6 +83,29 @@ const Spot = ({ params: { studyspot } }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lng]);
+
+  useEffect(() => {
+    const fetchMoreData = async () => {
+      try {
+        const response = await fetch('/api/reviews/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(studyspot),
+        });
+        if (response.ok) {
+          const responseData = await response.json();
+          const parsedData = await responseData.reviews;
+          setReviewData(parsedData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchMoreData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const goBack = () => {
     router.push(`/school/${spotData?.schoolId}`);
@@ -154,6 +177,13 @@ const Spot = ({ params: { studyspot } }: Props) => {
       <section className={styles.content}>
         <div className={styles.left}>
           <p className={styles.contentTitle}>Browse 7 Reviews</p>
+          <div className={styles.reviews}>
+            <div className={styles.review}>
+              <div className={styles.userSection}></div>
+              <div className={styles.contentSection}></div>
+              <div className={styles.like}></div>
+            </div>
+          </div>
         </div>
         <div className={styles.right}>
           <div className={styles.info}>
@@ -161,16 +191,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
             <div className={styles.infoContent}>
               <div className={styles.directions}>
                 <div className={styles.mapContainer} ref={mapContainer}></div>
-                <div className={styles.address}>
-                  {/* <Image
-                    // className={styles.buttonImg}
-                    src={location}
-                    alt="location"
-                    height={20}
-                    width={20}
-                  />{' '} */}
-                  {spotData?.address}
-                </div>
+                <div className={styles.address}>{spotData?.address}</div>
                 <p>
                   <Link className={styles.getDirections} href={'/'}>
                     Get Directions
