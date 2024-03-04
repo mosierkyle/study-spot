@@ -176,17 +176,25 @@
   padding: 20px 0;
   margin-right: 110px;
   margin-left: 88px;
+  position: relative;
+  height: 100vh;
 }
 
 .contentTitle {
   font-size: 30px;
   font-weight: 500;
   margin: 0;
+  margin-bottom: 30px;
 }
 
 .left {
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  width: 60%;
+  /* border: 1px solid rgba(0, 0, 0, 0.4); */
+  max-width: 50%;
+
+  padding: 0 10px;
+  position: absolute;
+  left: 0px;
+  margin-right: 20px;
 }
 
 .right {
@@ -195,6 +203,9 @@
   display: flex;
   flex-direction: column;
   align-items: end;
+  position: absolute;
+  right: 0px;
+  margin-right: 20px;
 }
 
 .info {
@@ -213,7 +224,7 @@
   height: fit-content;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 25px;
   color: rgba(0, 0, 0, 0.85);
   margin-bottom: 30px;
   display: flex;
@@ -243,17 +254,19 @@
 }
 
 .hour {
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   gap: px;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 13px;
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .hour p {
   margin: 0;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .directions {
@@ -289,4 +302,45 @@
   gap: 5px;
   align-items: center;
   margin-bottom: -10px;
+}
+
+.reviews {
+}
+
+.review {
+  height: fit-content;
+  width: 100%;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  border-radius: 5px;
+  /* padding: 25px; */
+}
+
+.userSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.userSectionInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.userSectionInfo p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.stars {
+  transform: scale(0.7);
+  margin-left: -20px;
+}
+
+.contentSection {
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 400;
 }
