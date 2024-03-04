@@ -19,6 +19,7 @@ import x from '../../../public/x.png';
 import check from '../../../public/check3.png';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
+import profile from '../../../public/account.png';
 
 interface Props {
   params: {
@@ -28,7 +29,7 @@ interface Props {
 
 const Spot = ({ params: { studyspot } }: Props) => {
   const [spotData, setSpotData] = useState<StudySpot | undefined>(undefined);
-  const [reviewData, setReviewData] = useState<Review | undefined>(undefined);
+  const [reviewData, setReviewData] = useState<Review[] | undefined>(undefined);
   const router = useRouter();
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -179,8 +180,18 @@ const Spot = ({ params: { studyspot } }: Props) => {
           <p className={styles.contentTitle}>Browse 7 Reviews</p>
           <div className={styles.reviews}>
             <div className={styles.review}>
-              <div className={styles.userSection}></div>
-              <div className={styles.contentSection}></div>
+              <div className={styles.userSection}>
+                <Image src={profile} alt="profile" height={35} width={35} />
+                <div className={styles.userSectionInfo}>
+                  <p>Kyle</p>8 months ago
+                </div>
+                <div className={styles.stars}>
+                  <Stars rating={Math.floor(Math.random() * 5) + 1} />
+                </div>
+              </div>
+              <div className={styles.contentSection}>
+                {reviewData && reviewData[1].content}
+              </div>
               <div className={styles.like}></div>
             </div>
           </div>
@@ -260,7 +271,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                     height={20}
                     width={20}
                   />
-                  Chargering
+                  Charging
                 </div>
                 <div className={styles.amenity}>
                   <Image
@@ -290,7 +301,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                     height={20}
                     width={20}
                   />
-                  Study rooms
+                  On Campus
                 </div>
               </div>
             </div>
