@@ -15,11 +15,13 @@ model StudySpot {
   latitude        String?
   longitude       String?
   photos          String[]
-  wifi            String?
+  wifi            Boolean?
   noiseLevel      String?
   seating         String?
-  hours           String?
-  restrooms       String?
+  hour24          Boolean?
+  restrooms       Boolean?
+  rating          Float?
+  onCampus        Boolean?
   studyResources  String[]
   reviews         Review[]
   school          School       @relation(fields: [schoolId], references: [id])
@@ -31,20 +33,23 @@ model StudySpot {
 model Review {
   id          String   @default(cuid()) @id
   content     String
-  likes       Like[]
+  rating      Float?
+  photos      String[]
+  // likes       Like[]
+  createdAt   DateTime @default(now())
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
   studySpot   StudySpot @relation(fields: [studySpotId], references: [id])
   studySpotId String
 }
 
-model Like {
-  id         String  @default(cuid()) @id
-  review     Review  @relation(fields: [reviewId], references: [id])
-  reviewId   String
-  student    User    @relation(fields: [studentId], references: [id])
-  studentId  String
-}
+// model Like {
+//   id         String  @default(cuid()) @id
+//   review     Review  @relation(fields: [reviewId], references: [id])
+//   reviewId   String
+//   student    User    @relation(fields: [studentId], references: [id])
+//   studentId  String
+// }
 
 model School {
   id         String   @default(cuid()) @id
@@ -52,7 +57,9 @@ model School {
   city       String?
   students   User[]
   address    String
-  photos     String?
+  latitude   String?
+  longitude  String?
+  // photos     String?
   studySpots StudySpot[]
 }
 
@@ -68,6 +75,6 @@ model User {
   studySpots  StudySpot[]
   school      School? @relation(fields: [schoolId], references: [id])  
   schoolId    String?  
-  likes       Like[]
+  // likes       Like[]
 }
 

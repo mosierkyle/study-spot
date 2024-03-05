@@ -181,7 +181,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
           <div className={styles.reviews}>
             <div className={styles.review}>
               <div className={styles.userSection}>
-                <Image src={profile} alt="profile" height={35} width={35} />
+                <Image src={profile} alt="profile" height={40} width={40} />
                 <div className={styles.userSectionInfo}>
                   <p>Kyle</p>8 months ago
                 </div>
