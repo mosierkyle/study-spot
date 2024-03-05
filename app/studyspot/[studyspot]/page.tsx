@@ -36,8 +36,8 @@ const Spot = ({ params: { studyspot } }: Props) => {
   const router = useRouter();
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [lng, setLng] = useState<string | null>(null); // Set default value as needed
-  const [lat, setLat] = useState<string | null>(null); // Set default value as needed
+  const [lng, setLng] = useState<string | null>(null);
+  const [lat, setLat] = useState<string | null>(null);
   const [zoom, setZoom] = useState(15);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -134,8 +134,10 @@ const Spot = ({ params: { studyspot } }: Props) => {
             {spotData ? `Study at ${spotData?.name}` : 'Study at ...'}
           </h1>
           <div className={styles.heroTextBottom}>
-            <Stars rating={Math.floor(Math.random() * 5) + 1} />
-            <p>4.2 (9 reviews)</p>
+            <Stars rating={spotData?.rating ?? 0} />
+            <p>
+              {spotData?.rating} ({reviewData?.length} reviews)
+            </p>
           </div>
         </div>
       </section>
@@ -180,7 +182,9 @@ const Spot = ({ params: { studyspot } }: Props) => {
       </section>
       <section className={styles.content}>
         <div className={styles.left}>
-          <p className={styles.contentTitle}>Browse 7 Reviews</p>
+          <p className={styles.contentTitle}>
+            Browse {reviewData?.length} Reviews
+          </p>
           <div className={styles.reviews}>
             {reviewData &&
               reviewData.map((review) => {
@@ -243,7 +247,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                     height={20}
                     width={20}
                   />
-                  Free Wifi
+                  Wifi
                 </div>
                 <div className={styles.amenity}>
                   <Image
@@ -253,27 +257,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                     height={20}
                     width={20}
                   />
-                  WhiteBoards
-                </div>
-                <div className={styles.amenity}>
-                  <Image
-                    // className={styles.buttonImg}
-                    src={x}
-                    alt="x"
-                    height={20}
-                    width={20}
-                  />
-                  Charging
-                </div>
-                <div className={styles.amenity}>
-                  <Image
-                    // className={styles.buttonImg}
-                    src={check}
-                    alt="x"
-                    height={20}
-                    width={20}
-                  />
-                  Printers
+                  On Campus
                 </div>
                 <div className={styles.amenity}>
                   <Image
@@ -284,6 +268,26 @@ const Spot = ({ params: { studyspot } }: Props) => {
                     width={20}
                   />
                   Open 24 hours
+                </div>
+                <div className={styles.amenity}>
+                  <Image
+                    // className={styles.buttonImg}
+                    src={check}
+                    alt="x"
+                    height={20}
+                    width={20}
+                  />
+                  Restrooms
+                </div>
+                <div className={styles.amenity}>
+                  <Image
+                    // className={styles.buttonImg}
+                    src={x}
+                    alt="x"
+                    height={20}
+                    width={20}
+                  />
+                  Printers
                 </div>
                 <div className={styles.amenity}>
                   <Image

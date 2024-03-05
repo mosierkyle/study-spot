@@ -1,12 +1,13 @@
 .review {
   height: fit-content;
   width: 100%;
-  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  /* padding: 25px; */
+  padding: 25px;
   display: flex;
   flex-direction: column;
   justify-content: start;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.2); */
 }
 
 .userSection {
@@ -48,6 +49,7 @@
   font-family: sans-serif;
   line-height: 1.3rem;
   margin-left: 5px;
+  /* margin-bottom: 30px; */
 }
 
 .photos {
@@ -65,4 +67,19 @@
 
 .camera {
   transform: scale(0.8);
+}
+
+.likes {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+  align-items: center;
+  margin-top: 10px;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 0.9rem;
+  gap: 2px;
+}
+
+.like:hover {
+  cursor: pointer;
 }

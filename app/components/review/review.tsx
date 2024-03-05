@@ -4,7 +4,11 @@ import ReviewStars from '../reviewStars/reviewStars';
 import styles from './page.module.css';
 import profile from '../../../public/account.png';
 import photo from '../../../public/camera.png';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
+import like from '../../../public/like2.png';
+import like2 from '../../../public/like1.png';
+import { addLike } from '@/lib/addLike';
+import { removeLike } from '@/lib/removeLike';
 
 interface reviewCardProps {
   reviewData: Review | null;
@@ -12,6 +16,7 @@ interface reviewCardProps {
 
 const ReviewCard: React.FC<reviewCardProps> = ({ reviewData }) => {
   const [userData, setUserData] = useState<User | null>(null);
+  const [liked, setLiked] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,6 +40,15 @@ const ReviewCard: React.FC<reviewCardProps> = ({ reviewData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleLike = () => {
+    if (liked) {
+      setLiked(false);
+    } else {
+      setLiked(true);
+    }
+    console.log(liked);
+  };
+
   return (
     <div className={styles.review}>
       <div className={styles.userSection}>
@@ -51,7 +65,28 @@ const ReviewCard: React.FC<reviewCardProps> = ({ reviewData }) => {
         <Image src={photo} alt="photos" className={styles.camera} />2 photos
       </div>
       <div className={styles.contentSection}>{reviewData?.content}</div>
-      <div className={styles.like}></div>
+      <div className={styles.likes}>
+        <div className={styles.like} onClick={handleLike}>
+          {liked ? (
+            <Image
+              className={styles.like}
+              height={25}
+              width={25}
+              src={like2}
+              alt={'like'}
+            />
+          ) : (
+            <Image
+              className={styles.like}
+              height={25}
+              width={25}
+              src={like}
+              alt={'like'}
+            />
+          )}
+        </div>
+        0
+      </div>
     </div>
   );
 };
