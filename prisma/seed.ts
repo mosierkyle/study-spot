@@ -9,8 +9,8 @@ async function main() {
       name: 'Cal Poly San Luis Obispo',
       city: 'San Luis Obispo',
       address: '1 Grand Ave San Luis Obispo, CA 93407-005',
-      latitude: '35.300390',
-      longitude: '-120.658100',
+      latitude: '35.3041',
+      longitude: '-120.660500',
     },
   });
 

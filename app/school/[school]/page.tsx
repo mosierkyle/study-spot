@@ -22,19 +22,15 @@ interface Props {
 const School = ({ params: { school } }: Props) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [lng, setLng] = useState(-120.6625);
-  const [lat, setLat] = useState(35.305);
-  const [zoom, setZoom] = useState(14.7);
+  const [lng, setLng] = useState<number>(0);
+  const [lat, setLat] = useState<number>(0);
+  const [zoom, setZoom] = useState<number>(14.5);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
   const [spotsData, setSpotsData] = useState<StudySpot[] | undefined>(
     undefined
   );
-  const [geoJson, setGeoJson] = useState<any>(null);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-  const bounds: mapboxgl.LngLatBoundsLike = [
-    [lng - 0.01, lat - 0.01],
-    [lng + 0.01, lat + 0.01],
-  ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,6 +45,8 @@ const School = ({ params: { school } }: Props) => {
           const responseData = await response.json();
           const parsedData = await responseData.school;
           setSchoolData(parsedData);
+          setLat(Number(parsedData?.latitude));
+          setLng(Number(parsedData?.longitude));
         }
       } catch (error) {
         console.error(error);
@@ -56,41 +54,13 @@ const School = ({ params: { school } }: Props) => {
     };
     fetchData();
 
-    mapboxgl.accessToken = mapboxToken ?? '';
-    if (!mapContainer.current || map.current) {
-      return;
-    }
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [lng, lat],
-      zoom: zoom,
-      maxZoom: 20,
-      minZoom: 14.5,
-    });
-    map.current?.scrollZoom.disable();
-    map.current?.addControl(new mapboxgl.NavigationControl());
-    // map.current?.on('load', () => {
-    //   if (geoJson && map.current) {
-    //     map.current?.addLayer({
-    //       id: 'locations',
-    //       type: 'circle',
-    //       /* Add a GeoJSON source containing place coordinates and information. */
-    //       source: {
-    //         type: 'geojson',
-    //         data: geojson,
-    //       },
-    //     });
-    //   }
-    // });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const fetchMoreData = async () => {
       try {
-        const response = await fetch('/api/studySpots/', {
+        const response = await fetch('/api/studySpot/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -111,6 +81,24 @@ const School = ({ params: { school } }: Props) => {
   }, []);
 
   useEffect(() => {
+    if (lat != 0 && lng != 0) {
+      mapboxgl.accessToken = mapboxToken ?? '';
+      if (!mapContainer.current || map.current) {
+        return;
+      }
+      console.log('we here');
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [lng, lat],
+        zoom: zoom,
+        maxZoom: 20,
+        minZoom: 14.5,
+      });
+      map.current?.scrollZoom.disable();
+      map.current?.addControl(new mapboxgl.NavigationControl());
+    }
+
     spotsData?.forEach((spot) => {
       if (map.current)
         new mapboxgl.Marker({ color: '#ff735c' })
@@ -118,32 +106,8 @@ const School = ({ params: { school } }: Props) => {
           .addTo(map.current);
     });
 
-    //   const features =
-    //     spotsData?.map((spot, i) => ({
-    //       type: 'Feature',
-    //       geometry: {
-    //         type: 'Point',
-    //         coordinates: [Number(spot.longitude), Number(spot.latitude)],
-    //       },
-    //       properties: {
-    //         name: spot.name,
-    //         address: spot.address,
-    //         description: spot.description,
-    //         id: i,
-    //       },
-    //     })) ?? [];
-
-    //   const spotsGeoJSON = {
-    //     type: 'FeatureCollection',
-    //     features: features,
-    //   };
-    //   setGeoJson(spotsGeoJSON);
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotsData]);
-
-  // useEffect(() => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [geoJson]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotsData, schoolData]);
 
   map.current?.on('move', () => {
     setLng(
