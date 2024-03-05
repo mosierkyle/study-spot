@@ -1,17 +1,14 @@
 import { prisma } from '@/lib/prisma';
 import { cache } from 'react';
-import { Prisma } from '@prisma/client';
-import { hash } from 'bcrypt';
-import { get } from 'http';
 
 export const getSpot = cache(async (id: string) => {
   try {
-    const school = await prisma.studySpot.findUniqueOrThrow({
+    const spots = await prisma.studySpot.findMany({
       where: {
-        id: id,
+        schoolId: id,
       },
     });
-    return school;
+    return spots;
   } catch (error) {
     console.log(error);
   }

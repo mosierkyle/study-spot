@@ -18,9 +18,9 @@ export async function POST(
 ) {
   try {
     const data = JSON.parse(await streamToString(req.body));
-    const spotId = data;
-    const spot = await getSpot(spotId);
-    return NextResponse.json({ spot: spot }, { status: 200 });
+    const schoolId = data;
+    const spots = await getSpot(schoolId);
+    return NextResponse.json({ spots: spots }, { status: 200 });
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
