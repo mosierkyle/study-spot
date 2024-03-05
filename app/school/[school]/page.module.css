@@ -162,3 +162,37 @@
 .loadingText {
   padding-left: 30px;
 }
+
+.sort {
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort:hover {
+  background-color: #f0f0f0;
+}
+
+/* .sort {
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff735c;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort:hover {
+  background-color: #ff8471;
+} */

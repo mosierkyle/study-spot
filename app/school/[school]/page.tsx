@@ -60,7 +60,7 @@ const School = ({ params: { school } }: Props) => {
   useEffect(() => {
     const fetchMoreData = async () => {
       try {
-        const response = await fetch('/api/studySpot/', {
+        const response = await fetch('/api/studySpots/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -79,14 +79,12 @@ const School = ({ params: { school } }: Props) => {
     fetchMoreData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   useEffect(() => {
     if (lat != 0 && lng != 0) {
       mapboxgl.accessToken = mapboxToken ?? '';
       if (!mapContainer.current || map.current) {
         return;
       }
-      console.log('we here');
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v12',
@@ -99,6 +97,10 @@ const School = ({ params: { school } }: Props) => {
       map.current?.addControl(new mapboxgl.NavigationControl());
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [schoolData]);
+
+  useEffect(() => {
     spotsData?.forEach((spot) => {
       if (map.current)
         new mapboxgl.Marker({ color: '#ff735c' })
@@ -107,7 +109,7 @@ const School = ({ params: { school } }: Props) => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotsData, schoolData]);
+  }, [spotsData]);
 
   map.current?.on('move', () => {
     setLng(
@@ -146,10 +148,10 @@ const School = ({ params: { school } }: Props) => {
               <h3>{spotsData && `${spotsData?.length} places to study`}</h3>
             </div>
             <Link
-              href={`/${schoolData?.id}/add/${schoolData?.id}/`}
+              href={`/school/${schoolData?.id}/add/${schoolData?.id}/`}
               className={styles.sort}
             >
-              Sort
+              Add Study Spot
             </Link>
           </div>
           {spotsData ? (

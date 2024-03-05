@@ -1,0 +1,68 @@
+.review {
+  height: fit-content;
+  width: 100%;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  border-radius: 5px;
+  /* padding: 25px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.userSection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.userSectionInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.userSectionInfo p {
+  margin: 0;
+  font-weight: bold;
+  color: #000;
+}
+
+.stars {
+  transform: scale(0.7);
+  /* margin-left: -20px; */
+  margin-top: -25px;
+  /* width: 100%; */
+  padding: 10px 0;
+  width: fit-content;
+  margin-left: -17.5px;
+}
+
+.contentSection {
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 400;
+  font-size: 0.95rem;
+  font-family: sans-serif;
+  line-height: 1.3rem;
+  margin-left: 5px;
+}
+
+.photos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  gap: 2px;
+  margin-bottom: 10px;
+  margin-top: -5px;
+  margin-left: 2px;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.camera {
+  transform: scale(0.8);
+}
