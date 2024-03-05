@@ -7,6 +7,7 @@ import Image from 'next/image';
 import study from '../../../public/study6.jpg';
 import { useEffect, useState, useRef, use } from 'react';
 import Stars from '@/app/components/stars/stars';
+import ReviewStars from '@/app/components/reviewStars/reviewStars';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import back from '../../../public/back.png';
@@ -20,6 +21,8 @@ import check from '../../../public/check3.png';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import profile from '../../../public/account.png';
+import photo from '../../../public/camera.png';
+import ReviewCard from '@/app/components/review/review';
 
 interface Props {
   params: {
@@ -179,21 +182,10 @@ const Spot = ({ params: { studyspot } }: Props) => {
         <div className={styles.left}>
           <p className={styles.contentTitle}>Browse 7 Reviews</p>
           <div className={styles.reviews}>
-            <div className={styles.review}>
-              <div className={styles.userSection}>
-                <Image src={profile} alt="profile" height={40} width={40} />
-                <div className={styles.userSectionInfo}>
-                  <p>Kyle</p>8 months ago
-                </div>
-                <div className={styles.stars}>
-                  <Stars rating={Math.floor(Math.random() * 5) + 1} />
-                </div>
-              </div>
-              <div className={styles.contentSection}>
-                {reviewData && reviewData[1].content}
-              </div>
-              <div className={styles.like}></div>
-            </div>
+            {reviewData &&
+              reviewData.map((review) => {
+                return <ReviewCard key={review.id} reviewData={review} />;
+              })}
           </div>
         </div>
         <div className={styles.right}>

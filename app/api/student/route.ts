@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSpot } from '@/lib/getSpot';
+import { getStudent } from '@/lib/getStudent';
 
 async function streamToString(stream: any) {
   const chunks = [];
@@ -18,9 +18,9 @@ export async function POST(
 ) {
   try {
     const data = JSON.parse(await streamToString(req.body));
-    const spotId = data;
-    const spot = await getSpot(spotId);
-    return NextResponse.json({ spot: spot }, { status: 200 });
+    const studentId = data;
+    const student = await getStudent(studentId);
+    return NextResponse.json({ student: student }, { status: 200 });
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -6,9 +6,9 @@ import { useSession, getSession } from 'next-auth/react';
 import { useEffect, useState, useRef } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
-import study from '../../../../public/study2.jpg';
-import back from '../../../../public/back.png';
-import upload from '../../../../public/upload3.png';
+import study from '../../../../../public/study2.jpg';
+import back from '../../../../../public/back.png';
+import upload from '../../../../../public/upload3.png';
 import StudySpotForm from '@/app/components/forms/spotform';
 
 interface Props {
@@ -56,7 +56,7 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
   }
 
   const goBack = () => {
-    router.push(`/${newStudySpot}`);
+    router.push(`/school/${newStudySpot}`);
   };
 
   return (
