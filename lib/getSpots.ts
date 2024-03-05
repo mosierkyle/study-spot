@@ -6,7 +6,11 @@ import { get } from 'http';
 
 export const getSpots = cache(async (id: string) => {
   try {
-    const spots = await prisma.studySpot.findMany();
+    const spots = await prisma.studySpot.findMany({
+      where: {
+        schoolId: id,
+      },
+    });
     return spots;
   } catch (error) {
     console.log(error);
