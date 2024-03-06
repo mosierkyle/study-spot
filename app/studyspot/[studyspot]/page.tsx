@@ -23,6 +23,7 @@ import mapboxgl from 'mapbox-gl';
 import profile from '../../../public/account.png';
 import photo from '../../../public/camera.png';
 import ReviewCard from '@/app/components/review/review';
+import ReviewForm from '@/app/components/reviewForm/reviewForm';
 
 interface Props {
   params: {
@@ -40,6 +41,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
   const [lat, setLat] = useState<string | null>(null);
   const [zoom, setZoom] = useState(15);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+  const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,6 +119,13 @@ const Spot = ({ params: { studyspot } }: Props) => {
 
   return (
     <div className={styles.main}>
+      {showReviewForm && (
+        <ReviewForm
+          setShowReviewForm={setShowReviewForm}
+          showReviewForm={showReviewForm}
+          spotName={spotData?.name}
+        />
+      )}
       <section className={styles.hero}>
         <Link className={styles.seePhotos} href={'/'}>
           {`See all photos`}
@@ -162,22 +171,25 @@ const Spot = ({ params: { studyspot } }: Props) => {
             Share
             <Image className={styles.buttonImg} src={share} alt="star"></Image>
           </Link>
-          <Link href={'/'} className={styles.rightButton}>
+          {/* <Link href={'/'} className={styles.rightButton}>
             Add photo
             <Image
               className={styles.buttonImg}
               src={camera}
               alt="camera"
             ></Image>
-          </Link>
-          <Link href={'/'} className={styles.writeReview}>
+          </Link> */}
+          <div
+            onClick={() => setShowReviewForm(true)}
+            className={styles.writeReview}
+          >
             Write a review{' '}
             <Image
               className={styles.buttonImg}
               src={emptyStar}
               alt="star"
             ></Image>
-          </Link>
+          </div>
         </div>
       </section>
       <section className={styles.content}>

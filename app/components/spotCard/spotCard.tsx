@@ -5,7 +5,6 @@ import library from '../../../public/schools/library.jpg';
 import { StudySpot, Review } from '@prisma/client';
 import Link from 'next/link';
 import Stars from '../stars/stars';
-import { getReviews } from '@/lib/getReviews';
 
 interface spotCardFormProps {
   spotData: StudySpot | null;
