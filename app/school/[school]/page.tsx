@@ -39,6 +39,12 @@ const School = ({ params: { school } }: Props) => {
   const [workAreaActive, setWorkAreaActive] = useState(false);
   const [otherActive, setOtherActive] = useState(false);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+  //useRefs
+  const onCampusRef = useRef<HTMLInputElement>(null);
+  const freeWifiRef = useRef<HTMLInputElement>(null);
+  const open24HoursRef = useRef<HTMLInputElement>(null);
+  const publicRestroomsRef = useRef<HTMLInputElement>(null);
+  const studyResourcesRef = useRef<HTMLInputElement>(null);
 
   //get School data
   useEffect(() => {
@@ -275,11 +281,33 @@ const School = ({ params: { school } }: Props) => {
     }
   };
 
+  const clearAll = () => {
+    if (onCampusRef.current) onCampusRef.current.checked = false;
+    if (freeWifiRef.current) freeWifiRef.current.checked = false;
+    if (open24HoursRef.current) open24HoursRef.current.checked = false;
+    if (publicRestroomsRef.current) publicRestroomsRef.current.checked = false;
+    if (studyResourcesRef.current) studyResourcesRef.current.checked = false;
+
+    setFilteredData(spotsData);
+    setSortedData(spotsData);
+    setSort('select-one');
+    setCategories([]);
+    setFilters([]);
+    setCafeActive(false);
+    setLibraryActive(false);
+    setPublicSpaceActive(false);
+    setWorkAreaActive(false);
+    setOtherActive(false);
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.bottom}>
         <section className={styles.filters}>
           <div className={styles.filtersHeader}>Filters</div>
+          <div className={styles.clearAll} onClick={clearAll}>
+            Clear
+          </div>
           <div className={styles.filterDiv}>
             {/* <p className={styles.filterHeader}>Sort</p> */}
             <div className={styles.sortBy}>
@@ -314,10 +342,10 @@ const School = ({ params: { school } }: Props) => {
                   <input
                     className={styles.suggestedInput}
                     type="checkbox"
+                    ref={onCampusRef}
                     id="onCampus"
                     name="onCampus"
-                    onChange={() => handleFilter('onCampus')} // Pass the filter name to handleFilter
-                    // checked={filters.onCampus}
+                    onChange={() => handleFilter('onCampus')} // Pass the filter name to
                   />
                   <span className={styles.checkmark}></span>
                 </label>
@@ -327,12 +355,11 @@ const School = ({ params: { school } }: Props) => {
                   Free Wifi
                   <input
                     type="checkbox"
+                    ref={freeWifiRef}
                     id="freeWifi"
                     name="freeWifi"
                     className={styles.suggestedInput}
                     onChange={() => handleFilter('wifi')}
-                    // onChange={handleFilterChange}
-                    // checked={filters.freeWifi}
                   />
                   <span className={styles.checkmark}></span>
                 </label>
@@ -343,11 +370,10 @@ const School = ({ params: { school } }: Props) => {
                   <input
                     type="checkbox"
                     id="open24Hours"
+                    ref={open24HoursRef}
                     name="open24Hours"
                     className={styles.suggestedInput}
                     onChange={() => handleFilter('hour24')}
-                    // onChange={handleFilterChange}
-                    // checked={filters.open24Hours}
                   />
                   <span className={styles.checkmark}></span>
                 </label>
@@ -362,8 +388,7 @@ const School = ({ params: { school } }: Props) => {
                     name="publicRestrooms"
                     className={styles.suggestedInput}
                     onChange={() => handleFilter('restrooms')}
-                    // onChange={handleFilterChange}
-                    // checked={filters.publicRestrooms}
+                    ref={publicRestroomsRef}
                   />
                   <span className={styles.checkmark}></span>
                 </label>
@@ -378,8 +403,7 @@ const School = ({ params: { school } }: Props) => {
                     id="studyResources"
                     name="studyResources"
                     onChange={() => handleFilter('studyResources')}
-                    // onChange={handleFilterChange}
-                    // checked={filters.studyResources}
+                    ref={studyResourcesRef}
                   />
                   <span className={styles.checkmark}></span>
                 </label>
