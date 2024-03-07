@@ -24,6 +24,7 @@ model StudySpot {
   onCampus        Boolean?
   studyResources  String[]
   reviews         Review[]
+  reviewCount     Int          @default(0)
   school          School       @relation(fields: [schoolId], references: [id])
   schoolId        String
   user            User         @relation(fields: [userId], references: [id])

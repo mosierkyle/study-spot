@@ -22,13 +22,13 @@ interface Props {
 const School = ({ params: { school } }: Props) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const [sort, setSort] = useState('select-one');
+  const [sortedData, setSortedData] = useState<StudySpot[]>([]);
   const [lng, setLng] = useState<number>(0);
   const [lat, setLat] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(14.5);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
-  const [spotsData, setSpotsData] = useState<StudySpot[] | undefined>(
-    undefined
-  );
+  const [spotsData, setSpotsData] = useState<StudySpot[]>([]);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
   useEffect(() => {
@@ -79,6 +79,7 @@ const School = ({ params: { school } }: Props) => {
     fetchMoreData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     if (lat != 0 && lng != 0) {
       mapboxgl.accessToken = mapboxToken ?? '';
@@ -126,23 +127,143 @@ const School = ({ params: { school } }: Props) => {
     );
   });
 
+  useEffect(() => {
+    const sortByRating = (spotsData: StudySpot[]) => {
+      const sortData = [...spotsData];
+      console.log(sortData);
+      sortData.sort((a, b) => {
+        // Handle null values by providing a default value of 0
+        const ratingA = a.rating ?? 0;
+        const ratingB = b.rating ?? 0;
+        return ratingB - ratingA; // Sort in descending order
+      });
+      console.log(sortData);
+      return sortData;
+    };
+    const sortByReivews = (spotsData: StudySpot[]) => {
+      const sortData = [...spotsData];
+      console.log(sortData[1].reviewCount);
+      sortData.sort((a, b) => b.reviewCount - a.reviewCount);
+      console.log(sortData[1].reviewCount);
+      return sortData;
+    };
+    if (sort == 'rated') {
+      setSortedData(sortByRating(spotsData));
+    } else if (sort == 'reviewed') {
+      setSortedData(sortByReivews(spotsData));
+    } else {
+      setSortedData(spotsData);
+    }
+  }, [sort, spotsData]);
+
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSort = e.target.value;
+    setSort(newSort);
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.bottom}>
         <section className={styles.filters}>
-          <div>Filters</div>
+          <div className={styles.filtersHeader}>Filters</div>
+          <div className={styles.filterDiv}>
+            {/* <p className={styles.filterHeader}>Sort</p> */}
+            <div className={styles.sortBy}>
+              <select
+                className={styles.sortDropdown}
+                onChange={handleSort}
+                value={sort}
+                id="dropdown"
+                data-testid="sort"
+              >
+                <option className={styles.sortOption} value="select-one">
+                  Sort By:
+                </option>
+                {/* <option className={styles.sortOption} value="recommended">
+                  Recommended
+                </option> */}
+                <option className={styles.sortOption} value="rated">
+                  Highest Rated
+                </option>
+                <option className={styles.sortOption} value="reviewed">
+                  Most Reviewed
+                </option>
+              </select>
+            </div>
+          </div>
+          <div className={styles.filterDiv}>
+            <p className={styles.filterHeader}>Suggested</p>
+            <div className={styles.suggested}>
+              <div className={styles.suggestedDiv}>
+                <input
+                  type="checkbox"
+                  id="onCampus"
+                  name="onCampus"
+                  // onChange={handleFilterChange}
+                  // checked={filters.onCampus}
+                />
+                <label htmlFor="onCampus">On Campus</label>
+              </div>
+              <div className={styles.suggestedDiv}>
+                <input
+                  type="checkbox"
+                  id="freeWifi"
+                  name="freeWifi"
+                  // onChange={handleFilterChange}
+                  // checked={filters.freeWifi}
+                />
+                <label htmlFor="freeWifi">Free Wifi</label>
+              </div>
+              <div className={styles.suggestedDiv}>
+                <input
+                  type="checkbox"
+                  id="open24Hours"
+                  name="open24Hours"
+                  // onChange={handleFilterChange}
+                  // checked={filters.open24Hours}
+                />
+                <label htmlFor="open24Hours">Open 24 Hours</label>
+              </div>
+
+              <div className={styles.suggestedDiv}>
+                <input
+                  type="checkbox"
+                  id="publicRestrooms"
+                  name="publicRestrooms"
+                  // onChange={handleFilterChange}
+                  // checked={filters.publicRestrooms}
+                />
+                <label htmlFor="publicRestrooms">Public Restrooms</label>
+              </div>
+
+              <div className={styles.suggestedDiv}>
+                <input
+                  type="checkbox"
+                  id="studyResources"
+                  name="studyResources"
+                  // onChange={handleFilterChange}
+                  // checked={filters.studyResources}
+                />
+                <label htmlFor="studyResources">Study Resources</label>
+              </div>
+            </div>
+          </div>
+          <div className={styles.filterDiv}>
+            <p className={styles.filterHeader}>Category</p>
+            <div className={styles.categories}></div>
+          </div>
         </section>
         <section className={styles.left}>
           <div className={styles.header}>
-            <div className={styles.breadCrumbs} data-testid="bread-crumb">
+            {/* <div className={styles.breadCrumbs} data-testid="bread-crumb">
               <Link className={styles.breadCrumbText} href={'/'}>
                 Home
               </Link>{' '}
               &gt;{' '}
               <Link className={styles.breadCrumbText} href={`/${school}`}>
-                Living
+                {schoolData?.name}
               </Link>
-            </div>
+            </div> */}
             <div>
               <h1 className="header">{schoolData?.name} study spots</h1>
               <h3>{spotsData && `${spotsData?.length} places to study`}</h3>
@@ -154,9 +275,9 @@ const School = ({ params: { school } }: Props) => {
               Add Study Spot
             </Link>
           </div>
-          {spotsData ? (
+          {sortedData ? (
             <div className={styles.spots}>
-              {spotsData.map((spot) => (
+              {sortedData.map((spot) => (
                 <SpotCard key={spot.id} spotData={spot} />
               ))}
             </div>
