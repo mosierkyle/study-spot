@@ -7,6 +7,7 @@
 .filters {
   width: 15%;
   padding-top: 30px;
+  position: relative;
 }
 
 .filtersHeader {
@@ -16,6 +17,7 @@
   font-size: 16px;
   font-weight: 500;
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .filterHeader {
@@ -367,5 +369,25 @@
 }
 
 .categoryActive:hover {
+  cursor: pointer;
+}
+
+.clearAll {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  width: fit-content;
+  /* padding: 2.5px 7.5px; */
+  border-radius: 5px;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  /* text-decoration: underline; */
+}
+
+.clearAll:hover {
+  text-decoration: underline;
+  color: #ff735c;
   cursor: pointer;
 }
