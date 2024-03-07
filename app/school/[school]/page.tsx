@@ -20,17 +20,27 @@ interface Props {
 const School = ({ params: { school } }: Props) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  //sorts
   const [sort, setSort] = useState('select-one');
   const [sortedData, setSortedData] = useState<StudySpot[]>([]);
   const [filteredData, setFilteredData] = useState<StudySpot[]>([]);
-  const [lng, setLng] = useState<number>(0);
   const [filters, setFilters] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  //map
+  const [lng, setLng] = useState<number>(0);
   const [lat, setLat] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(14.5);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
   const [spotsData, setSpotsData] = useState<StudySpot[]>([]);
+  //Categories
+  const [cafeActive, setCafeActive] = useState(false);
+  const [libraryActive, setLibraryActive] = useState(false);
+  const [publicSpaceActive, setPublicSpaceActive] = useState(false);
+  const [workAreaActive, setWorkAreaActive] = useState(false);
+  const [otherActive, setOtherActive] = useState(false);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
+  //get School data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +66,7 @@ const School = ({ params: { school } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //get studyspot data
   useEffect(() => {
     const fetchMoreData = async () => {
       try {
@@ -81,6 +92,7 @@ const School = ({ params: { school } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // load school map
   useEffect(() => {
     if (lat != 0 && lng != 0) {
       mapboxgl.accessToken = mapboxToken ?? '';
@@ -102,6 +114,7 @@ const School = ({ params: { school } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schoolData]);
 
+  //load studyspot markers on nmap
   useEffect(() => {
     spotsData?.forEach((spot) => {
       if (map.current)
@@ -113,6 +126,7 @@ const School = ({ params: { school } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spotsData]);
 
+  //interactivity with map
   map.current?.on('move', () => {
     setLng(
       (prevLng: number) =>
@@ -128,6 +142,7 @@ const School = ({ params: { school } }: Props) => {
     );
   });
 
+  //sorting
   useEffect(() => {
     const sortByRating = (data: StudySpot[]) => {
       const sortData = [...data];
@@ -155,6 +170,7 @@ const School = ({ params: { school } }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort]);
 
+  //filtering
   useEffect(() => {
     const filterData = (data: StudySpot[]) => {
       const filtered = data.filter((spot) => {
@@ -173,6 +189,45 @@ const School = ({ params: { school } }: Props) => {
     filterData(sortedData);
   }, [filters, sortedData]);
 
+  //Categories
+  useEffect(() => {
+    // Filter the data based on the active categories
+    const filteredData = sortedData.filter((spot) => {
+      if (
+        (cafeActive && spot.category === 'cafe') ||
+        (libraryActive && spot.category === 'library') ||
+        (publicSpaceActive && spot.category === 'public space') ||
+        (workAreaActive && spot.category === 'work area') ||
+        (otherActive && spot.category === 'other')
+      ) {
+        return true;
+      }
+      // If none of the categories are active, include the spot
+      if (
+        !(
+          cafeActive ||
+          libraryActive ||
+          publicSpaceActive ||
+          workAreaActive ||
+          otherActive
+        )
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    // Update the filtered data state
+    setFilteredData(filteredData);
+  }, [
+    sortedData,
+    cafeActive,
+    libraryActive,
+    publicSpaceActive,
+    workAreaActive,
+    otherActive,
+  ]);
+  //handle all of the sorting/filtering
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSort = e.target.value;
     setSort(newSort);
@@ -184,6 +239,39 @@ const School = ({ params: { school } }: Props) => {
       setFilters((prevFilters) => [...prevFilters, filter]);
     } else {
       setFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
+    }
+  };
+
+  const handleCategory = (category: string) => {
+    const index = categories.indexOf(category);
+    if (index === -1) {
+      setCategories((prevCategories) => [...prevCategories, category]);
+    } else {
+      setFilters((prevCategories) =>
+        prevCategories.filter((c) => c !== category)
+      );
+    }
+
+    switch (category) {
+      case 'cafe':
+        cafeActive ? setCafeActive(false) : setCafeActive(true);
+        break;
+      case 'library':
+        libraryActive ? setLibraryActive(false) : setLibraryActive(true);
+        break;
+      case 'public space':
+        publicSpaceActive
+          ? setPublicSpaceActive(false)
+          : setPublicSpaceActive(true);
+        break;
+      case 'work area':
+        workAreaActive ? setWorkAreaActive(false) : setWorkAreaActive(true);
+        break;
+      case 'other':
+        otherActive ? setOtherActive(false) : setOtherActive(true);
+        break;
+      default:
+        break;
     }
   };
 
@@ -300,7 +388,46 @@ const School = ({ params: { school } }: Props) => {
           </div>
           <div className={styles.filterDiv}>
             <p className={styles.filterHeader}>Category</p>
-            <div className={styles.categories}></div>
+            <div className={styles.categories}>
+              <div
+                className={cafeActive ? styles.categoryActive : styles.category}
+                onClick={() => handleCategory('cafe')}
+              >
+                Cafe
+              </div>
+              <div
+                className={
+                  libraryActive ? styles.categoryActive : styles.category
+                }
+                onClick={() => handleCategory('library')}
+              >
+                Library
+              </div>
+              <div
+                className={
+                  publicSpaceActive ? styles.categoryActive : styles.category
+                }
+                onClick={() => handleCategory('public space')}
+              >
+                Public Space
+              </div>
+              <div
+                className={
+                  workAreaActive ? styles.categoryActive : styles.category
+                }
+                onClick={() => handleCategory('work area')}
+              >
+                Work Area
+              </div>
+              <div
+                className={
+                  otherActive ? styles.categoryActive : styles.category
+                }
+                onClick={() => handleCategory('other')}
+              >
+                Other
+              </div>
+            </div>
           </div>
         </section>
         <section className={styles.left}>

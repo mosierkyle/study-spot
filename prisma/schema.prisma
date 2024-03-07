@@ -15,6 +15,7 @@ model StudySpot {
   latitude        String?
   longitude       String?
   photos          String[]
+  category        String?
   wifi            Boolean?
   noiseLevel      String?
   seating         String?
