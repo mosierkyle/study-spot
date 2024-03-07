@@ -9,14 +9,65 @@
   padding-top: 30px;
 }
 
+.filtersHeader {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.filterHeader {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.filterDiv {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  padding: 20px 0;
+}
+
+.sortDropdown {
+  /* padding: 5px 5px;
+  border-radius: 5px;
+  border: none; */
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+}
+
+.sortDropdown:focus {
+  outline: none;
+  /* border: none; */
+}
+
+.sortDropdown:focus-visible {
+  outline: none;
+  /* border: none; */
+}
+
 .left {
   width: 50%;
-  border-right: 1px solid rgba(235, 235, 235, 1);
+  /* border-right: 1px solid rgba(235, 235, 235, 1); */
   padding: 10px 10px;
-  height: calc(100vh - 130px);
+  height: calc(100vh - 115px);
   overflow: hidden;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  /* margin-top: -20px; */
+  /* -ms-overflow-style: none; 
+  scrollbar-width: none; */
 }
 
 .header {
@@ -48,19 +99,19 @@
   padding-top: 5px;
   height: calc(100% - 130px);
   overflow: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  /* -ms-overflow-style: none;
+  scrollbar-width: none; */
   display: flex;
   flex-direction: column;
   justify-content: start;
 }
-.spots::-webkit-scrollbar {
+/* .spots::-webkit-scrollbar {
   display: none;
 }
 
 .left::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .heroImgDiv {
   height: 300px;
@@ -196,3 +247,21 @@
 .sort:hover {
   background-color: #ff8471;
 } */
+
+.suggested {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+}
+
+.suggestedDiv {
+  width: 100%;
+  overflow: visible;
+  margin-bottom: 7.5px;
+}
+
+.suggestedDiv input {
+  margin-right: 10px;
+}
