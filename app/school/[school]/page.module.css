@@ -299,7 +299,7 @@
 
 /* On mouse-over, add a grey background color */
 .suggestedDiv:hover input ~ .checkmark {
-  background-color: #e2e2e2;
+  background-color: #f0f0f0;
   cursor: pointer;
 }
 
@@ -328,4 +328,44 @@
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.categories {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  height: fit-content;
+  flex-wrap: wrap;
+  gap: 7.5px;
+}
+
+.category {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 15px;
+  border-radius: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  padding: 5px 15px;
+  height: fit-content;
+}
+
+.category:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.categoryActive {
+  background-color: rgba(255, 115, 92, 0.2);
+  border: 1px solid #ff735c;
+  color: #ff735c;
+  font-size: 15px;
+  border-radius: 25px;
+  width: fit-content;
+  padding: 5px 15px;
+  height: fit-content;
+}
+
+.categoryActive:hover {
+  cursor: pointer;
 }
