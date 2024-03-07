@@ -257,11 +257,75 @@
 }
 
 .suggestedDiv {
-  width: 100%;
+  /* width: 100%;
   overflow: visible;
-  margin-bottom: 7.5px;
+  margin-bottom: 7.5px; */
+  /* display: flex;
+  align-items: center; */
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  overflow: visible;
 }
 
 .suggestedDiv input {
-  margin-right: 10px;
+  cursor: pointer;
+  /* margin-right: 10px; */
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 19px;
+  width: 19px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* On mouse-over, add a grey background color */
+.suggestedDiv:hover input ~ .checkmark {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
+
+/* When the checkbox is checked, add a blue background */
+.suggestedDiv input:checked ~ .checkmark {
+  background-color: #ff735c;
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.suggestedDiv input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.suggestedDiv .checkmark:after {
+  left: 5.5px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

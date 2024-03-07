@@ -3,8 +3,6 @@
 import { School, StudySpot } from '@prisma/client';
 import styles from './page.module.css';
 import Image from 'next/image';
-import calpoly from '../../public/schools/calpoly.png';
-import library from '../../public/schools/library.jpg';
 import Link from 'next/link';
 import React, { useRef, useEffect, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -24,7 +22,9 @@ const School = ({ params: { school } }: Props) => {
   const map = useRef<mapboxgl.Map | null>(null);
   const [sort, setSort] = useState('select-one');
   const [sortedData, setSortedData] = useState<StudySpot[]>([]);
+  const [filteredData, setFilteredData] = useState<StudySpot[]>([]);
   const [lng, setLng] = useState<number>(0);
+  const [filters, setFilters] = useState<string[]>([]);
   const [lat, setLat] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(14.5);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
@@ -53,7 +53,6 @@ const School = ({ params: { school } }: Props) => {
       }
     };
     fetchData();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -71,6 +70,8 @@ const School = ({ params: { school } }: Props) => {
           const responseData = await response.json();
           const parsedData = await responseData.spots;
           setSpotsData(parsedData);
+          setSortedData(parsedData);
+          setFilteredData(parsedData);
         }
       } catch (error) {
         console.error(error);
@@ -128,37 +129,62 @@ const School = ({ params: { school } }: Props) => {
   });
 
   useEffect(() => {
-    const sortByRating = (spotsData: StudySpot[]) => {
-      const sortData = [...spotsData];
-      console.log(sortData);
+    const sortByRating = (data: StudySpot[]) => {
+      const sortData = [...data];
       sortData.sort((a, b) => {
-        // Handle null values by providing a default value of 0
         const ratingA = a.rating ?? 0;
         const ratingB = b.rating ?? 0;
-        return ratingB - ratingA; // Sort in descending order
+        return ratingB - ratingA;
       });
-      console.log(sortData);
       return sortData;
     };
-    const sortByReivews = (spotsData: StudySpot[]) => {
-      const sortData = [...spotsData];
-      console.log(sortData[1].reviewCount);
+    const sortByReivews = (data: StudySpot[]) => {
+      const sortData = [...data];
       sortData.sort((a, b) => b.reviewCount - a.reviewCount);
-      console.log(sortData[1].reviewCount);
       return sortData;
     };
     if (sort == 'rated') {
       setSortedData(sortByRating(spotsData));
+      // setFilteredData(sortByRating(filteredData));
     } else if (sort == 'reviewed') {
       setSortedData(sortByReivews(spotsData));
+      // setSortedData(sortByReivews(filteredData));
     } else {
       setSortedData(spotsData);
     }
-  }, [sort, spotsData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sort]);
+
+  useEffect(() => {
+    const filterData = (data: StudySpot[]) => {
+      const filtered = data.filter((spot) => {
+        for (const filter of filters) {
+          if (filter === 'studyResources') {
+            if (spot.studyResources.length === 0) return false;
+          } else if (!spot[filter as keyof StudySpot]) {
+            return false;
+          }
+        }
+        return true;
+      });
+      setFilteredData(filtered);
+    };
+
+    filterData(sortedData);
+  }, [filters, sortedData]);
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSort = e.target.value;
     setSort(newSort);
+  };
+
+  const handleFilter = (filter: string) => {
+    const index = filters.indexOf(filter);
+    if (index === -1) {
+      setFilters((prevFilters) => [...prevFilters, filter]);
+    } else {
+      setFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
+    }
   };
 
   return (
@@ -195,56 +221,80 @@ const School = ({ params: { school } }: Props) => {
             <p className={styles.filterHeader}>Suggested</p>
             <div className={styles.suggested}>
               <div className={styles.suggestedDiv}>
-                <input
-                  type="checkbox"
-                  id="onCampus"
-                  name="onCampus"
-                  // onChange={handleFilterChange}
-                  // checked={filters.onCampus}
-                />
-                <label htmlFor="onCampus">On Campus</label>
+                <label htmlFor="onCampus">
+                  On Campus
+                  <input
+                    className={styles.suggestedInput}
+                    type="checkbox"
+                    id="onCampus"
+                    name="onCampus"
+                    onChange={() => handleFilter('onCampus')} // Pass the filter name to handleFilter
+                    // checked={filters.onCampus}
+                  />
+                  <span className={styles.checkmark}></span>
+                </label>
               </div>
               <div className={styles.suggestedDiv}>
-                <input
-                  type="checkbox"
-                  id="freeWifi"
-                  name="freeWifi"
-                  // onChange={handleFilterChange}
-                  // checked={filters.freeWifi}
-                />
-                <label htmlFor="freeWifi">Free Wifi</label>
+                <label htmlFor="freeWifi">
+                  Free Wifi
+                  <input
+                    type="checkbox"
+                    id="freeWifi"
+                    name="freeWifi"
+                    className={styles.suggestedInput}
+                    onChange={() => handleFilter('wifi')}
+                    // onChange={handleFilterChange}
+                    // checked={filters.freeWifi}
+                  />
+                  <span className={styles.checkmark}></span>
+                </label>
               </div>
               <div className={styles.suggestedDiv}>
-                <input
-                  type="checkbox"
-                  id="open24Hours"
-                  name="open24Hours"
-                  // onChange={handleFilterChange}
-                  // checked={filters.open24Hours}
-                />
-                <label htmlFor="open24Hours">Open 24 Hours</label>
+                <label htmlFor="open24Hours">
+                  Open 24 Hours
+                  <input
+                    type="checkbox"
+                    id="open24Hours"
+                    name="open24Hours"
+                    className={styles.suggestedInput}
+                    onChange={() => handleFilter('hour24')}
+                    // onChange={handleFilterChange}
+                    // checked={filters.open24Hours}
+                  />
+                  <span className={styles.checkmark}></span>
+                </label>
               </div>
 
               <div className={styles.suggestedDiv}>
-                <input
-                  type="checkbox"
-                  id="publicRestrooms"
-                  name="publicRestrooms"
-                  // onChange={handleFilterChange}
-                  // checked={filters.publicRestrooms}
-                />
-                <label htmlFor="publicRestrooms">Public Restrooms</label>
+                <label htmlFor="publicRestrooms">
+                  Public Restrooms
+                  <input
+                    type="checkbox"
+                    id="publicRestrooms"
+                    name="publicRestrooms"
+                    className={styles.suggestedInput}
+                    onChange={() => handleFilter('restrooms')}
+                    // onChange={handleFilterChange}
+                    // checked={filters.publicRestrooms}
+                  />
+                  <span className={styles.checkmark}></span>
+                </label>
               </div>
 
               <div className={styles.suggestedDiv}>
-                <input
-                  type="checkbox"
-                  id="studyResources"
-                  name="studyResources"
-                  // onChange={handleFilterChange}
-                  // checked={filters.studyResources}
-                />
-                <label htmlFor="studyResources">Study Resources</label>
+                <label htmlFor="studyResources">
+                  Study Resources
+                  <input
+                    className={styles.suggestedInput}
+                    type="checkbox"
+                    id="studyResources"
+                    name="studyResources"
+                    onChange={() => handleFilter('studyResources')}
+                    // onChange={handleFilterChange}
+                    // checked={filters.studyResources}
+                  />
+                  <span className={styles.checkmark}></span>
+                </label>
               </div>
             </div>
           </div>
@@ -275,9 +325,9 @@ const School = ({ params: { school } }: Props) => {
               Add Study Spot
             </Link>
           </div>
-          {sortedData ? (
+          {filteredData ? (
             <div className={styles.spots}>
-              {sortedData.map((spot) => (
+              {filteredData.map((spot) => (
                 <SpotCard key={spot.id} spotData={spot} />
               ))}
             </div>
@@ -288,9 +338,6 @@ const School = ({ params: { school } }: Props) => {
           )}
         </section>
         <section className={styles.right}>
-          {/* <div className={styles.sidebar}>
-            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-          </div> */}
           <div className={styles.mapContainer} ref={mapContainer}></div>
         </section>
       </div>
