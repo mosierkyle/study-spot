@@ -20,87 +20,71 @@ interface Props {
 const School = ({ params: { school } }: Props) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  //sorts
-  const [sort, setSort] = useState('select-one');
-  const [sortedData, setSortedData] = useState<StudySpot[]>([]);
-  const [filteredData, setFilteredData] = useState<StudySpot[]>([]);
-  const [filters, setFilters] = useState<string[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  //map
   const [lng, setLng] = useState<number>(0);
   const [lat, setLat] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(14.5);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
   const [spotsData, setSpotsData] = useState<StudySpot[]>([]);
-  //Categories
+  const [sortedData, setSortedData] = useState<StudySpot[]>([]);
+  const [filteredData, setFilteredData] = useState<StudySpot[]>([]);
+  const [sort, setSort] = useState('select-one');
+  const [filters, setFilters] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [cafeActive, setCafeActive] = useState(false);
   const [libraryActive, setLibraryActive] = useState(false);
   const [publicSpaceActive, setPublicSpaceActive] = useState(false);
   const [workAreaActive, setWorkAreaActive] = useState(false);
   const [otherActive, setOtherActive] = useState(false);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
-  //useRefs
   const onCampusRef = useRef<HTMLInputElement>(null);
   const freeWifiRef = useRef<HTMLInputElement>(null);
   const open24HoursRef = useRef<HTMLInputElement>(null);
   const publicRestroomsRef = useRef<HTMLInputElement>(null);
   const studyResourcesRef = useRef<HTMLInputElement>(null);
 
-  //get School data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/school/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(school),
-        });
-        if (response.ok) {
-          const responseData = await response.json();
-          const parsedData = await responseData.school;
-          setSchoolData(parsedData);
-          setLat(Number(parsedData?.latitude));
-          setLng(Number(parsedData?.longitude));
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/school/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(school),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        const parsedData = await responseData.school;
+        setSchoolData(parsedData);
+        setLat(Number(parsedData?.latitude));
+        setLng(Number(parsedData?.longitude));
       }
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  //get studyspot data
-  useEffect(() => {
-    const fetchMoreData = async () => {
-      try {
-        const response = await fetch('/api/studySpots/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(school),
-        });
-        if (response.ok) {
-          const responseData = await response.json();
-          const parsedData = await responseData.spots;
-          setSpotsData(parsedData);
-          setSortedData(parsedData);
-          setFilteredData(parsedData);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchSpotsData = async () => {
+    try {
+      const response = await fetch('/api/studySpots/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(school),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        const parsedData = await responseData.spots;
+        setSpotsData(parsedData);
+        setFilteredData(parsedData);
       }
-    };
-    fetchMoreData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // load school map
-  useEffect(() => {
-    if (lat != 0 && lng != 0) {
+  const loadMap = () => {
+    if (lat !== 0 && lng !== 0) {
       mapboxgl.accessToken = mapboxToken ?? '';
       if (!mapContainer.current || map.current) {
         return;
@@ -116,89 +100,41 @@ const School = ({ params: { school } }: Props) => {
       map.current?.scrollZoom.disable();
       map.current?.addControl(new mapboxgl.NavigationControl());
     }
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [schoolData]);
-
-  //load studyspot markers on nmap
-  useEffect(() => {
-    spotsData?.forEach((spot) => {
+  const loadStudySpotMarkers = () => {
+    spotsData.forEach((spot) => {
       if (map.current)
         new mapboxgl.Marker({ color: '#ff735c' })
           .setLngLat([Number(spot.longitude), Number(spot.latitude)])
           .addTo(map.current);
     });
+  };
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotsData]);
+  const handleSortFilterCategory = () => {
+    let newData = [...spotsData];
 
-  //interactivity with map
-  map.current?.on('move', () => {
-    setLng(
-      (prevLng: number) =>
-        Number(map.current?.getCenter().lng.toFixed(4)) ?? prevLng
-    );
-    setLat(
-      (prevLat: number) =>
-        Number(map.current?.getCenter().lat.toFixed(4)) ?? prevLat
-    );
-    setZoom(
-      (prevZoom: number) =>
-        Number(map.current?.getZoom().toFixed(2)) ?? prevZoom
-    );
-  });
-
-  //sorting
-  useEffect(() => {
-    const sortByRating = (data: StudySpot[]) => {
-      const sortData = [...data];
-      sortData.sort((a, b) => {
-        const ratingA = a.rating ?? 0;
-        const ratingB = b.rating ?? 0;
-        return ratingB - ratingA;
-      });
-      return sortData;
-    };
-    const sortByReivews = (data: StudySpot[]) => {
-      const sortData = [...data];
-      sortData.sort((a, b) => b.reviewCount - a.reviewCount);
-      return sortData;
-    };
-    if (sort == 'rated') {
-      setSortedData(sortByRating(spotsData));
-      // setFilteredData(sortByRating(filteredData));
-    } else if (sort == 'reviewed') {
-      setSortedData(sortByReivews(spotsData));
-      // setSortedData(sortByReivews(filteredData));
-    } else {
-      setSortedData(spotsData);
+    // Sorting
+    if (sort === 'rated') {
+      newData.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+    } else if (sort === 'reviewed') {
+      newData.sort((a, b) => b.reviewCount - a.reviewCount);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sort]);
 
-  //filtering
-  useEffect(() => {
-    const filterData = (data: StudySpot[]) => {
-      const filtered = data.filter((spot) => {
-        for (const filter of filters) {
-          if (filter === 'studyResources') {
-            if (spot.studyResources.length === 0) return false;
-          } else if (!spot[filter as keyof StudySpot]) {
-            return false;
-          }
+    // Filtering
+    newData = newData.filter((spot) => {
+      for (const filter of filters) {
+        if (filter === 'studyResources') {
+          if (spot.studyResources.length === 0) return false;
+        } else if (!spot[filter as keyof StudySpot]) {
+          return false;
         }
-        return true;
-      });
-      setFilteredData(filtered);
-    };
+      }
+      return true;
+    });
 
-    filterData(sortedData);
-  }, [filters, sortedData]);
-
-  //Categories
-  useEffect(() => {
-    // Filter the data based on the active categories
-    const filteredData = sortedData.filter((spot) => {
+    // Category filtering
+    newData = newData.filter((spot) => {
       if (
         (cafeActive && spot.category === 'cafe') ||
         (libraryActive && spot.category === 'library') ||
@@ -208,7 +144,6 @@ const School = ({ params: { school } }: Props) => {
       ) {
         return true;
       }
-      // If none of the categories are active, include the spot
       if (
         !(
           cafeActive ||
@@ -223,17 +158,39 @@ const School = ({ params: { school } }: Props) => {
       return false;
     });
 
-    // Update the filtered data state
-    setFilteredData(filteredData);
+    setFilteredData(newData);
+    setSortedData(newData);
+  };
+
+  useEffect(() => {
+    fetchData();
+    fetchSpotsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    loadMap();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lat, lng]);
+
+  useEffect(() => {
+    loadStudySpotMarkers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spotsData]);
+
+  useEffect(() => {
+    handleSortFilterCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    sortedData,
+    sort,
+    filters,
     cafeActive,
     libraryActive,
     publicSpaceActive,
     workAreaActive,
     otherActive,
   ]);
-  //handle all of the sorting/filtering
+
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSort = e.target.value;
     setSort(newSort);
@@ -253,28 +210,26 @@ const School = ({ params: { school } }: Props) => {
     if (index === -1) {
       setCategories((prevCategories) => [...prevCategories, category]);
     } else {
-      setFilters((prevCategories) =>
+      setCategories((prevCategories) =>
         prevCategories.filter((c) => c !== category)
       );
     }
 
     switch (category) {
       case 'cafe':
-        cafeActive ? setCafeActive(false) : setCafeActive(true);
+        setCafeActive(!cafeActive);
         break;
       case 'library':
-        libraryActive ? setLibraryActive(false) : setLibraryActive(true);
+        setLibraryActive(!libraryActive);
         break;
       case 'public space':
-        publicSpaceActive
-          ? setPublicSpaceActive(false)
-          : setPublicSpaceActive(true);
+        setPublicSpaceActive(!publicSpaceActive);
         break;
       case 'work area':
-        workAreaActive ? setWorkAreaActive(false) : setWorkAreaActive(true);
+        setWorkAreaActive(!workAreaActive);
         break;
       case 'other':
-        otherActive ? setOtherActive(false) : setOtherActive(true);
+        setOtherActive(!otherActive);
         break;
       default:
         break;
@@ -467,7 +422,9 @@ const School = ({ params: { school } }: Props) => {
             </div> */}
             <div>
               <h1 className="header">{schoolData?.name} study spots</h1>
-              <h3>{spotsData && `${spotsData?.length} places to study`}</h3>
+              <h3>
+                {filteredData && `${filteredData?.length} places to study`}
+              </h3>
             </div>
             <Link
               href={`/school/${schoolData?.id}/add/${schoolData?.id}/`}
