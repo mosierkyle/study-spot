@@ -6,25 +6,31 @@ import Image from 'next/image';
 import upload from '../../../public/upload3.png';
 import x from '../../../public/x2.png';
 import { School } from '@prisma/client';
+import filledStar from '../../../public/regularStar.png';
+import unfilledStar from '../../../public/unfilledStar.png';
 
 interface StudySpotFormProps {
   schoolData: School | null;
 }
 
 const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
-  const [formPage, setFormPage] = useState<number>(1);
+  const [formPage, setFormPage] = useState<number>(2);
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [photos, setPhotos] = useState<File[]>([]);
-  const [wifi, setWifi] = useState<string>('');
-  const [noiseLevel, setNoiseLevel] = useState<string>('');
-  const [seating, setSeating] = useState<string>('');
-  const [hours, setHours] = useState<string>('');
-  const [restrooms, setRestrooms] = useState<string>('');
+  const [wifi, setWifi] = useState<boolean | undefined>(undefined);
+  const [category, setCategory] = useState<string>('');
+  const [selectedRating, setSelectedRating] = useState<number>(0);
+  const [storedRating, setStoredRating] = useState<number>(0);
+  const [onCampus, setOnCampus] = useState<boolean | undefined>(undefined);
+  const [hours, setHours] = useState<boolean | undefined>(undefined);
+  const [user, setUser] = useState<string>('');
+  const [restrooms, setRestrooms] = useState<boolean | undefined>(undefined);
   const [description, setDescription] = useState<string>('');
   const [resources, setResources] = useState<string[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
   const [photoURLs, setPhotoURLs] = useState<string[]>([]);
+  const [awsURLs, setAwsURLs] = useState<string[]>([]);
 
   const handleFileInput = () => {
     const fileInput =
@@ -83,24 +89,36 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
     setAddress(e.target.value);
   };
 
+  const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCategory(e.target.value);
+  };
+
+  const handleOnCampusChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value == 'Yes' ? setOnCampus(true) : setOnCampus(false);
+  };
+
   const handleWifiChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setWifi(e.target.value);
+    e.target.value == 'Yes' ? setWifi(true) : setWifi(false);
   };
 
-  const handleNoiseLevelChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNoiseLevel(e.target.value);
-  };
-
-  const handleSeatingChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSeating(e.target.value);
-  };
-
-  const handleHoursChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setHours(e.target.value);
+  const handleHoursChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.value == 'Yes' ? setHours(true) : setHours(false);
   };
 
   const handleRestroomsChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRestrooms(e.target.value);
+    e.target.value == 'Yes' ? setRestrooms(true) : setRestrooms(false);
+  };
+
+  const handleStarClick = (rating: number) => {
+    setSelectedRating(rating);
+    setStoredRating(rating);
+  };
+
+  const handleStarHover = (rating: number) => {
+    setSelectedRating(rating);
+  };
+  const handleStarLeave = (rating: number) => {
+    setSelectedRating(storedRating);
   };
 
   const handleResourcesChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -114,8 +132,43 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
     }
   };
   const handleSubmit = async (e: FormEvent) => {
-    console.log('hello');
-    savePhotos();
+    e.preventDefault();
+    await savePhotos();
+    const studySpotData = {
+      name,
+      description,
+      address,
+      photos: awsURLs,
+      wifi,
+      rating: selectedRating,
+      hour24: hours,
+      category,
+      onCampus,
+      restrooms,
+      resources,
+      schoolId: schoolData?.id || '',
+      userId: user,
+    };
+
+    try {
+      const response = await fetch('/api/createStudySpot/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(studySpotData),
+      });
+
+      if (response.ok) {
+        // Handle success
+        console.log('Study spot created successfully');
+      } else {
+        // Handle failure
+        console.error('Failed to create study spot');
+      }
+    } catch (error) {
+      console.error('Error creating study spot:', error);
+    }
   };
 
   const savePhotos = async () => {
@@ -131,7 +184,8 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
 
         if (uploadResponse.ok) {
           const { fileURL } = await uploadResponse.json();
-          setPhotoURLs((prevURLs) => [...prevURLs, fileURL]);
+          console.log(fileURL);
+          setAwsURLs((prevURLs) => [...prevURLs, fileURL]);
         } else {
           console.error(`Failed to get photo URLs ${i}`);
         }
@@ -271,6 +325,141 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
         <div className={styles.formPage2}>
           {formError && <p className={styles.formError}>{formError}</p>}
           <div className={styles.inputDiv}>
+            <label htmlFor="resources" className={styles.header}>
+              Rating
+            </label>
+            <p className={styles.desc}>Provide a rating for your study spot</p>
+            <div className={styles.stars}>
+              {[1, 2, 3, 4, 5].map((rating) => {
+                const isFilled = rating <= (selectedRating || 0);
+                return (
+                  <>
+                    {isFilled ? (
+                      <span
+                        key={rating}
+                        className={styles.star}
+                        onClick={() => handleStarClick(rating)}
+                        onMouseEnter={() => handleStarHover(rating)}
+                        onMouseLeave={() => handleStarLeave(selectedRating)}
+                      >
+                        <Image src={filledStar} alt={`star-${rating}`} />
+                      </span>
+                    ) : (
+                      <span
+                        key={rating}
+                        className={styles.starEmpty}
+                        onClick={() => handleStarClick(rating)}
+                        onMouseEnter={() => handleStarHover(rating)}
+                        onMouseLeave={() => handleStarLeave(selectedRating)}
+                      >
+                        <Image src={unfilledStar} alt={`star-${rating}`} />
+                      </span>
+                    )}
+                  </>
+                );
+              })}
+            </div>
+          </div>
+          <div className={styles.inputDiv}>
+            <label htmlFor="restrooms" className={styles.header}>
+              Category
+            </label>
+            <p className={styles.desc}>
+              What type of study spot is this? (required)
+            </p>
+            <fieldset className={styles.multipleChoice} name="category">
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="category"
+                  value="cafe"
+                  checked={category === 'cafe'}
+                  onChange={handleCategoryChange}
+                  required
+                />
+                Cafe
+              </label>
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="category"
+                  value="library"
+                  checked={category === 'library'}
+                  onChange={handleCategoryChange}
+                />
+                Library
+              </label>
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="category"
+                  value="public space"
+                  checked={category === 'public space'}
+                  onChange={handleCategoryChange}
+                />
+                Public Space
+              </label>
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="category"
+                  value="work area"
+                  checked={category === 'work area'}
+                  onChange={handleCategoryChange}
+                />
+                Work Area
+              </label>
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="category"
+                  value="other"
+                  checked={category === 'other'}
+                  onChange={handleCategoryChange}
+                />
+                Other
+              </label>
+            </fieldset>
+          </div>
+          <div className={styles.inputDiv}>
+            <label htmlFor="onCampus" className={styles.header}>
+              On Campus
+            </label>
+            <p className={styles.desc}>
+              Is your study spot located on campus? (required)
+            </p>
+            <fieldset className={styles.multipleChoice} name="onCampus">
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="onCampus"
+                  value="Yes"
+                  checked={onCampus === true}
+                  onChange={handleOnCampusChange}
+                  required
+                />
+                Yes
+              </label>
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="onCampus"
+                  value="No"
+                  checked={onCampus === false}
+                  onChange={handleOnCampusChange}
+                />
+                No
+              </label>
+            </fieldset>
+          </div>
+          <div className={styles.inputDiv}>
             <label htmlFor="wifi" className={styles.header}>
               Free Wifi
             </label>
@@ -284,7 +473,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
                   type="radio"
                   name="free wifi"
                   value="Yes"
-                  checked={wifi === 'Yes'}
+                  checked={wifi === true}
                   onChange={handleWifiChange}
                   required
                 />
@@ -296,7 +485,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
                   type="radio"
                   name="free wifi"
                   value="No"
-                  checked={wifi === 'No'}
+                  checked={wifi === false}
                   onChange={handleWifiChange}
                 />
                 No
@@ -304,51 +493,37 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
             </fieldset>
           </div>
           <div className={styles.inputDiv}>
-            <label htmlFor="noise level" className={styles.header}>
-              Noise Level
+            <label htmlFor="wifi" className={styles.header}>
+              Open 24 Hours
             </label>
             <p className={styles.desc}>
-              Share how the noise level is at your study spot. (required)
+              Is your study spot open 24 hours a day? (required)
             </p>
-            <input
-              type="text"
-              name="noise level"
-              required
-              className={styles.input}
-              value={noiseLevel}
-              onChange={handleNoiseLevelChange}
-            />
-          </div>
-          <div className={styles.inputDiv}>
-            <label htmlFor="seating" className={styles.header}>
-              Seating Capacity
-            </label>
-            <p className={styles.desc}>
-              Share how much seating there is at your study spot. (required)
-            </p>
-            <input
-              type="text"
-              name="seating"
-              required
-              className={styles.input}
-              value={seating}
-              onChange={handleSeatingChange}
-            />
-          </div>
-          <div className={styles.inputDiv}>
-            <label htmlFor="hours" className={styles.header}>
-              Hours
-            </label>
-            <p className={styles.desc}>
-              What are the hours like at your study spot.
-            </p>
-            <textarea
-              value={hours}
-              onChange={handleHoursChange}
-              name="hours"
-              required
-              className={styles.textArea}
-            />
+            <fieldset className={styles.multipleChoice} name="hour24">
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="hour24"
+                  value="Yes"
+                  checked={hours === true}
+                  onChange={handleHoursChange}
+                  required
+                />
+                Yes
+              </label>
+              <label className={styles.optionLabel}>
+                <input
+                  className={styles.option}
+                  type="radio"
+                  name="hour24"
+                  value="No"
+                  checked={hours === false}
+                  onChange={handleHoursChange}
+                />
+                No
+              </label>
+            </fieldset>
           </div>
           <div className={styles.inputDiv}>
             <label htmlFor="restrooms" className={styles.header}>
@@ -364,7 +539,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
                   type="radio"
                   name="restrooms"
                   value="Yes"
-                  checked={restrooms === 'Yes'}
+                  checked={restrooms === true}
                   onChange={handleRestroomsChange}
                   required
                 />
@@ -376,7 +551,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
                   type="radio"
                   name="restrooms"
                   value="No"
-                  checked={restrooms === 'No'}
+                  checked={restrooms === false}
                   onChange={handleRestroomsChange}
                 />
                 No
@@ -464,7 +639,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
               type="button"
               className={styles.next}
               onClick={() => {
-                if (!wifi || !noiseLevel || !seating || !restrooms) {
+                if (!wifi || !restrooms) {
                   setFormError('Please fill out all of the required fields');
                   window.scrollTo(0, 400);
                   return;
@@ -504,11 +679,11 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
               </div>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Noise Level</p>
-                <p className={styles.inputPreview}>{noiseLevel}</p>
+                <p className={styles.inputPreview}>{'hi'}</p>
               </div>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Seating Capacity</p>
-                <p className={styles.inputPreview}>{seating}</p>
+                <p className={styles.inputPreview}>{'hi'}</p>
               </div>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Hours</p>

@@ -1,33 +1,20 @@
 import { prisma } from '@/lib/prisma';
-import type { Prisma, StudySpot } from '@prisma/client';
-import { hash } from 'bcrypt';
+import type { StudySpot } from '@prisma/client';
 import getLatLong from './getLatLong';
-
-// const [formPage, setFormPage] = useState<number>(1);
-//   const [name, setName] = useState<string>('');
-//   const [address, setAddress] = useState<string>('');
-//   const [photos, setPhotos] = useState<File[]>([]);
-//   const [wifi, setWifi] = useState<string>('');
-//   const [noiseLevel, setNoiseLevel] = useState<string>('');
-//   const [seating, setSeating] = useState<string>('');
-//   const [hours, setHours] = useState<string>('');
-//   const [restrooms, setRestrooms] = useState<string>('');
-//   const [description, setDescription] = useState<string>('');
-//   const [resources, setResources] = useState<string[]>([]);
-//   const [formError, setFormError] = useState<string | null>(null);
-//   const [photoURLs, setPhotoURLs] = useState<string[]>([]);
 
 interface CreateSpotProps {
   name: string;
   description: string;
   address: string;
   photos?: string[];
-  wifi: string;
+  wifi: boolean;
   noiseLevel: string;
   seating: string;
-  hours?: string;
-  restrooms: string;
-  resources?: string[];
+  hour24?: boolean;
+  restrooms: boolean;
+  rating?: number;
+  onCampus?: boolean;
+  studyResources?: string[];
   schoolId: string;
   userId: string;
 }
@@ -39,11 +26,11 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
     address,
     photos,
     wifi,
-    noiseLevel,
-    seating,
-    hours,
+    hour24,
     restrooms,
-    resources,
+    rating,
+    onCampus,
+    studyResources,
     schoolId,
     userId,
   } = props;
@@ -66,16 +53,17 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
       name: name,
       address: address,
       description: description,
-      schoolId,
-      userId,
+      schoolId: schoolId,
+      userId: userId,
       latitude: location[1],
       longitude: location[0],
+      photos: photos ?? [],
       wifi: wifi,
-      noiseLevel: noiseLevel,
-      hours: hours,
-      seating: seating,
+      hour24: hour24 ?? false,
       restrooms: restrooms,
-      studyResources: resources,
+      rating: rating ?? 0,
+      onCampus: onCampus ?? true,
+      studyResources: studyResources ?? [],
     },
   });
   console.log(studyspot);
