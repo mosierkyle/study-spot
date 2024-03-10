@@ -17,8 +17,6 @@ model StudySpot {
   photos          String[]
   category        String?
   wifi            Boolean?
-  noiseLevel      String?
-  seating         String?
   hour24          Boolean?
   restrooms       Boolean?
   rating          Float?
