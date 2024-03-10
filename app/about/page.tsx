@@ -21,6 +21,7 @@ interface Props {
   };
 }
 import Stars from '../components/stars/stars';
+import Image from 'next/image';
 
 const About = () => {
   return (
