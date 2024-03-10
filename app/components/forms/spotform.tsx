@@ -114,50 +114,30 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
     }
   };
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+    console.log('hello');
+    savePhotos();
   };
 
   const savePhotos = async () => {
-    const formData = new FormData();
-    try {
-      photos.forEach((photo, index) => {
-        formData.append(`photo${index}`, photo);
-      });
+    for (let i = 0; i < photos.length; i++) {
+      const file = photos[i];
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const uploadResponse = await fetch('/api/uploadPhotoSpot/', {
+          method: 'POST',
+          body: formData,
+        });
 
-      const response = await fetch('/api/uploadPhoto/', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to generate signed URLs');
-      }
-
-      const signedUrls = await response.json();
-
-      for (let i = 0; i < photos.length; i++) {
-        const file = photos[i];
-        const signedUrl = signedUrls.signedUrls[i];
-        console.log(signedUrl);
-        try {
-          const uploadResponse = await fetch(signedUrl, {
-            method: 'POST',
-            body: file,
-            headers: {
-              'Content-Type': 'image/jpeg', // Adjust content type as needed
-            },
-          });
-          // console.log(uploadResponse.body);
-
-          if (!uploadResponse.ok) {
-            console.error(`Failed to upload photo ${i}`);
-          }
-        } catch (error) {
-          console.error(`Error uploading photo ${i}:`, error);
+        if (uploadResponse.ok) {
+          const { fileURL } = await uploadResponse.json();
+          setPhotoURLs((prevURLs) => [...prevURLs, fileURL]);
+        } else {
+          console.error(`Failed to get photo URLs ${i}`);
         }
+      } catch (error) {
+        console.error(`Error uploading photo ${i}:`, error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
