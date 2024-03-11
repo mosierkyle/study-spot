@@ -7,6 +7,7 @@ interface CreateSpotProps {
   description: string;
   address: string;
   photos?: string[];
+  category: string;
   wifi: boolean;
   noiseLevel: string;
   seating: string;
@@ -14,7 +15,7 @@ interface CreateSpotProps {
   restrooms: boolean;
   rating?: number;
   onCampus?: boolean;
-  studyResources?: string[];
+  resources?: string[];
   schoolId: string;
   userId: string;
 }
@@ -26,11 +27,12 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
     address,
     photos,
     wifi,
+    category,
     hour24,
     restrooms,
     rating,
     onCampus,
-    studyResources,
+    resources,
     schoolId,
     userId,
   } = props;
@@ -57,13 +59,14 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
       userId: userId,
       latitude: `${location[1]}`,
       longitude: `${location[0]}`,
+      category: category,
       photos: photos ?? [],
       wifi: wifi,
       hour24: hour24 ?? false,
       restrooms: restrooms,
       rating: rating ?? 0,
       onCampus: onCampus ?? true,
-      studyResources: studyResources ?? [],
+      studyResources: resources ?? [],
     },
     include: { school: true },
   });
