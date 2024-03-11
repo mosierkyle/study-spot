@@ -220,13 +220,14 @@
   padding: 10px 15px;
   border-radius: 5px;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(0, 0, 0, 0.8);
   font-weight: 500;
   border: 2px solid rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 0.95rem;
 }
 
 .sort:hover {
@@ -390,4 +391,10 @@
   text-decoration: underline;
   color: #ff735c;
   cursor: pointer;
+}
+
+.toStudy {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  margin-left: 2px;
 }

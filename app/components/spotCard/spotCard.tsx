@@ -5,6 +5,9 @@ import library from '../../../public/schools/library.jpg';
 import { StudySpot, Review } from '@prisma/client';
 import Link from 'next/link';
 import Stars from '../stars/stars';
+import study from '../../../public/study3.jpg';
+import StudySpotForm from '../forms/spotform';
+import back from '../../../public/back.png';
 
 interface spotCardFormProps {
   spotData: StudySpot | null;
@@ -12,38 +15,50 @@ interface spotCardFormProps {
 
 const SpotCard: React.FC<spotCardFormProps> = ({ spotData }) => {
   const [reviewData, setReviewData] = useState<Review[] | null>(null);
+  const [imageDisplay, setImageDisplay] = useState<number>(0);
 
-  useEffect(() => {
-    const fetchMoreData = async () => {
-      try {
-        const response = await fetch('/api/reviews/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(spotData?.id),
-        });
-        if (response.ok) {
-          const responseData = await response.json();
-          const parsedData = await responseData.reviews;
-          setReviewData(parsedData);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchMoreData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleImageChange = (side: number) => {
+    setImageDisplay((prev) => prev + side);
+  };
 
   return (
-    <Link className={styles.link} href={`/studyspot/${spotData?.id}`}>
-      <div className={styles.spot}>
+    <div className={styles.link}>
+      {imageDisplay >= 1 && (
+        <div
+          className={styles.buttonLeftDiv}
+          onClick={() => handleImageChange(-1)}
+        >
+          <Image
+            className={styles.buttonLeft}
+            src={back}
+            alt="left"
+            width={22}
+            height={22}
+          />
+        </div>
+      )}
+      {imageDisplay < (spotData?.photos.length ?? 0) - 1 && (
+        <div
+          className={styles.buttonRightDiv}
+          onClick={() => handleImageChange(1)}
+        >
+          <Image
+            className={styles.buttonRight}
+            src={back}
+            alt="left"
+            width={22}
+            height={22}
+          />
+        </div>
+      )}
+      <Link href={`/studyspot/${spotData?.id}`} className={styles.spot}>
         <div className={styles.photos}>
           <Image
             alt="school header"
             className={styles.spotPhoto}
-            src={library}
+            src={spotData?.photos[imageDisplay] ?? study}
+            width={2000}
+            height={2000}
           />
         </div>
         <div className={styles.info}>
@@ -56,11 +71,11 @@ const SpotCard: React.FC<spotCardFormProps> = ({ spotData }) => {
           </div>
           <p
             className={styles.spotReviews}
-          >{`${reviewData?.length} reviews`}</p>
+          >{`${spotData?.reviewCount} reviews`}</p>
           <p className={styles.spotAddress}>{spotData?.address}</p>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 
