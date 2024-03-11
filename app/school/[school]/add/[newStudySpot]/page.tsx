@@ -1,6 +1,6 @@
 'use client';
 
-import type { Prisma, School } from '@prisma/client';
+import type { Prisma, School, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useSession, getSession } from 'next-auth/react';
 import { useEffect, useState, useRef } from 'react';
@@ -23,6 +23,7 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState<Boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,8 +37,11 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
         });
         if (response.ok) {
           const responseData = await response.json();
+          console.log(responseData);
           const parsedData = await responseData.school;
+          const parsedUser = await responseData.user;
           setSchool(parsedData);
+          setUser(parsedUser);
         }
       } catch (error) {
         console.error(error);
@@ -90,12 +94,11 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
               width={29}
             />
             <p className={styles.backText}>
-              {' '}
               {!school?.name ? 'School' : school?.name} study spots
             </p>
           </div>
         </div>
-        <StudySpotForm schoolData={school} />
+        <StudySpotForm userData={user} schoolData={school} />
       </section>
     </div>
   );
