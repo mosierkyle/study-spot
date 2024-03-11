@@ -425,9 +425,9 @@ const School = ({ params: { school } }: Props) => {
             </div> */}
             <div>
               <h1 className="header">{schoolData?.name} study spots</h1>
-              <h3>
+              <p className={styles.toStudy}>
                 {filteredData && `${filteredData?.length} places to study`}
-              </h3>
+              </p>
             </div>
             <Link
               href={`/school/${schoolData?.id}/add/${schoolData?.id}/`}
