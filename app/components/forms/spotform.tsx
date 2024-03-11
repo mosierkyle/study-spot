@@ -1,20 +1,24 @@
 'use client';
 
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 import upload from '../../../public/upload3.png';
 import x from '../../../public/x2.png';
-import { School } from '@prisma/client';
+import { School, User } from '@prisma/client';
 import filledStar from '../../../public/regularStar.png';
 import unfilledStar from '../../../public/unfilledStar.png';
 
 interface StudySpotFormProps {
   schoolData: School | null;
+  userData: User | null;
 }
 
-const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
-  const [formPage, setFormPage] = useState<number>(2);
+const StudySpotForm: React.FC<StudySpotFormProps> = ({
+  schoolData,
+  userData,
+}) => {
+  const [formPage, setFormPage] = useState<number>(1);
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [photos, setPhotos] = useState<File[]>([]);
@@ -24,7 +28,6 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
   const [storedRating, setStoredRating] = useState<number>(0);
   const [onCampus, setOnCampus] = useState<boolean | undefined>(undefined);
   const [hours, setHours] = useState<boolean | undefined>(undefined);
-  const [user, setUser] = useState<string>('');
   const [restrooms, setRestrooms] = useState<boolean | undefined>(undefined);
   const [description, setDescription] = useState<string>('');
   const [resources, setResources] = useState<string[]>([]);
@@ -131,47 +134,60 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
       );
     }
   };
+
+  //submit funcitonality
+  useEffect(() => {
+    const saveSpot = async () => {
+      const studySpotData = {
+        name,
+        description,
+        address,
+        photos: awsURLs,
+        wifi,
+        rating: selectedRating,
+        hour24: hours,
+        category,
+        onCampus,
+        restrooms,
+        resources,
+        schoolId: schoolData?.id,
+        userId: userData?.id,
+      };
+      console.log(studySpotData);
+
+      try {
+        const response = await fetch('/api/createStudySpot/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(studySpotData),
+        });
+
+        if (response.ok) {
+          // Handle success
+          console.log('Study spot created successfully');
+        } else {
+          // Handle failure
+          console.error('Failed to create study spot');
+        }
+      } catch (error) {
+        console.error('Error creating study spot:', error);
+      }
+    };
+    if (awsURLs.length != 0) {
+      saveSpot();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [awsURLs]);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await savePhotos();
-    const studySpotData = {
-      name,
-      description,
-      address,
-      photos: awsURLs,
-      wifi,
-      rating: selectedRating,
-      hour24: hours,
-      category,
-      onCampus,
-      restrooms,
-      resources,
-      schoolId: schoolData?.id || '',
-      userId: user,
-    };
-
-    try {
-      const response = await fetch('/api/createStudySpot/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(studySpotData),
-      });
-
-      if (response.ok) {
-        // Handle success
-        console.log('Study spot created successfully');
-      } else {
-        // Handle failure
-        console.error('Failed to create study spot');
-      }
-    } catch (error) {
-      console.error('Error creating study spot:', error);
-    }
   };
 
   const savePhotos = async () => {
+    const urls: string[] = [];
     for (let i = 0; i < photos.length; i++) {
       const file = photos[i];
       const formData = new FormData();
@@ -184,8 +200,8 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
 
         if (uploadResponse.ok) {
           const { fileURL } = await uploadResponse.json();
-          console.log(fileURL);
-          setAwsURLs((prevURLs) => [...prevURLs, fileURL]);
+          // console.log(fileURL);
+          urls.push(fileURL);
         } else {
           console.error(`Failed to get photo URLs ${i}`);
         }
@@ -193,6 +209,8 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({ schoolData }) => {
         console.error(`Error uploading photo ${i}:`, error);
       }
     }
+    console.log(urls);
+    setAwsURLs(urls);
   };
 
   return (

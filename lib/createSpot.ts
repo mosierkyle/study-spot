@@ -55,8 +55,8 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
       description: description,
       schoolId: schoolId,
       userId: userId,
-      latitude: location[1],
-      longitude: location[0],
+      latitude: `${location[1]}`,
+      longitude: `${location[0]}`,
       photos: photos ?? [],
       wifi: wifi,
       hour24: hour24 ?? false,
@@ -65,6 +65,7 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
       onCampus: onCampus ?? true,
       studyResources: studyResources ?? [],
     },
+    include: { school: true },
   });
   console.log(studyspot);
   return studyspot;

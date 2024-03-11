@@ -1,6 +1,6 @@
 'use client';
 
-import { School, StudySpot } from '@prisma/client';
+import { School, StudySpot, User } from '@prisma/client';
 import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,6 +35,7 @@ const School = ({ params: { school } }: Props) => {
   const [publicSpaceActive, setPublicSpaceActive] = useState(false);
   const [workAreaActive, setWorkAreaActive] = useState(false);
   const [otherActive, setOtherActive] = useState(false);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const onCampusRef = useRef<HTMLInputElement>(null);
   const freeWifiRef = useRef<HTMLInputElement>(null);
@@ -54,9 +55,11 @@ const School = ({ params: { school } }: Props) => {
       if (response.ok) {
         const responseData = await response.json();
         const parsedData = await responseData.school;
+        const parsedUser = await responseData.user;
         setSchoolData(parsedData);
         setLat(Number(parsedData?.latitude));
         setLng(Number(parsedData?.longitude));
+        setUser(parsedUser);
       }
     } catch (error) {
       console.error(error);
