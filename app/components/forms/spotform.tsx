@@ -8,6 +8,8 @@ import x from '../../../public/x2.png';
 import { School, User } from '@prisma/client';
 import filledStar from '../../../public/regularStar.png';
 import unfilledStar from '../../../public/unfilledStar.png';
+import ReviewStars from '../reviewStars/reviewStars';
+import { useRouter } from 'next/navigation';
 
 interface StudySpotFormProps {
   schoolData: School | null;
@@ -18,6 +20,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({
   schoolData,
   userData,
 }) => {
+  const router = useRouter();
   const [formPage, setFormPage] = useState<number>(1);
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
@@ -177,6 +180,7 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({
     };
     if (awsURLs.length != 0) {
       saveSpot();
+      router.push(`/school/${schoolData?.id}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [awsURLs]);
@@ -332,9 +336,6 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({
             >
               Next
             </button>
-            <button type="button" onClick={handleSubmit}>
-              WORKING
-            </button>
           </div>
         </div>
       )}
@@ -346,7 +347,9 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({
             <label htmlFor="resources" className={styles.header}>
               Rating
             </label>
-            <p className={styles.desc}>Provide a rating for your study spot</p>
+            <p className={styles.desc}>
+              Provide a rating for your study spot. (required)
+            </p>
             <div className={styles.stars}>
               {[1, 2, 3, 4, 5].map((rating) => {
                 const isFilled = rating <= (selectedRating || 0);
@@ -657,7 +660,23 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({
               type="button"
               className={styles.next}
               onClick={() => {
-                if (!wifi || !restrooms) {
+                console.log(
+                  wifi,
+                  restrooms,
+                  selectedRating,
+                  category,
+                  onCampus,
+                  hours,
+                  resources
+                );
+                if (
+                  wifi == undefined ||
+                  restrooms == undefined ||
+                  selectedRating == 0 ||
+                  category == '' ||
+                  onCampus == undefined ||
+                  hours == undefined
+                ) {
                   setFormError('Please fill out all of the required fields');
                   window.scrollTo(0, 400);
                   return;
@@ -690,26 +709,29 @@ const StudySpotForm: React.FC<StudySpotFormProps> = ({
                 <p className={styles.inputPreviewName}>Address </p>
                 <p className={styles.inputPreview}>{address}</p>
               </div>
-
+              <div className={styles.inputPreviewDiv}>
+                <p className={styles.inputPreviewName}>Rating</p>
+                <div className={styles.reviewStarsDiv}>
+                  <ReviewStars rating={selectedRating ?? null} />
+                </div>
+              </div>
+              <div className={styles.inputPreviewDiv}>
+                <p className={styles.inputPreviewName}>Category</p>
+                <p className={styles.inputPreview}>{category}</p>
+              </div>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Free Wifi</p>
-                <p className={styles.inputPreview}>{wifi}</p>
+                <p className={styles.inputPreview}>{wifi ? 'Yes' : 'No'}</p>
               </div>
               <div className={styles.inputPreviewDiv}>
-                <p className={styles.inputPreviewName}>Noise Level</p>
-                <p className={styles.inputPreview}>{'hi'}</p>
-              </div>
-              <div className={styles.inputPreviewDiv}>
-                <p className={styles.inputPreviewName}>Seating Capacity</p>
-                <p className={styles.inputPreview}>{'hi'}</p>
-              </div>
-              <div className={styles.inputPreviewDiv}>
-                <p className={styles.inputPreviewName}>Hours</p>
-                <p className={styles.inputPreview}>{hours}</p>
+                <p className={styles.inputPreviewName}>Open 24 hours</p>
+                <p className={styles.inputPreview}>{hours ? 'Yes' : 'No'}</p>
               </div>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Public Restrooms</p>
-                <p className={styles.inputPreview}>{restrooms}</p>
+                <p className={styles.inputPreview}>
+                  {restrooms ? 'Yes' : 'No'}
+                </p>
               </div>
               <div className={styles.inputPreviewDiv}>
                 <p className={styles.inputPreviewName}>Study Resources</p>

@@ -19,6 +19,7 @@ export async function POST(
   try {
     const data = JSON.parse(await streamToString(req.body));
     const spot = data;
+    console.log(data);
     await createSpot(spot);
     return NextResponse.json({ spot: spot }, { status: 200 });
   } catch (error: any) {
