@@ -62,9 +62,26 @@ const ReviewCard: React.FC<reviewCardProps> = ({ reviewData }) => {
       </div>
       <div className={styles.photos}>
         {' '}
-        <Image src={photo} alt="photos" className={styles.camera} />2 photos
+        <Image src={photo} alt="photos" className={styles.camera} />
+        {reviewData?.photos.length}{' '}
+        {reviewData?.photos.length == 1 ? 'photo' : 'photos'}
       </div>
       <div className={styles.contentSection}>{reviewData?.content}</div>
+      {reviewData?.photos.length != 0 && (
+        <div className={styles.photosDiv}>
+          {reviewData?.photos.map((url, index) => (
+            <div key={`photo-${url}`} className={styles.photoPreview}>
+              <Image
+                src={url}
+                alt={`Photo ${index + 1}`}
+                className={styles.uploadedPhotoPreview}
+                width={150}
+                height={300}
+              />
+            </div>
+          ))}
+        </div>
+      )}
       <div className={styles.likes}>
         <div className={styles.like} onClick={handleLike}>
           {liked ? (
