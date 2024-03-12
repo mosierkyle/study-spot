@@ -13,7 +13,7 @@ interface CreateSpotProps {
   seating: string;
   hour24?: boolean;
   restrooms: boolean;
-  rating?: number;
+  rating: number;
   onCampus?: boolean;
   resources?: string[];
   schoolId: string;
@@ -64,7 +64,7 @@ const createSpot = async (props: CreateSpotProps): Promise<StudySpot> => {
       wifi: wifi,
       hour24: hour24 ?? false,
       restrooms: restrooms,
-      rating: rating ?? 0,
+      rating: rating,
       onCampus: onCampus ?? true,
       studyResources: resources ?? [],
     },
