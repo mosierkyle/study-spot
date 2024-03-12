@@ -74,7 +74,7 @@
   justify-content: center;
   width: fit-content;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 15px;
   color: rgba(0, 0, 0, 0.8);
   font-size: 0.9rem;
   gap: 2px;
@@ -83,4 +83,33 @@
 
 .like:hover {
   cursor: pointer;
+}
+
+.photosDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.photoPreview {
+  max-height: 200px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  justify-content: flex-start;
+  overflow: visible;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.uploadedPhotoPreview {
+  object-fit: cover;
+  /* object-position: center; */
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  border-radius: 5px;
 }
