@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { useState, ChangeEvent, FormEvent, useRef, useEffect } from 'react';
 import styles from './page.module.css';
 import x from '../../../public/x.png';
 import Image from 'next/image';
@@ -15,39 +15,43 @@ interface ReviewFormProps {
   showReviewForm: boolean; //
   setShowReviewForm: React.Dispatch<React.SetStateAction<boolean>>;
   spotName: string | undefined;
+  spotId: string | undefined;
+  userId: string | undefined;
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
   showReviewForm,
   setShowReviewForm,
   spotName,
+  spotId,
+  userId,
 }) => {
-  const [error, setError] = useState<string | null>(null);
   const [reviewContent, setReviewContent] = useState<string>('');
   const [photos, setPhotos] = useState<File[]>([]);
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [storedRating, setStoredRating] = useState<number>(0);
   const [photoURLs, setPhotoURLs] = useState<string[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
+  const [awsURLs, setAwsURLs] = useState<string[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setReviewContent(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (selectedRating == 0) {
-      setFormError('Please select a rating');
-      scrollToForm();
-      return;
-    }
-    if (reviewContent == '') {
-      setFormError('Please write a review');
-      scrollToForm();
-      return;
-    }
-  };
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (selectedRating == 0) {
+  //     setFormError('Please select a rating');
+  //     scrollToForm();
+  //     return;
+  //   }
+  //   if (reviewContent == '') {
+  //     setFormError('Please write a review');
+  //     scrollToForm();
+  //     return;
+  //   }
+  // };
 
   const handleShowReviewForm = () => {
     showReviewForm ? setShowReviewForm(false) : setShowReviewForm(true);
@@ -122,6 +126,77 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const handleStarLeave = (rating: number) => {
     setSelectedRating(storedRating);
     console.log(rating);
+  };
+
+  //submit funcitonality
+  useEffect(() => {
+    const saveReview = async () => {
+      const reviewData = {
+        content: reviewContent,
+        rating: storedRating,
+        photos: awsURLs,
+        authorId: userId,
+        studySpotId: spotId,
+      };
+      console.log(reviewData);
+      try {
+        const response = await fetch('/api/createReview/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(reviewData),
+        });
+
+        if (response.ok) {
+          // Handle success
+          console.log('Review created successfully');
+        } else {
+          // Handle failure
+          console.error('Failed to create review');
+        }
+      } catch (error) {
+        console.error('Error creating review:', error);
+      }
+    };
+    if (awsURLs.length != 0) {
+      saveReview();
+      handleShowReviewForm();
+      window.location.reload;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [awsURLs]);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    await savePhotos();
+  };
+
+  const savePhotos = async () => {
+    const urls: string[] = [];
+    for (let i = 0; i < photos.length; i++) {
+      const file = photos[i];
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const uploadResponse = await fetch('/api/uploadPhotoReview/', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (uploadResponse.ok) {
+          const { fileURL } = await uploadResponse.json();
+          // console.log(fileURL);
+          urls.push(fileURL);
+        } else {
+          console.error(`Failed to get photo URLs ${i}`);
+        }
+      } catch (error) {
+        console.error(`Error uploading photo ${i}:`, error);
+      }
+    }
+    console.log(urls);
+    setAwsURLs(urls);
   };
 
   return (

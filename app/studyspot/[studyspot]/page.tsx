@@ -1,6 +1,6 @@
 'use client';
 
-import { Review, School, StudySpot } from '@prisma/client';
+import { Review, School, StudySpot, User } from '@prisma/client';
 import styles from './page.module.css';
 import { getSpot } from '@/lib/getSpot';
 import Image from 'next/image';
@@ -40,6 +40,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
   const [lng, setLng] = useState<string | null>(null);
   const [lat, setLat] = useState<string | null>(null);
   const [zoom, setZoom] = useState(15);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
 
@@ -56,9 +57,11 @@ const Spot = ({ params: { studyspot } }: Props) => {
         if (response.ok) {
           const responseData = await response.json();
           const parsedData = await responseData.spot;
+          const parsedUser = await responseData.user;
           setSpotData(parsedData);
           setLat(parsedData?.latitude);
           setLng(parsedData?.longitude);
+          setUser(parsedUser);
         }
       } catch (error) {
         console.error(error);
@@ -124,6 +127,8 @@ const Spot = ({ params: { studyspot } }: Props) => {
           setShowReviewForm={setShowReviewForm}
           showReviewForm={showReviewForm}
           spotName={spotData?.name}
+          userId={user?.id}
+          spotId={spotData?.id}
         />
       )}
       <section className={styles.hero}>
