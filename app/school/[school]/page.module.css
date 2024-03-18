@@ -398,3 +398,23 @@
   color: rgba(0, 0, 0, 0.85);
   margin-left: 2px;
 }
+
+.reviewSkeleton {
+  display: flex;
+  flex-direction: row;
+  padding: 30px 30px;
+  gap: 20px;
+  transition: box-shadow 0.3s ease;
+  text-decoration: none;
+  height: 200px;
+  width: 500px;
+}
+
+.skeletonPhoto {
+  height: 175px;
+  width: 175px;
+  background-color: #f0f0f0;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+}

@@ -5,7 +5,7 @@ import styles from './page.module.css';
 import { getSpot } from '@/lib/getSpot';
 import Image from 'next/image';
 import study from '../../../public/study6.jpg';
-import { useEffect, useState, useRef, use } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import Stars from '@/app/components/stars/stars';
 import ReviewStars from '@/app/components/reviewStars/reviewStars';
 import Link from 'next/link';
@@ -24,6 +24,7 @@ import profile from '../../../public/account.png';
 import photo from '../../../public/camera.png';
 import ReviewCard from '@/app/components/review/review';
 import ReviewForm from '@/app/components/reviewForm/reviewForm';
+import Loading from './loading';
 
 interface Props {
   params: {
@@ -164,7 +165,8 @@ const Spot = ({ params: { studyspot } }: Props) => {
               alt="X"
               height={29}
               width={29}
-            />
+            />{' '}
+            school study spots
           </div>
         </div>
         <div className={styles.rightButtons}>
@@ -203,10 +205,13 @@ const Spot = ({ params: { studyspot } }: Props) => {
             Browse {reviewData?.length} Reviews
           </p>
           <div className={styles.reviews}>
-            {reviewData &&
+            {reviewData ? (
               reviewData.map((review) => {
                 return <ReviewCard key={review.id} reviewData={review} />;
-              })}
+              })
+            ) : (
+              <Loading></Loading>
+            )}
           </div>
         </div>
         <div className={styles.right}>

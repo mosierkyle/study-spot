@@ -10,6 +10,7 @@ import mapboxgl from 'mapbox-gl';
 import SpotCard from '../../components/spotCard/spotCard';
 import type { LngLatLike } from 'mapbox-gl';
 import marker from '../../public/icons8-location-24.png';
+import Loading from './loading';
 
 interface Props {
   params: {
@@ -444,7 +445,7 @@ const School = ({ params: { school } }: Props) => {
             </div>
           ) : (
             <div className={styles.spots}>
-              <p className={styles.loadingText}>Loading...</p>
+              <Loading />
             </div>
           )}
         </section>
