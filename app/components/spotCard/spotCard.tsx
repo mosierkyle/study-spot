@@ -65,9 +65,9 @@ const SpotCard: React.FC<spotCardFormProps> = ({ spotData }) => {
           <p className={styles.spotName}>{spotData?.name}</p>
 
           <div className={styles.spotOpinion}>
-            <p className={styles.spotRating}>
+            <div className={styles.spotRating}>
               <Stars rating={spotData?.rating ?? 0} />
-            </p>
+            </div>
           </div>
           <p
             className={styles.spotReviews}

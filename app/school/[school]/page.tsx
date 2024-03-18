@@ -11,6 +11,7 @@ import SpotCard from '../../components/spotCard/spotCard';
 import type { LngLatLike } from 'mapbox-gl';
 import marker from '../../public/icons8-location-24.png';
 import Loading from './loading';
+import { DiVim } from 'react-icons/di';
 
 interface Props {
   params: {
@@ -23,7 +24,7 @@ const School = ({ params: { school } }: Props) => {
   const map = useRef<mapboxgl.Map | null>(null);
   const [lng, setLng] = useState<number>(0);
   const [lat, setLat] = useState<number>(0);
-  const [zoom, setZoom] = useState<number>(14.5);
+  const [zoom, setZoom] = useState<number>(13.5);
   const [schoolData, setSchoolData] = useState<School | undefined>(undefined);
   const [spotsData, setSpotsData] = useState<StudySpot[]>([]);
   const [sortedData, setSortedData] = useState<StudySpot[]>([]);
@@ -37,6 +38,7 @@ const School = ({ params: { school } }: Props) => {
   const [workAreaActive, setWorkAreaActive] = useState(false);
   const [otherActive, setOtherActive] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
+  const [loadMarkers, setLoadMarkers] = useState<boolean>(false);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const onCampusRef = useRef<HTMLInputElement>(null);
   const freeWifiRef = useRef<HTMLInputElement>(null);
@@ -102,16 +104,35 @@ const School = ({ params: { school } }: Props) => {
         minZoom: 14.5,
       });
       map.current?.scrollZoom.disable();
-      map.current?.addControl(new mapboxgl.NavigationControl());
+      map.current?.addControl(
+        new mapboxgl.NavigationControl({
+          visualizePitch: false,
+          showZoom: true,
+          showCompass: false,
+        })
+      );
+      setLoadMarkers(true);
     }
   };
 
   const loadStudySpotMarkers = () => {
     spotsData.forEach((spot) => {
-      if (map.current)
+      if (map.current) {
         new mapboxgl.Marker({ color: '#ff735c' })
           .setLngLat([Number(spot.longitude), Number(spot.latitude)])
+          .setPopup(
+            new mapboxgl.Popup().setHTML(
+              `<a href="/studyspot/${spot.id}" style="text-decoration: none; color: black;">
+                <div style='padding: 5px;'>
+                  <img src="${spot.photos[0]}" alt="Spot Photo" style="max-width: 100%; height: auto; border-radius: 8px;">
+                  <h2>${spot.name}</h2>
+                  <p>${spot.description}</p>
+                </div>
+              </a>`
+            )
+          )
           .addTo(map.current);
+      }
     });
   };
 
@@ -180,7 +201,7 @@ const School = ({ params: { school } }: Props) => {
   useEffect(() => {
     loadStudySpotMarkers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spotsData]);
+  }, [loadMarkers]);
 
   useEffect(() => {
     handleSortFilterCategory();
