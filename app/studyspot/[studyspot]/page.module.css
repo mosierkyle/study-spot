@@ -311,3 +311,76 @@
   flex-direction: column;
   gap: 50px;
 }
+
+.reviewSkeleton {
+  height: fit-content;
+  width: 40vw;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.userSkeleton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.imageSkeleton {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+}
+
+.userSectionSkeleton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  gap: 5px;
+}
+
+.nameSkeleton {
+  height: 12px;
+  width: 75px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.timeSkeleton {
+  height: 12px;
+  width: 50px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.starsSkeleton {
+  height: 12px;
+  width: 75px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.contentSkeleton {
+  height: 12px;
+  width: 100%;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 7px;
+}
+
+.contentSkeletonLast {
+  height: 12px;
+  width: 80%;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

@@ -60,12 +60,14 @@ const ReviewCard: React.FC<reviewCardProps> = ({ reviewData }) => {
       <div className={styles.stars}>
         <ReviewStars rating={reviewData?.rating ?? null} />
       </div>
-      <div className={styles.photos}>
-        {' '}
-        <Image src={photo} alt="photos" className={styles.camera} />
-        {reviewData?.photos.length}{' '}
-        {reviewData?.photos.length == 1 ? 'photo' : 'photos'}
-      </div>
+      {reviewData?.photos.length != 0 && (
+        <div className={styles.photos}>
+          {' '}
+          <Image src={photo} alt="photos" className={styles.camera} />
+          {reviewData?.photos.length}{' '}
+          {reviewData?.photos.length == 1 ? 'photo' : 'photos'}
+        </div>
+      )}
       <div className={styles.contentSection}>{reviewData?.content}</div>
       {reviewData?.photos.length != 0 && (
         <div className={styles.photosDiv}>

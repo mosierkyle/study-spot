@@ -35,6 +35,18 @@ const createReview = async (props: CreateReviewProps): Promise<Review> => {
     },
   });
 
+  // Find the corresponding study spot and update its review count
+  const studySpot = await prisma.studySpot.update({
+    where: {
+      id: studySpotId,
+    },
+    data: {
+      reviewCount: {
+        increment: 1,
+      },
+    },
+  });
+
   return review;
 };
 

@@ -11,16 +11,20 @@ export const updateRating = cache(async (id: string) => {
     });
     const averageRating = calculateAverageRating(reviews);
 
-    const updatedStudySpot = await prisma.studySpot.update({
-      where: {
-        id: id,
-      },
-      data: {
-        rating: averageRating,
-      },
-    });
+    if (averageRating != 0) {
+      const updatedStudySpot = await prisma.studySpot.update({
+        where: {
+          id: id,
+        },
+        data: {
+          rating: averageRating,
+        },
+      });
 
-    return updatedStudySpot;
+      return updatedStudySpot;
+    } else {
+      return;
+    }
   } catch (error) {
     console.log(error);
   }
