@@ -1,7 +1,7 @@
 .review {
   height: fit-content;
   width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 25px;
   display: flex;

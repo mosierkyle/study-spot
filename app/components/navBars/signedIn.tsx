@@ -3,6 +3,7 @@ import Link from 'next/link';
 import account from '../../../public/account.png';
 import styles from './page.module.css';
 import type { StaticImageData } from 'next/image';
+import user2 from '../../../public/user2.png';
 
 interface SignedInNavProps {
   userEmail?: string;
@@ -23,14 +24,17 @@ const SignedInNav: React.FC<SignedInNavProps> = ({ userEmail = '' }) => {
             Sign Out
           </Link>
           <p>{userEmail}</p>
+
           {userEmail && (
-            <Image
-              className={styles.navLink}
-              src={account}
-              alt="Account Avatar"
-              width={35}
-              height={35}
-            />
+            <Link href={'/account'}>
+              <Image
+                className={styles.navLink}
+                src={user2}
+                alt="Account Avatar"
+                width={35}
+                height={35}
+              />
+            </Link>
           )}
         </ul>
       </div>
