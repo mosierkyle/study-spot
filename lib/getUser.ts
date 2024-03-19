@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { cache } from 'react';
 
-export const getUser = cache(async (email: string) => {
+const getUser = cache(async (email: string) => {
   try {
     const user = await prisma.user.findUniqueOrThrow({
       where: {
@@ -13,3 +13,5 @@ export const getUser = cache(async (email: string) => {
     console.log(error);
   }
 });
+
+export default getUser;

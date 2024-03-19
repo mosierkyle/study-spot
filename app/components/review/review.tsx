@@ -9,6 +9,7 @@ import like from '../../../public/like2.png';
 import like2 from '../../../public/like1.png';
 import { addLike } from '@/lib/addLike';
 import { removeLike } from '@/lib/removeLike';
+import user2 from '../../../public/user2.png';
 
 interface reviewCardProps {
   reviewData: Review | null;
@@ -52,7 +53,7 @@ const ReviewCard: React.FC<reviewCardProps> = ({ reviewData }) => {
   return (
     <div className={styles.review}>
       <div className={styles.userSection}>
-        <Image src={profile} alt="profile" height={40} width={40} />
+        <Image src={user2} alt="profile" height={40} width={40} />
         <div className={styles.userSectionInfo}>
           <p>{userData?.name?.split(' ')[0]}</p>8 months ago
         </div>
