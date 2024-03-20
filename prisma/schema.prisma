@@ -28,6 +28,17 @@ model StudySpot {
   schoolId        String
   user            User         @relation(fields: [userId], references: [id])
   userId          String
+  save            Save[] 
+}
+
+model Save {
+  id            String       @default(cuid()) @id
+  studySpot     StudySpot    @relation(fields: [studySpotId], references: [id])
+  studySpotId   String
+  student       User         @relation(fields: [studentId], references: [id])
+  studentId     String
+
+  @@unique([studySpotId, studentId]) 
 }
 
 model Review {
@@ -76,5 +87,6 @@ model User {
   school      School? @relation(fields: [schoolId], references: [id])  
   schoolId    String?  
   // likes       Like[]
+  saves       Save[]
 }
 

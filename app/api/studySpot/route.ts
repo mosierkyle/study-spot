@@ -3,7 +3,7 @@ import { getSpot } from '@/lib/getSpot';
 import { updateRating } from '@/lib/updateRating';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getUser } from '@/lib/getUser';
+import getUser from '@/lib/getUser';
 import { use } from 'react';
 import { StudySpot, User } from '@prisma/client';
 
