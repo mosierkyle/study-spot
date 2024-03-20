@@ -25,6 +25,8 @@ import photo from '../../../public/camera.png';
 import ReviewCard from '@/app/components/review/review';
 import ReviewForm from '@/app/components/reviewForm/reviewForm';
 import Loading from './loading';
+import { tree } from 'next/dist/build/templates/app-page';
+import filledSave from '../../../public/saved.png';
 
 interface Props {
   params: {
@@ -44,6 +46,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
+  const [saved, setSaved] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,6 +124,49 @@ const Spot = ({ params: { studyspot } }: Props) => {
     router.push(`/school/${spotData?.schoolId}`);
   };
 
+  const createSave = async () => {
+    try {
+      const response = await fetch('/api/createSave/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          studySpotId: spotData?.id,
+          studentId: user?.id,
+        }),
+      });
+      if (response.ok) {
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeSave = async () => {
+    try {
+      const response = await fetch('/api/removeSave/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          studySpotId: spotData?.id,
+          studentId: user?.id,
+        }),
+      });
+      if (response.ok) {
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSaveClick = () => {
+    saved == true ? removeSave() : createSave();
+    saved == true ? setSaved(false) : setSaved(true);
+  };
+
   return (
     <div className={styles.main}>
       {showReviewForm && (
@@ -170,10 +216,14 @@ const Spot = ({ params: { studyspot } }: Props) => {
           </div>
         </div>
         <div className={styles.rightButtons}>
-          <Link href={'/'} className={styles.rightButton}>
+          <div onClick={handleSaveClick} className={styles.rightButton}>
             Save
-            <Image className={styles.buttonImg} src={save} alt="star"></Image>
-          </Link>
+            <Image
+              className={styles.buttonImg}
+              src={saved ? filledSave : save}
+              alt="star"
+            ></Image>
+          </div>
           <Link href={'/'} className={styles.rightButton}>
             Share
             <Image className={styles.buttonImg} src={share} alt="star"></Image>
