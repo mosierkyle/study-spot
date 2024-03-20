@@ -1,12 +1,21 @@
 'use client';
 import { Review, Save, StudySpot, User } from '@prisma/client';
 import styles from './page.module.css';
-import React, { useRef, useEffect, useState } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  ChangeEvent,
+  FormEvent,
+} from 'react';
 import Image from 'next/image';
 import user2 from '../../public/user2.png';
 import ReviewCard from '../components/review/review';
 import Loading from './loading';
 import SpotCard from '../components/spotCard/spotCard';
+import upload from '../../public/upload5.png';
+import x from '../../public/x.png';
+import profilePic from '../../public/profilePic.png';
 
 interface Props {
   params: {
@@ -21,6 +30,13 @@ const Account = () => {
   );
   const [reviewData, setReviewData] = useState<Review[]>([]);
   const [savesData, setSavesData] = useState<StudySpot[]>([]);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [avatar, setAvatar] = useState<string>('');
+  const [photos, setPhotos] = useState<File[]>([]);
+  const [photoURLs, setPhotoURLs] = useState<string[]>([]);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [awsURLs, setAwsURLs] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +48,8 @@ const Account = () => {
           const responseData = await response.json();
           const parsedUser = await responseData.user;
           setUser(parsedUser);
+          setName(parsedUser?.name);
+          setEmail(parsedUser?.email);
         }
       } catch (error) {
         console.error(error);
@@ -91,6 +109,87 @@ const Account = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleFileInput = () => {
+    const fileInput =
+      document.querySelector<HTMLInputElement>('input[type="file"]');
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
+  const handlePhotosChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (photos.length == 1) {
+      setFormError('Photo limit exceeded: 1 photo max');
+      window.scrollTo(0, 400);
+      return;
+    }
+    const files = e.target.files;
+
+    if (files) {
+      const selectedFiles = Array.from(files);
+      if (selectedFiles.length + photos.length > 2) {
+        setFormError('Photo limit exceeded: 1 photos max');
+        window.scrollTo(0, 400);
+        return;
+      }
+      setPhotos((prevPhotos) => [...prevPhotos, ...selectedFiles]);
+      const urls = selectedFiles.map((file) => URL.createObjectURL(file));
+      setPhotoURLs((prevURLs) => [...prevURLs, ...urls]);
+    }
+  };
+
+  const removePhoto = () => {
+    setPhotos([]);
+    setPhotoURLs([]);
+    console.log('we here');
+
+    const fileInput =
+      document.querySelector<HTMLInputElement>('input[type="file"]');
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    // await savePhotos();
+  };
+
+  // const savePhotos = async () => {
+  //   const urls: string[] = [];
+  //   for (let i = 0; i < photos.length; i++) {
+  //     const file = photos[i];
+  //     const formData = new FormData();
+  //     formData.append('file', file);
+  //     try {
+  //       const uploadResponse = await fetch('/api/uploadPhotoReview/', {
+  //         method: 'POST',
+  //         body: formData,
+  //       });
+
+  //       if (uploadResponse.ok) {
+  //         const { fileURL } = await uploadResponse.json();
+  //         // console.log(fileURL);
+  //         urls.push(fileURL);
+  //       } else {
+  //         console.error(`Failed to get photo URLs ${i}`);
+  //       }
+  //     } catch (error) {
+  //       console.error(`Error uploading photo ${i}:`, error);
+  //     }
+  //   }
+  //   console.log(urls);
+  //   setAwsURLs(urls);
+  // };
+
   return (
     <main className={styles.mainStyle}>
       <div className={styles.content}>
@@ -147,7 +246,78 @@ const Account = () => {
           )}
           {page === 'Edit Profile' && (
             <div className={styles.editPage}>
-              <p>Edit Profile</p>
+              <form className={styles.form} onSubmit={handleSubmit}>
+                {formError && <p className={styles.formError}>{formError}</p>}
+                <div className={styles.inputDiv}>
+                  <label htmlFor="hours" className={styles.header}>
+                    Your Profile Photo
+                  </label>
+                  <p className={styles.desc}>Add / Edit your profile photo.</p>
+                  {photoURLs.length != 0 && (
+                    <div onClick={removePhoto} className={styles.removePhoto}>
+                      <Image src={x} alt="x" height={20} width={20} />
+                    </div>
+                  )}
+                  <label
+                    onClick={handleFileInput}
+                    htmlFor="photos"
+                    className={styles.fileLabel}
+                  >
+                    <Image
+                      src={photoURLs.length != 0 ? photoURLs[0] : profilePic}
+                      alt=""
+                      height={100}
+                      width={100}
+                      className={styles.profilePhoto}
+                    />
+                    <input
+                      type="file"
+                      name="photos"
+                      className={styles.fileInput}
+                      accept=".jpg, .jpeg, .png"
+                      onChange={handlePhotosChange}
+                      multiple
+                    />
+                  </label>
+                </div>
+                <div className={styles.inputDiv}>
+                  <label htmlFor="name" className={styles.header}>
+                    Name
+                  </label>
+                  <p className={styles.desc}>
+                    Your full name. Only your last initial will be displayed to
+                    others. (required)
+                  </p>
+                  <input
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={handleNameChange}
+                    required
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.inputDiv}>
+                  <label htmlFor="email" className={styles.header}>
+                    Email
+                  </label>
+                  <p className={styles.desc}>Your email address. (required)</p>
+                  <input
+                    type="text"
+                    name="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    required
+                    className={styles.input}
+                  />
+                </div>
+
+                <div className={styles.buttons}>
+                  <button type="submit" className={styles.submit}>
+                    Save
+                  </button>
+                </div>
+              </form>
             </div>
           )}
           {page === 'Saved Spots' && (
