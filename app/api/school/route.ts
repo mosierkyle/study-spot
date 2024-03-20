@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getSchool } from '@/lib/getSchool';
 import { School, User } from '@prisma/client';
-import { getUser } from '@/lib/getUser';
+import getUser from '@/lib/getUser';
 
 async function streamToString(stream: any) {
   const chunks = [];

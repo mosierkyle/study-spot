@@ -86,6 +86,9 @@
   margin-bottom: 20px;
   font-size: 28px;
   font-weight: 600;
+  color: #ff735c;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 10px;
 }
 
 .reviews {
@@ -108,4 +111,211 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
+}
+
+.form {
+  /* min-height: 750px; */
+  height: fit-content;
+  overflow: auto;
+  width: fit-content;
+  background-color: rgb(255, 255, 255);
+  overflow: hidden;
+}
+
+.inputDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.desc {
+  margin: 0;
+  margin-top: -12px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 0px;
+  line-height: 25px;
+}
+
+.header {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0;
+  color: #000;
+}
+
+.formError {
+  /* margin-bottom: px; */
+  text-align: center;
+  color: red;
+  font-weight: 600;
+}
+
+.fileLabel {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.8);
+  flex-direction: column;
+  box-shadow: 0 1px 2px 0.5px rgba(0, 0, 0, 0.05);
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel:hover {
+  color: #ff735c;
+  cursor: pointer;
+}
+
+.fileLabel:focus {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+}
+
+.fileLabel:focus-visible {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+  outline: none;
+}
+
+.fileLabel p {
+  margin: 0;
+}
+
+.photoPreview {
+  max-height: 250px;
+  width: auto;
+  max-width: 250px;
+  object-fit: contain;
+  justify-content: flex-start;
+  overflow: visible;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.uploadedPhotoPreview {
+  object-fit: cover;
+  /* object-position: center; */
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.removePhoto {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  position: absolute;
+  background-color: #ff735c;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  transform: scale(0.8) translate(105px, 70px);
+  z-index: 80;
+}
+
+.removePhoto:hover {
+  cursor: pointer;
+  background-color: #f16b56;
+}
+
+.photos2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 15px;
+  max-height: 750px;
+}
+
+.photoPreview2 {
+  max-height: 150px;
+  width: 100%;
+  object-fit: contain;
+  justify-content: flex-start;
+  overflow: visible;
+  position: relative;
+}
+
+.uploadedPhotoPreview2 {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.submit {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff735c;
+  font-weight: 300;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+}
+
+.submit:hover {
+  background-color: #ff8471;
+  cursor: pointer;
+}
+
+.buttons {
+  width: calc(100% - 24px);
+  position: relative;
+  bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  justify-content: center;
+  padding: 10px;
+  /* margin-top: -10px; */
+}
+
+.input {
+  width: calc(100% - 24px);
+  border: 1.5px solid #d2d2d2;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 28px;
+  height: 25px;
+  padding: 5px 10px;
+  border-radius: 12px;
+  color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 2px 0.5px rgba(0, 0, 0, 0.05);
+  margin-bottom: -5px;
+  margin-top: -5px;
+}
+
+.input:focus {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+}
+
+.input:focus-visible {
+  border-color: rgba(8, 129, 120, 0.4);
+  box-shadow: 0 0 0 4px rgba(8, 129, 120, 0.1);
+  outline: none;
+}
+
+.profilePhoto {
+  object-fit: cover;
 }
