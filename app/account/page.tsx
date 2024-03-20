@@ -1,11 +1,12 @@
 'use client';
-import { Review, User } from '@prisma/client';
+import { Review, Save, StudySpot, User } from '@prisma/client';
 import styles from './page.module.css';
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import user2 from '../../public/user2.png';
 import ReviewCard from '../components/review/review';
 import Loading from './loading';
+import SpotCard from '../components/spotCard/spotCard';
 
 interface Props {
   params: {
@@ -19,6 +20,7 @@ const Account = () => {
     'Reviews'
   );
   const [reviewData, setReviewData] = useState<Review[]>([]);
+  const [savesData, setSavesData] = useState<StudySpot[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +59,29 @@ const Account = () => {
           const responseData = await response.json();
           const parsedData = await responseData.reviews;
           setReviewData(parsedData);
-          console.log(parsedData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/userSaves/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user?.id),
+        });
+        if (response.ok) {
+          const responseData = await response.json();
+          const parsedData = await responseData.saves;
+          setSavesData(parsedData);
         }
       } catch (error) {
         console.error(error);
@@ -128,7 +152,9 @@ const Account = () => {
           )}
           {page === 'Saved Spots' && (
             <div className={styles.spotsPage}>
-              <p>Saved Spots</p>
+              {savesData.map((spot) => (
+                <SpotCard key={spot.id} spotData={spot} />
+              ))}
             </div>
           )}
         </div>
