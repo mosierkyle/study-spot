@@ -109,6 +109,40 @@ const Account = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  useEffect(() => {
+    const saveReview = async () => {
+      const userData = {
+        id: user?.id,
+        name: name,
+        email: email,
+        avatar: awsURLs[0],
+      };
+      console.log(userData);
+      try {
+        const response = await fetch('/api/editProfile/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        if (response.ok) {
+          console.log('Profile updated successfully');
+        } else {
+          console.error('Failed to update Profile');
+        }
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
+    };
+    if (awsURLs.length != 0) {
+      saveReview();
+      window.location.reload;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [awsURLs]);
+
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
@@ -160,35 +194,35 @@ const Account = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // await savePhotos();
+    await savePhoto();
   };
 
-  // const savePhotos = async () => {
-  //   const urls: string[] = [];
-  //   for (let i = 0; i < photos.length; i++) {
-  //     const file = photos[i];
-  //     const formData = new FormData();
-  //     formData.append('file', file);
-  //     try {
-  //       const uploadResponse = await fetch('/api/uploadPhotoReview/', {
-  //         method: 'POST',
-  //         body: formData,
-  //       });
+  const savePhoto = async () => {
+    const urls: string[] = [];
 
-  //       if (uploadResponse.ok) {
-  //         const { fileURL } = await uploadResponse.json();
-  //         // console.log(fileURL);
-  //         urls.push(fileURL);
-  //       } else {
-  //         console.error(`Failed to get photo URLs ${i}`);
-  //       }
-  //     } catch (error) {
-  //       console.error(`Error uploading photo ${i}:`, error);
-  //     }
-  //   }
-  //   console.log(urls);
-  //   setAwsURLs(urls);
-  // };
+    const file = photos[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const uploadResponse = await fetch('/api/uploadPhotoAvatar/', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (uploadResponse.ok) {
+        const { fileURL } = await uploadResponse.json();
+        // console.log(fileURL);
+        urls.push(fileURL);
+      } else {
+        console.error(`Failed to get photo URLs`);
+      }
+    } catch (error) {
+      console.error(`Error uploading photo`, error);
+    }
+
+    console.log(urls);
+    setAwsURLs(urls);
+  };
 
   return (
     <main className={styles.mainStyle}>
