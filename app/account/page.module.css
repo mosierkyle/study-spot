@@ -319,3 +319,8 @@
 .profilePhoto {
   object-fit: cover;
 }
+
+.userPhoto {
+  object-fit: cover;
+  border-radius: 50%;
+}
