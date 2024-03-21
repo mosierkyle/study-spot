@@ -111,12 +111,22 @@ const Account = () => {
 
   useEffect(() => {
     const saveReview = async () => {
-      const userData = {
-        id: user?.id,
-        name: name,
-        email: email,
-        avatar: awsURLs[0],
-      };
+      let userData = {};
+      if (awsURLs[0] === 'empty') {
+        userData = {
+          id: user?.id,
+          name: name,
+          email: email,
+          avatar: null,
+        };
+      } else {
+        userData = {
+          id: user?.id,
+          name: name,
+          email: email,
+          avatar: awsURLs[0],
+        };
+      }
       console.log(userData);
       try {
         const response = await fetch('/api/editProfile/', {
@@ -183,7 +193,6 @@ const Account = () => {
   const removePhoto = () => {
     setPhotos([]);
     setPhotoURLs([]);
-    console.log('we here');
 
     const fileInput =
       document.querySelector<HTMLInputElement>('input[type="file"]');
@@ -199,7 +208,10 @@ const Account = () => {
 
   const savePhoto = async () => {
     const urls: string[] = [];
-
+    if (!photos[0]) {
+      setAwsURLs(['empty']);
+      return;
+    }
     const file = photos[0];
     const formData = new FormData();
     formData.append('file', file);
@@ -298,7 +310,13 @@ const Account = () => {
                     className={styles.fileLabel}
                   >
                     <Image
-                      src={photoURLs.length != 0 ? photoURLs[0] : profilePic}
+                      src={
+                        photoURLs.length != 0
+                          ? photoURLs[0]
+                          : user?.avatar
+                          ? user.avatar
+                          : profilePic
+                      }
                       alt=""
                       height={100}
                       width={100}
