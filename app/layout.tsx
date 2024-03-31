@@ -12,6 +12,9 @@ import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import type { StaticImageData } from 'next/image';
+import getUser from '@/lib/getUser';
+import { userInfo } from 'os';
+import { User } from '@prisma/client';
 
 export const metadata: Metadata = {
   title: 'StudySpot',
@@ -26,12 +29,16 @@ export default async function RootLayout({
 }>) {
   const session = await getServerSession(authOptions);
   const user = session?.user;
+  const userInfo = await getUser(user?.email ?? '');
 
   return (
     <html lang="en">
       <body>
         {session ? (
-          <SignedInNav userEmail={user?.email || undefined} />
+          <SignedInNav
+            userEmail={user?.email || undefined}
+            userAvatar={userInfo?.avatar ?? undefined}
+          />
         ) : (
           <SignedOutNav />
         )}
