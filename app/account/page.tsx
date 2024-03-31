@@ -8,7 +8,7 @@ import React, {
   ChangeEvent,
   FormEvent,
 } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import user2 from '../../public/user2.png';
 import ReviewCard from '../components/review/review';
@@ -27,7 +27,7 @@ interface Props {
 const Account = () => {
   const [user, setUser] = useState<User | null>(null);
   const [page, setPage] = useState<'Reviews' | 'Saved Spots' | 'Edit Profile'>(
-    'Reviews'
+    'Edit Profile'
   );
   const [reviewData, setReviewData] = useState<Review[]>([]);
   const [savesData, setSavesData] = useState<StudySpot[]>([]);
@@ -38,6 +38,7 @@ const Account = () => {
   const [photoURLs, setPhotoURLs] = useState<string[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
   const [awsURLs, setAwsURLs] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,15 +140,15 @@ const Account = () => {
         });
 
         if (response.ok) {
-          Router.reload();
-          setPage('Edit Profile');
-          alert('Profile updated successfully');
+          // router.refresh();
+          window.location.reload();
         } else {
           console.error('Failed to update Profile');
         }
       } catch (error) {
         console.error('Error updating profile:', error);
       }
+      setPage('Edit Profile');
     };
     if (awsURLs.length != 0) {
       saveProfile();
