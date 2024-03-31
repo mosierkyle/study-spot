@@ -7,10 +7,13 @@ import user2 from '../../../public/user2.png';
 
 interface SignedInNavProps {
   userEmail?: string;
-  //   userAvatar?: StaticImageData;
+  userAvatar?: string;
 }
 
-const SignedInNav: React.FC<SignedInNavProps> = ({ userEmail = '' }) => {
+const SignedInNav: React.FC<SignedInNavProps> = ({
+  userEmail = '',
+  userAvatar,
+}) => {
   return (
     <div className={styles.landingHeader}>
       <div className={styles.landingLogo}>
@@ -28,8 +31,8 @@ const SignedInNav: React.FC<SignedInNavProps> = ({ userEmail = '' }) => {
           {userEmail && (
             <Link href={'/account'}>
               <Image
-                className={styles.navLink}
-                src={user2}
+                className={styles.profilePic}
+                src={userAvatar ? userAvatar : user2}
                 alt="Account Avatar"
                 width={35}
                 height={35}

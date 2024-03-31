@@ -8,6 +8,7 @@ import React, {
   ChangeEvent,
   FormEvent,
 } from 'react';
+import Router from 'next/router';
 import Image from 'next/image';
 import user2 from '../../public/user2.png';
 import ReviewCard from '../components/review/review';
@@ -110,14 +111,14 @@ const Account = () => {
   }, [user]);
 
   useEffect(() => {
-    const saveReview = async () => {
+    const saveProfile = async () => {
       let userData = {};
       if (awsURLs[0] === 'empty') {
         userData = {
           id: user?.id,
           name: name,
           email: email,
-          avatar: null,
+          avatar: user?.avatar ? user.avatar : null,
         };
       } else {
         userData = {
@@ -138,7 +139,9 @@ const Account = () => {
         });
 
         if (response.ok) {
-          console.log('Profile updated successfully');
+          Router.reload();
+          setPage('Edit Profile');
+          alert('Profile updated successfully');
         } else {
           console.error('Failed to update Profile');
         }
@@ -147,8 +150,7 @@ const Account = () => {
       }
     };
     if (awsURLs.length != 0) {
-      saveReview();
-      window.location.reload;
+      saveProfile();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [awsURLs]);
