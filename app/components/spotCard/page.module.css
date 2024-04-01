@@ -106,3 +106,31 @@
   transform: rotate(180deg);
   margin-right: 0.5px;
 }
+
+.spotRating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  margin-left: -2px;
+}
+
+.ratingBold {
+  font-weight: 600;
+}
+.spotCategory {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  border-radius: 5px;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  width: fit-content;
+  padding: 3px 5px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+.spotAddress {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 15px;
+}
