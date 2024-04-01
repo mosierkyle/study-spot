@@ -64,6 +64,7 @@ const SignedOutNav = () => {
               setshowSignupEmail={setshowSignupEmail}
               showSignupEmail={showSignupEmail}
               setshowSignup={setshowSignup}
+              setshowSingIn={setshowSignin}
             />
           )}
         </ul>
