@@ -67,11 +67,17 @@ const SpotCard: React.FC<spotCardFormProps> = ({ spotData }) => {
           <div className={styles.spotOpinion}>
             <div className={styles.spotRating}>
               <Stars rating={spotData?.rating ?? 0} />
+              <p className={styles.spotReviews}>
+                <span className={styles.ratingBold}>
+                  {Number.isInteger(spotData?.rating)
+                    ? `${spotData?.rating}.0`
+                    : `${spotData?.rating}`}
+                </span>{' '}
+                {`(${spotData?.reviewCount} reviews)`}
+              </p>
             </div>
           </div>
-          <p
-            className={styles.spotReviews}
-          >{`${spotData?.reviewCount} reviews`}</p>
+          <div className={styles.spotCategory}>{spotData?.category}</div>
           <p className={styles.spotAddress}>{spotData?.address}</p>
         </div>
       </Link>
