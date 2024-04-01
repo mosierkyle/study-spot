@@ -87,6 +87,10 @@
   height: 20px;
 }
 
+.sort:hover {
+  cursor: pointer;
+}
+
 .rightImg {
   object-fit: contain;
   width: 100%;

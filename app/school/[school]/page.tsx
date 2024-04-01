@@ -8,10 +8,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import SpotCard from '../../components/spotCard/spotCard';
-import type { LngLatLike } from 'mapbox-gl';
 import marker from '../../public/icons8-location-24.png';
 import Loading from './loading';
-import { DiVim } from 'react-icons/di';
+import useCheckSignIn from '@/lib/hooks/useAuthorize';
 
 interface Props {
   params: {
@@ -45,6 +44,7 @@ const School = ({ params: { school } }: Props) => {
   const open24HoursRef = useRef<HTMLInputElement>(null);
   const publicRestroomsRef = useRef<HTMLInputElement>(null);
   const studyResourcesRef = useRef<HTMLInputElement>(null);
+  const isSignedIn = useCheckSignIn();
 
   const fetchData = async () => {
     try {
@@ -451,12 +451,23 @@ const School = ({ params: { school } }: Props) => {
                 {filteredData && `${filteredData?.length} places to study`}
               </p>
             </div>
-            <Link
-              href={`/school/${schoolData?.id}/add/${schoolData?.id}/`}
-              className={styles.sort}
-            >
-              Add Study Spot
-            </Link>
+            {isSignedIn ? (
+              <Link
+                href={`/school/${schoolData?.id}/add/${schoolData?.id}/`}
+                className={styles.sort}
+              >
+                Add Study Spot
+              </Link>
+            ) : (
+              <div
+                onClick={() =>
+                  alert('You must be signed in to add a study spot')
+                }
+                className={styles.sort}
+              >
+                Add Study Spot
+              </div>
+            )}
           </div>
           {filteredData ? (
             <div className={styles.spots}>
