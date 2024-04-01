@@ -25,8 +25,8 @@ import photo from '../../../public/camera.png';
 import ReviewCard from '@/app/components/review/review';
 import ReviewForm from '@/app/components/reviewForm/reviewForm';
 import Loading from './loading';
-import { tree } from 'next/dist/build/templates/app-page';
 import filledSave from '../../../public/saved.png';
+import useCheckSignIn from '@/lib/hooks/useAuthorize';
 
 interface Props {
   params: {
@@ -47,6 +47,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
+  const isSignedIn = useCheckSignIn();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -216,14 +217,29 @@ const Spot = ({ params: { studyspot } }: Props) => {
           </div>
         </div>
         <div className={styles.rightButtons}>
-          <div onClick={handleSaveClick} className={styles.rightButton}>
-            Save
-            <Image
-              className={styles.buttonImg}
-              src={saved ? filledSave : save}
-              alt="star"
-            ></Image>
-          </div>
+          {isSignedIn ? (
+            <div onClick={handleSaveClick} className={styles.rightButton}>
+              Save
+              <Image
+                className={styles.buttonImg}
+                src={saved ? filledSave : save}
+                alt="star"
+              ></Image>
+            </div>
+          ) : (
+            <div
+              onClick={() => alert('You must be signed in to save this spot')}
+              className={styles.rightButton}
+            >
+              Save
+              <Image
+                className={styles.buttonImg}
+                src={saved ? filledSave : save}
+                alt="star"
+              ></Image>
+            </div>
+          )}
+
           <Link href={'/'} className={styles.rightButton}>
             Share
             <Image className={styles.buttonImg} src={share} alt="star"></Image>
@@ -236,17 +252,31 @@ const Spot = ({ params: { studyspot } }: Props) => {
               alt="camera"
             ></Image>
           </Link> */}
-          <div
-            onClick={() => setShowReviewForm(true)}
-            className={styles.writeReview}
-          >
-            Write a review{' '}
-            <Image
-              className={styles.buttonImg}
-              src={emptyStar}
-              alt="star"
-            ></Image>
-          </div>
+          {isSignedIn ? (
+            <div
+              onClick={() => setShowReviewForm(true)}
+              className={styles.writeReview}
+            >
+              Write a review{' '}
+              <Image
+                className={styles.buttonImg}
+                src={emptyStar}
+                alt="star"
+              ></Image>
+            </div>
+          ) : (
+            <div
+              onClick={() => alert('You must be signed in to write a review')}
+              className={styles.writeReview}
+            >
+              Write a review{' '}
+              <Image
+                className={styles.buttonImg}
+                src={emptyStar}
+                alt="star"
+              ></Image>
+            </div>
+          )}
         </div>
       </section>
       <section className={styles.content}>
