@@ -325,3 +325,13 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+.profileSVG {
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+  background-color: #ebebeb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
