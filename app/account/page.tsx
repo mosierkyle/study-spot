@@ -17,6 +17,9 @@ import SpotCard from '../components/spotCard/spotCard';
 import upload from '../../public/upload5.png';
 import x from '../../public/x.png';
 import profilePic from '../../public/profilePic.png';
+import account from '../../public/account3.png';
+import save from '../../public/save3.png';
+import star from '../../public/darkStar2.png';
 
 interface Props {
   params: {
@@ -252,27 +255,39 @@ const Account = () => {
               height={120}
             />
             <p className={styles.userName}>{user?.name}</p>
-            <p className={styles.userSchool}>{user?.schoolId ?? 'student'}</p>
+            <p className={styles.userSchool}>{user?.email ?? 'student'}</p>
             <div className={styles.options}>
               <div
                 className={styles.option}
                 onClick={() => handlePage('Edit Profile')}
               >
-                <Image height={25} width={25} src={user2} alt="option"></Image>
+                <div className={styles.profileSVG}>
+                  <Image
+                    height={25}
+                    width={25}
+                    src={account}
+                    alt="option"
+                  ></Image>
+                </div>
                 <p className={styles.optionText}>Edit Profile</p>
               </div>
               <div
                 className={styles.option}
                 onClick={() => handlePage('Saved Spots')}
               >
-                <Image height={25} width={25} src={user2} alt="option"></Image>
+                <div className={styles.profileSVG}>
+                  <Image height={25} width={25} src={save} alt="option"></Image>
+                </div>
+
                 <p className={styles.optionText}>Saved Spots</p>
               </div>
               <div
                 className={styles.option}
                 onClick={() => handlePage('Reviews')}
               >
-                <Image height={25} width={25} src={user2} alt="option"></Image>
+                <div className={styles.profileSVG}>
+                  <Image height={25} width={25} src={star} alt="option"></Image>
+                </div>
                 <p className={styles.optionText}>Reviews</p>
               </div>
             </div>
