@@ -13,12 +13,14 @@ interface SignupEmailProps {
   showSignupEmail: boolean;
   setshowSignupEmail: React.Dispatch<React.SetStateAction<boolean>>;
   setshowSignup: React.Dispatch<React.SetStateAction<boolean>>;
+  setshowSingIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SignupEmail: React.FC<SignupEmailProps> = ({
   showSignupEmail,
   setshowSignupEmail,
   setshowSignup,
+  setshowSingIn,
 }) => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -144,10 +146,16 @@ const SignupEmail: React.FC<SignupEmailProps> = ({
             Continue with Email
           </button>
           <p className={styles.already}>
-            Dont have an account?
-            <Link href="signup" className={styles.alreadyLink}>
-              Sign up
-            </Link>
+            Already have an account?
+            <span
+              onClick={() => {
+                setshowSingIn(true);
+                setshowSignupEmail(false);
+              }}
+              className={styles.alreadyLink}
+            >
+              Sign in
+            </span>
           </p>
         </div>
       </form>
