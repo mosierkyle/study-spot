@@ -168,6 +168,12 @@ const Spot = ({ params: { studyspot } }: Props) => {
     saved == true ? setSaved(false) : setSaved(true);
   };
 
+  const handleRedirectToMaps = () => {
+    const address = encodeURIComponent(spotData?.address ?? '');
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+    window.open(mapsUrl, '_blank');
+  };
+
   return (
     <div className={styles.main}>
       {showReviewForm && (
@@ -302,12 +308,15 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.mapContainer} ref={mapContainer}></div>
                 <div className={styles.address}>{spotData?.address}</div>
                 <p>
-                  <Link className={styles.getDirections} href={'/'}>
+                  <div
+                    className={styles.getDirections}
+                    onClick={handleRedirectToMaps}
+                  >
                     Get Directions
-                  </Link>
+                  </div>
                 </p>
               </div>
-              <div className={styles.hours}>
+              {/* <div className={styles.hours}>
                 <div className={styles.hour}>
                   Mon
                   <p>{`8:00 AM - 5:00 PM`}</p>
@@ -336,7 +345,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                   Sun
                   <p>{`8:00 AM - 5:00 PM`}</p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <p className={styles.infoTitle}>Amenities</p>
             <div className={styles.infoContent}>
@@ -344,7 +353,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.amenity}>
                   <Image
                     // className={styles.buttonImg}
-                    src={x}
+                    src={spotData?.wifi ? check : x}
                     alt="x"
                     height={20}
                     width={20}
@@ -354,7 +363,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.amenity}>
                   <Image
                     // className={styles.buttonImg}
-                    src={x}
+                    src={spotData?.onCampus ? check : x}
                     alt="x"
                     height={20}
                     width={20}
@@ -364,7 +373,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.amenity}>
                   <Image
                     // className={styles.buttonImg}
-                    src={x}
+                    src={spotData?.hour24 ? check : x}
                     alt="x"
                     height={20}
                     width={20}
@@ -374,7 +383,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.amenity}>
                   <Image
                     // className={styles.buttonImg}
-                    src={check}
+                    src={spotData?.restrooms ? check : x}
                     alt="x"
                     height={20}
                     width={20}
@@ -384,7 +393,9 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.amenity}>
                   <Image
                     // className={styles.buttonImg}
-                    src={x}
+                    src={
+                      spotData?.studyResources.includes('printers') ? check : x
+                    }
                     alt="x"
                     height={20}
                     width={20}
@@ -394,12 +405,16 @@ const Spot = ({ params: { studyspot } }: Props) => {
                 <div className={styles.amenity}>
                   <Image
                     // className={styles.buttonImg}
-                    src={check}
+                    src={
+                      spotData?.studyResources.includes('whiteboards')
+                        ? check
+                        : x
+                    }
                     alt="x"
                     height={20}
                     width={20}
                   />
-                  On Campus
+                  Whiteboards
                 </div>
               </div>
             </div>

@@ -191,7 +191,7 @@
 
 .left {
   /* border: 1px solid rgba(0, 0, 0, 0.4); */
-  max-width: 50%;
+  max-width: 55%;
 
   padding: 0 10px;
   position: absolute;
@@ -201,7 +201,7 @@
 
 .right {
   /* border: 1px solid rgba(0, 0, 0, 0.4); */
-  width: 40%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -211,7 +211,7 @@
 }
 
 .info {
-  width: 505px;
+  width: 335px;
 }
 
 .infoTitle {
@@ -225,7 +225,7 @@
   width: 100%;
   height: fit-content;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 25px;
   color: rgba(0, 0, 0, 0.85);
   margin-bottom: 30px;
@@ -237,9 +237,10 @@
 .amenities {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  grid-template-rows: repeat(2, auto); /* 2 rows */
-  gap: 20px; /* gap between grid items */
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 20px;
+  row-gap: 30px;
   justify-content: center;
   padding: 10px;
 }
@@ -251,7 +252,7 @@
   align-items: center;
   gap: 2px;
 }
-.hours {
+/* .hours {
   width: 45%;
 }
 
@@ -264,15 +265,15 @@
   justify-content: space-between;
   margin-bottom: 13px;
   color: rgba(0, 0, 0, 0.85);
-}
+} */
 
-.hour p {
+/* .hour p {
   margin: 0;
   color: rgba(0, 0, 0, 0.7);
-}
+} */
 
 .directions {
-  width: 45%;
+  width: 100%;
 }
 
 .getDirections {
@@ -288,6 +289,11 @@
   gap: 5px;
   justify-content: center;
   width: 88%;
+}
+
+.getDirections:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
 }
 
 .mapContainer {

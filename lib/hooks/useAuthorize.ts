@@ -12,7 +12,6 @@ const useCheckSignIn = () => {
       setIsSignedIn(!!session);
     }
   }, [session, status]);
-  console.log(session);
   return isSignedIn;
 };
 
