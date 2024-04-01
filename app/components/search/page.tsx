@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 const Search = () => {
   const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState<School[]>([]);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
   const [data, setData] = useState<School[]>([]);
   const router = useRouter();
 
@@ -63,49 +64,77 @@ const Search = () => {
   // onSubmit={handleSubmit}
 
   return (
-    <div>
-      <form className={styles.searchDiv}>
-        {search ? (
-          <input
-            className={styles.searchWithResults}
-            type="text"
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search for your school"
-            onKeyDown={handleKeyDown}
-          />
-        ) : (
-          <input
-            className={styles.search}
-            type="text"
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search for your school"
-            onKeyDown={handleKeyDown}
-          />
-        )}
-      </form>
-      {search && (
-        <div className={styles.searchResults}>
-          {search && searchResults.length === 0 && (
-            <p className={styles.searchNoResults}>No results found</p>
-          )}
-          {searchResults.length !== 0 &&
-            searchResults.map((school) => (
-              //   <div className={styles.searchResult} key={school.id}>
-              <Link
-                key={school.id}
-                className={styles.searchResult}
-                href={`school/${school.id}/`}
-              >
-                {school.name}
-                <span className={styles.searchResultCity}>{school.city}</span>
-              </Link>
-              //   </div>
-            ))}
-        </div>
+    <>
+      {showSearch && (
+        <div
+          onClick={() => {
+            setShowSearch(false);
+            setSearch('');
+            setSearchResults([]);
+          }}
+          className={styles.overlay}
+        ></div>
       )}
-    </div>
+      <div>
+        <form className={styles.searchDiv}>
+          {showSearch ? (
+            <input
+              className={styles.searchWithResults}
+              type="text"
+              value={search}
+              onChange={handleSearch}
+              placeholder="Search for your school"
+              onKeyDown={handleKeyDown}
+            />
+          ) : (
+            <input
+              onClick={() => setShowSearch(true)}
+              className={styles.search}
+              type="text"
+              value={search}
+              onChange={handleSearch}
+              placeholder="Search for your school"
+              onKeyDown={handleKeyDown}
+            />
+          )}
+        </form>
+        {showSearch && (
+          <div className={styles.searchResults}>
+            {!showSearch && searchResults.length === 0 && (
+              <p className={styles.searchNoResults}>No results found</p>
+            )}
+            {showSearch &&
+              searchResults.length === 0 &&
+              data.map((school) => (
+                //   <div className={styles.searchResult} key={school.id}>
+                <Link
+                  key={school.id}
+                  className={styles.searchResult}
+                  href={`school/${school.id}/`}
+                >
+                  {school.name}
+                  <span className={styles.searchResultCity}>{school.city}</span>
+                </Link>
+                //   </div>
+              ))}
+            {showSearch &&
+              searchResults.length !== 0 &&
+              searchResults.map((school) => (
+                //   <div className={styles.searchResult} key={school.id}>
+                <Link
+                  key={school.id}
+                  className={styles.searchResult}
+                  href={`school/${school.id}/`}
+                >
+                  {school.name}
+                  <span className={styles.searchResultCity}>{school.city}</span>
+                </Link>
+                //   </div>
+              ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
