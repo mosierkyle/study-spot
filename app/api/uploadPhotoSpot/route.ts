@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 const s3Client = new S3Client({
-  region: 'us-west-1',
+  region: process.env.AWS_S3_REGION,
   credentials: {
-    accessKeyId: 'AKIA6GBMHXKL5L4KD2GL',
-    secretAccessKey: '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',
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID ?? '',
+    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY ?? '',
   },
 });
 
