@@ -1,7 +1,7 @@
 .schoolCard {
   height: 400px;
   width: 350px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -9,11 +9,15 @@
   color: #000;
 }
 
-.schoolImage {
+.schoolImageDiv {
   height: 70%;
   width: auto;
   object-fit: cover;
-  background-color: rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.schoolImage {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -42,4 +46,6 @@
 .schoolSpots {
   margin: 0;
   text-align: end;
+  /* font-weight: 600; */
+  font-size: 1.1rem;
 }

@@ -37,12 +37,15 @@ const SchoolCard: React.FC<SchoolCardProps> = ({ school }) => {
 
   return (
     <Link href={`/school/${school.id}`} className={styles.schoolCard}>
-      {/* <Image
-        src={school.address}
-        alt={school.name}
-        className={styles.schoolImage}
-      /> */}
-      <div className={styles.schoolImage}></div>
+      <div className={styles.schoolImageDiv}>
+        <Image
+          src={school.image ?? ''}
+          alt={school.name}
+          height={280}
+          width={350}
+          className={styles.schoolImage}
+        />
+      </div>
       <div className={styles.schoolInfo}>
         <p className={styles.schoolName}>{school.name}</p>
         <p className={styles.schoolCity}>{school.city}</p>
