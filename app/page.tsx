@@ -9,6 +9,7 @@ import study from '../public/study.jpg';
 import review from '../public/review.jpg';
 import Search from './components/search/page';
 import { Storage } from '@google-cloud/storage';
+import SchoolsContainer from './components/schoolGallery/schoolGallery';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -33,13 +34,6 @@ export default async function Home() {
         </div>
         <div className={styles.heroContent}>
           <h1 className={styles.heroText}>Find a better place to study</h1>
-          {/* <div className={styles.searchDiv}>
-            <input
-              className={styles.search}
-              type="text"
-              placeholder="Search for your school"
-            />
-          </div> */}
           <Search />
         </div>
       </section>
@@ -64,8 +58,8 @@ export default async function Home() {
           <div className={styles.stepText}>
             <h2>Find your ideal workspace</h2>
             <p>
-              Find you college so you can look for study spots on your campus.
-              Dont see your college? Click Here
+              Discover the perfect study spot to optimize your productivity and
+              comfort.
             </p>
           </div>
           <div className={styles.stepImgDiv}>
@@ -83,11 +77,14 @@ export default async function Home() {
           <div className={styles.stepText}>
             <h2>Leave a review</h2>
             <p>
-              Find you college so you can look for study spots on your campus.
-              Dont see your college? Click Here
+              Share your experience and help others by leaving a review of your
+              favorite study spots.
             </p>
           </div>
         </div>
+      </section>
+      <section className={styles.schools}>
+        <SchoolsContainer></SchoolsContainer>
       </section>
     </main>
   );

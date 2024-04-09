@@ -27,10 +27,10 @@ async function main() {
   });
 
   await prisma.school.upsert({
-    where: { name: 'Univeristy of Washington' },
+    where: { name: 'Washington State University' },
     update: {},
     create: {
-      name: 'Univeristy of Washington',
+      name: 'Washington State University',
       city: 'Pullman',
       address: '1500 Glenn Terrell Mall Pullman, WA  99163 United States',
       latitude: '46.720460',

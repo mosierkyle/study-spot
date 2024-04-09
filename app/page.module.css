@@ -296,3 +296,12 @@
 .notFoundButton:hover {
   background-color: #f0f0f0;
 }
+
+.schools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: calc(100vh - 100px);
+  width: 100%;
+  min-height: 1000px;
+}

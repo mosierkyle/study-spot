@@ -116,24 +116,26 @@ const School = ({ params: { school } }: Props) => {
   };
 
   const loadStudySpotMarkers = () => {
-    spotsData.forEach((spot) => {
-      if (map.current) {
-        new mapboxgl.Marker({ color: '#ff735c' })
-          .setLngLat([Number(spot.longitude), Number(spot.latitude)])
-          .setPopup(
-            new mapboxgl.Popup().setHTML(
-              `<a href="/studyspot/${spot.id}" style="text-decoration: none; color: black;">
-                <div style='padding: 5px;'>
-                  <img src="${spot.photos[0]}" alt="Spot Photo" style="max-width: 100%; height: auto; border-radius: 8px;">
-                  <h2>${spot.name}</h2>
-                  <p>${spot.description}</p>
-                </div>
-              </a>`
+    if (map.current) {
+      spotsData.forEach((spot) => {
+        if (map.current) {
+          new mapboxgl.Marker({ color: '#ff735c' })
+            .setLngLat([Number(spot.longitude), Number(spot.latitude)])
+            .setPopup(
+              new mapboxgl.Popup().setHTML(
+                `<a href="/studyspot/${spot.id}" style="text-decoration: none; color: black;">
+                  <div style='padding: 5px;'>
+                    <img src="${spot.photos[0]}" alt="Spot Photo" style="max-width: 100%; height: auto; border-radius: 8px;">
+                    <h2>${spot.name}</h2>
+                    <p>${spot.description}</p>
+                  </div>
+                </a>`
+              )
             )
-          )
-          .addTo(map.current);
-      }
-    });
+            .addTo(map.current);
+        }
+      });
+    }
   };
 
   const handleSortFilterCategory = () => {
