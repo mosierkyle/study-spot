@@ -67,6 +67,7 @@ model School {
   name       String   @unique
   city       String?
   students   User[]
+  image      String?
   address    String
   latitude   String?
   longitude  String?
