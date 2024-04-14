@@ -73,7 +73,7 @@ export default async function RootLayout({
             <Link className={styles.footerLink1} href={'/'}>
               About
             </Link>
-            <Link className={styles.footerLink1} href={'/'}>
+            <Link className={styles.footerLink1} href={'/account'}>
               Account
             </Link>
             <Link className={styles.footerLink1} href={'/'}>
