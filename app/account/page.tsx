@@ -229,10 +229,24 @@ const Account = () => {
 
       if (uploadResponse.ok) {
         const { fileURL } = await uploadResponse.json();
-        // console.log(fileURL);
         urls.push(fileURL);
       } else {
         console.error(`Failed to get photo URLs`);
+      }
+    } catch (error) {
+      console.error(`Error uploading photo`, error);
+    }
+    try {
+      const deleteResponse = await fetch('/api/deletePhotoAvatar/', {
+        method: 'POST',
+        body: user?.avatar,
+      });
+
+      if (deleteResponse.ok) {
+        const { repsonse } = await deleteResponse.json();
+        console.log(repsonse);
+      } else {
+        console.error(`Failed to delete previous photo`);
       }
     } catch (error) {
       console.error(`Error uploading photo`, error);
