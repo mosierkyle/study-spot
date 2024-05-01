@@ -15,7 +15,7 @@ export async function GET(
     const session = await getServerSession(authOptions);
     if (session?.user?.email) {
       const user = await getUser(session?.user?.email);
-      console.log(user);
+      // console.log(user);
       return NextResponse.json({ user }, { status: 201 });
     } else {
       return NextResponse.json(

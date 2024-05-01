@@ -44,9 +44,10 @@ export async function POST(
   res: Response | NextResponse
 ) {
   try {
+    console.log(`we here mf`);
     const prevPhoto = JSON.parse(await streamToString(req.body));
     const key = extractPathFromUrl(prevPhoto);
-    console.log(key);
+    console.log(`---${key}`);
     const response = await deleteFileFromS3(key);
 
     return NextResponse.json({ response }, { status: 200 });
