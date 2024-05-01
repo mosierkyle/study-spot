@@ -132,7 +132,7 @@ const Account = () => {
           avatar: awsURLs[0],
         };
       }
-      console.log(userData);
+      // console.log(userData);
       try {
         const response = await fetch('/api/editProfile/', {
           method: 'POST',
@@ -230,30 +230,33 @@ const Account = () => {
       if (uploadResponse.ok) {
         const { fileURL } = await uploadResponse.json();
         urls.push(fileURL);
+
+        //Delete photo storage from s3 bucket after new one is uploaded
+        try {
+          const prevPhoto = user?.avatar;
+          const deleteResponse = await fetch('/api/deletePhotoAvatar/', {
+            method: 'POST',
+            body: JSON.stringify(prevPhoto),
+          });
+
+          if (deleteResponse.ok) {
+            const { repsonse } = await deleteResponse.json();
+            console.log(repsonse);
+            console.log(urls);
+            setAwsURLs(urls);
+          } else {
+            console.error(`Failed to delete previous photo`);
+            console.log(deleteResponse);
+          }
+        } catch (error) {
+          console.error(`Error uploading photo`, error);
+        }
       } else {
         console.error(`Failed to get photo URLs`);
       }
     } catch (error) {
       console.error(`Error uploading photo`, error);
     }
-    try {
-      const deleteResponse = await fetch('/api/deletePhotoAvatar/', {
-        method: 'POST',
-        body: user?.avatar,
-      });
-
-      if (deleteResponse.ok) {
-        const { repsonse } = await deleteResponse.json();
-        console.log(repsonse);
-      } else {
-        console.error(`Failed to delete previous photo`);
-      }
-    } catch (error) {
-      console.error(`Error uploading photo`, error);
-    }
-
-    console.log(urls);
-    setAwsURLs(urls);
   };
 
   return (

@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
   /* max-width: 100vw; */
@@ -143,7 +143,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   padding: 50px 0;
   gap: 120px;
@@ -177,7 +177,7 @@
 .stepText {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   flex-direction: column;
 }
 
@@ -190,7 +190,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   gap: 25px;
 }
@@ -201,7 +201,7 @@
   gap: 10px;
   width: 100%;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .footerLogo {
@@ -223,7 +223,7 @@
   gap: 10px;
   width: 100%;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .footerHelp {
@@ -232,7 +232,7 @@
   gap: 10px;
   width: 100%;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .footerLink1 {
@@ -252,7 +252,7 @@
   width: 82.5%;
   overflow: hidden;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   padding: 0;

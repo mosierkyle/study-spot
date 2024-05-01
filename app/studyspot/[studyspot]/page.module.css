@@ -60,7 +60,7 @@
   z-index: 80; /* Updated z-index value */
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   width: fit-content;
 }
 
@@ -204,7 +204,7 @@
   width: 30%;
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   position: absolute;
   right: 0px;
   margin-right: 20px;
@@ -248,7 +248,7 @@
 .amenity {
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   gap: 2px;
 }
@@ -326,7 +326,7 @@
   padding: 25px;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .userSkeleton {

@@ -19,7 +19,6 @@ export async function POST(
   try {
     const data = JSON.parse(await streamToString(req.body));
     const user = data;
-    console.log(user);
     await updateUser(user);
     return NextResponse.json({ user: user }, { status: 200 });
   } catch (error: any) {
