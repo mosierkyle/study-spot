@@ -71,6 +71,9 @@ const Account = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!user?.id) {
+          return;
+        }
         const response = await fetch('/api/userReviews/', {
           method: 'POST',
           headers: {
@@ -93,6 +96,9 @@ const Account = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!user?.id) {
+        return;
+      }
       try {
         const response = await fetch('/api/userSaves/', {
           method: 'POST',
