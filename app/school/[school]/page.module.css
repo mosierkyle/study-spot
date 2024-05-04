@@ -422,3 +422,88 @@
   border-radius: 10px;
   position: relative;
 }
+
+.categoriesMedia {
+  width: 100%;
+  display: none;
+  flex-direction: row;
+  gap: 10px;
+  margin-left: 30px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 1450px) {
+  .right {
+    width: 25%;
+    transition: width 0.3s ease;
+  }
+
+  .left {
+    width: 60%;
+    transition: width 0.3s ease;
+  }
+
+  .filters {
+    width: 15%;
+    transition: width 0.3s ease;
+  }
+}
+
+@media (max-width: 1210px) {
+  .right {
+    width: 30%;
+    /* transition: width 0.3s ease; */
+  }
+
+  .left {
+    width: 70%;
+    transition: width 0.5s ease;
+  }
+
+  .filters {
+    width: 0%;
+    transition: width 0.3s ease;
+    transition: opacity 0.1s ease;
+    opacity: 0;
+  }
+  .categoriesMedia {
+    display: flex;
+  }
+
+  .spots {
+    height: calc(100% - 210px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 1050px) {
+  .right {
+    width: 0%;
+    transition: width 0.3s ease;
+    transition: opacity 0.1s ease;
+    opacity: 0;
+  }
+
+  .left {
+    width: 100%;
+    transition: width 0.5 ease;
+  }
+}
+
+@media (max-width: 760px) {
+  .sort {
+    /* transform: scale(0.8); */
+    position: absolute;
+    top: 65px;
+    margin-top: -15px;
+    right: 0px;
+  }
+
+  .header h1 {
+    max-width: 380px;
+  }
+}

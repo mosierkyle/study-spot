@@ -49,8 +49,11 @@ export default async function Home() {
           <div className={styles.stepText}>
             <h2>Search for your school</h2>
             <p>
-              Find you college so you can look for study spots on your campus.
-              Dont see your college? Click Here
+              Find your college so you can look for study spots on your campus.
+              Dont see your college?{' '}
+              <a className={styles.noCollege} href="">
+                Click Here
+              </a>
             </p>
           </div>
         </div>
@@ -77,8 +80,8 @@ export default async function Home() {
           <div className={styles.stepText}>
             <h2>Leave a review</h2>
             <p>
-              Share your experience and help others by leaving a review of your
-              favorite study spots.
+              Share your experience and help others by leaving a review or
+              rating.
             </p>
           </div>
         </div>

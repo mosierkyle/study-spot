@@ -1,4 +1,4 @@
-.gallery {
+/* .gallery {
   height: fit-content;
   display: grid;
   grid-template-columns: repeat(4, auto);
@@ -6,5 +6,23 @@
   row-gap: 50px;
   column-gap: 25px;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+} */
+
+.gallery {
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 40px;
+  column-gap: 40px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 7px 30px;
+  overflow-y: hidden;
+  margin-top: -50px;
+  margin-bottom: 75px;
   align-items: center;
 }

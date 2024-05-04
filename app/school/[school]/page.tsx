@@ -18,7 +18,7 @@ interface Props {
   };
 }
 
-const School = ({ params: { school } }: Props) => {
+const SchoolComponent = ({ params: { school } }: Props) => {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [lng, setLng] = useState<number>(0);
@@ -471,6 +471,44 @@ const School = ({ params: { school } }: Props) => {
               </div>
             )}
           </div>
+          <div className={styles.categoriesMedia}>
+            <div
+              className={cafeActive ? styles.categoryActive : styles.category}
+              onClick={() => handleCategory('cafe')}
+            >
+              Cafe
+            </div>
+            <div
+              className={
+                libraryActive ? styles.categoryActive : styles.category
+              }
+              onClick={() => handleCategory('library')}
+            >
+              Library
+            </div>
+            <div
+              className={
+                publicSpaceActive ? styles.categoryActive : styles.category
+              }
+              onClick={() => handleCategory('public space')}
+            >
+              Public Space
+            </div>
+            <div
+              className={
+                workAreaActive ? styles.categoryActive : styles.category
+              }
+              onClick={() => handleCategory('work area')}
+            >
+              Work Area
+            </div>
+            <div
+              className={otherActive ? styles.categoryActive : styles.category}
+              onClick={() => handleCategory('other')}
+            >
+              Other
+            </div>
+          </div>
           {filteredData ? (
             <div className={styles.spots}>
               {filteredData.map((spot) => (
@@ -491,4 +529,4 @@ const School = ({ params: { school } }: Props) => {
   );
 };
 
-export default School;
+export default SchoolComponent;
