@@ -38,7 +38,7 @@ const SchoolComponent = ({ params: { school } }: Props) => {
   const [otherActive, setOtherActive] = useState(false);
   const [user, setUser] = useState<User | undefined>(undefined);
   const [loadMarkers, setLoadMarkers] = useState<boolean>(false);
-  const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN;
+  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const onCampusRef = useRef<HTMLInputElement>(null);
   const freeWifiRef = useRef<HTMLInputElement>(null);
   const open24HoursRef = useRef<HTMLInputElement>(null);
@@ -91,6 +91,7 @@ const SchoolComponent = ({ params: { school } }: Props) => {
 
   const loadMap = () => {
     if (lat !== 0 && lng !== 0) {
+      console.log(process.env.AWS_S3_REGION);
       mapboxgl.accessToken = mapboxToken ?? '';
       if (!mapContainer.current || map.current) {
         return;

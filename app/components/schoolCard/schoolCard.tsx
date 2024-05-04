@@ -25,7 +25,7 @@ const SchoolCard: React.FC<SchoolCardProps> = ({ school }) => {
           const responseData = await response.json();
           const parsedData = await responseData.spots;
           setStudySpots(parsedData);
-          console.log(parsedData);
+          // console.log(parsedData);
         }
       } catch (error) {
         console.error(error);
