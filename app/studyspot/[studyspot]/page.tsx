@@ -44,7 +44,7 @@ const Spot = ({ params: { studyspot } }: Props) => {
   const [lat, setLat] = useState<string | null>(null);
   const [zoom, setZoom] = useState(15);
   const [user, setUser] = useState<User | undefined>(undefined);
-  const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN;
+  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
   const [showReviewForm, setShowReviewForm] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
   const isSignedIn = useCheckSignIn();
