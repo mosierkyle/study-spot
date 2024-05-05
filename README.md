@@ -1,8 +1,8 @@
 # StudySpot
 
-## Link
+### Link
 
-study-spot-five.vercel.app
+[StudySpot](https://study-spot-five.vercel.app/)
 
 ### Description
 
@@ -20,38 +20,38 @@ Study Spot is a community-driven application designed to help students find the 
 
 **Frontend:**
 
-- **[Next.js](https://nextjs.org/)**: A React framework for building server-rendered applications.
-- **[React](https://reactjs.org/)**: A JavaScript library for building user interfaces.
-- **[TypeScript](https://www.typescriptlang.org/)**: A statically-typed superset of JavaScript that provides better tooling and code quality.
+- [Next.js](https://nextjs.org/): A React framework for building server-rendered applications.
+- [React](https://reactjs.org/): A JavaScript library for building user interfaces.
+- [TypeScript](https://www.typescriptlang.org/): A statically-typed superset of JavaScript that provides better tooling and code quality.
 
-  **Backend:**
+**Backend:**
 
-- **Next.js API Routes**: A simple way to create API endpoints within a Next.js application.
+- Next.js API Routes: A simple way to create API endpoints within a Next.js application.
 
-  **Database:**
+**Database:**
 
-- **[PostgreSQL](https://www.postgresql.org/) (Serverless on Vercel)**: An open-source relational database management system, hosted serverlessly on Vercel.
-- **[Prisma](https://www.prisma.io/)**: An Object-Relational Mapping (ORM) tool for interacting with databases.
+- [PostgreSQL](https://www.postgresql.org/): An open-source relational database management system, hosted serverlessly on Vercel.
+- [Prisma](https://www.prisma.io/): An Object-Relational Mapping (ORM) tool for interacting with databases.
 
-  **Authentication:**
+**Authentication:**
 
-- **[NextAuth.js](https://next-auth.js.org/)**: An authentication library for Next.js applications, supporting OAuth providers like Google.
+- [NextAuth.js](https://next-auth.js.org/): An authentication library for Next.js applications, supporting OAuth providers like Google.
 
-  **Mapping:**
+**Mapping:**
 
-- **[Mapbox API](https://www.mapbox.com/)**: A powerful mapping platform for creating interactive maps and visualizations.
+- [Mapbox API](https://www.mapbox.com/): A powerful mapping platform for creating interactive maps and visualizations.
 
-  **Hosting:**
+**Hosting:**
 
-- **[Vercel](https://vercel.com/)**: A cloud platform for static and serverless deployment, used for hosting the application.
+- [Vercel](https://vercel.com/): A cloud platform for static and serverless deployment, used for hosting the application.
 
-  **Storage:**
+**Storage:**
 
-- **[AWS S3](https://aws.amazon.com/s3/)**: Amazon Web Services' highly scalable and reliable cloud storage service, used for storing user-uploaded images.
+- [AWS S3](https://aws.amazon.com/s3/): Amazon Web Services' highly scalable and reliable cloud storage service, used for storing user-uploaded images.
 
-  **Secruity:**
+**Secruity:**
 
-- **[bcrypt](https://github.com/kelektiv/node.bcrypt.js)**: A library for hashing and salting passwords securely.
+- [bcrypt](https://github.com/kelektiv/node.bcrypt.js): A library for hashing and salting passwords securely.
 
 ### Installation
 
