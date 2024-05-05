@@ -12,46 +12,38 @@ Study Spot is a community-driven application designed to help students find the 
 
 - **Discover Study Spots:** Browse through a curated list of study spots uploaded by fellow students or search for specific locations by campus or amenities.
 - **Share Study Spots:** Contribute to the community by uploading new study spots and providing details such as location, facilities, and photos.
-- **Rate and Review::** Share your experiences and insights by leaving reviews and ratings for study spots you've visited, helping others make informed decisions.
-- **Request New Campuses:** Expand or collapse individual nodes to reveal or hide nested data, providing a clear and organized view of the JSON structure.
+- **Rate and Review:** Share your experiences and insights by leaving reviews and ratings for study spots you've visited, helping others make informed decisions.
+- **Request New Campuses:** If your college or university is not yet listed, you can request it to be added to the app, expanding the Study Spot community.
 - **User Profiles:** Create a personalized profile to keep track of your favorite study spots, reviews, and contributions.
 
 ### Tools Used
 
 **Frontend:**
-
-- [Next.js](https://nextjs.org/): A React framework for building server-rendered applications.
-- [React](https://reactjs.org/): A JavaScript library for building user interfaces.
-- [TypeScript](https://www.typescriptlang.org/): A statically-typed superset of JavaScript that provides better tooling and code quality.
+[Next.js](https://nextjs.org/): A React framework for building server-rendered applications.
+[React](https://reactjs.org/): A JavaScript library for building user interfaces.
+[TypeScript](https://www.typescriptlang.org/): A statically-typed superset of JavaScript that provides better tooling and code quality.
 
 **Backend:**
-
-- Next.js API Routes: A simple way to create API endpoints within a Next.js application.
+Next.js API Routes: A simple way to create API endpoints within a Next.js application.
 
 **Database:**
-
-- [PostgreSQL](https://www.postgresql.org/): An open-source relational database management system, hosted serverlessly on Vercel.
-- [Prisma](https://www.prisma.io/): An Object-Relational Mapping (ORM) tool for interacting with databases.
+[PostgreSQL](https://www.postgresql.org/): An open-source relational database management system, hosted serverlessly on Vercel.
+[Prisma](https://www.prisma.io/): An Object-Relational Mapping (ORM) tool for interacting with databases.
 
 **Authentication:**
-
-- [NextAuth.js](https://next-auth.js.org/): An authentication library for Next.js applications, supporting OAuth providers like Google.
+[NextAuth.js](https://next-auth.js.org/): An authentication library for Next.js applications, supporting OAuth providers like Google.
 
 **Mapping:**
-
-- [Mapbox API](https://www.mapbox.com/): A powerful mapping platform for creating interactive maps and visualizations.
+[Mapbox API](https://www.mapbox.com/): A powerful mapping platform for creating interactive maps and visualizations.
 
 **Hosting:**
-
-- [Vercel](https://vercel.com/): A cloud platform for static and serverless deployment, used for hosting the application.
+[Vercel](https://vercel.com/): A cloud platform for static and serverless deployment, used for hosting the application.
 
 **Storage:**
-
-- [AWS S3](https://aws.amazon.com/s3/): Amazon Web Services' highly scalable and reliable cloud storage service, used for storing user-uploaded images.
+[AWS S3](https://aws.amazon.com/s3/): Amazon Web Services' highly scalable and reliable cloud storage service, used for storing user-uploaded images.
 
 **Secruity:**
-
-- [bcrypt](https://github.com/kelektiv/node.bcrypt.js): A library for hashing and salting passwords securely.
+[bcrypt](https://github.com/kelektiv/node.bcrypt.js): A library for hashing and salting passwords securely.
 
 ### Installation
 
