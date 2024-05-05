@@ -18,31 +18,31 @@ Study Spot is a community-driven application designed to help students find the 
 
 ### Tools Used
 
-**Frontend:**
-[Next.js](https://nextjs.org/): A React framework for building server-rendered applications.
-[React](https://reactjs.org/): A JavaScript library for building user interfaces.
+**Frontend:** <br />
+[Next.js](https://nextjs.org/): A React framework for building server-rendered applications. <br />
+[React](https://reactjs.org/): A JavaScript library for building user interfaces. <br />
 [TypeScript](https://www.typescriptlang.org/): A statically-typed superset of JavaScript that provides better tooling and code quality.
 
-**Backend:**
+**Backend:** <br />
 Next.js API Routes: A simple way to create API endpoints within a Next.js application.
 
-**Database:**
-[PostgreSQL](https://www.postgresql.org/): An open-source relational database management system, hosted serverlessly on Vercel.
+**Database:** <br />
+[PostgreSQL](https://www.postgresql.org/): An open-source relational database management system, hosted serverlessly on Vercel. <br />
 [Prisma](https://www.prisma.io/): An Object-Relational Mapping (ORM) tool for interacting with databases.
 
-**Authentication:**
+**Authentication:** <br />
 [NextAuth.js](https://next-auth.js.org/): An authentication library for Next.js applications, supporting OAuth providers like Google.
 
-**Mapping:**
+**Mapping:** <br />
 [Mapbox API](https://www.mapbox.com/): A powerful mapping platform for creating interactive maps and visualizations.
 
-**Hosting:**
+**Hosting:** <br />
 [Vercel](https://vercel.com/): A cloud platform for static and serverless deployment, used for hosting the application.
 
-**Storage:**
+**Storage:** <br />
 [AWS S3](https://aws.amazon.com/s3/): Amazon Web Services' highly scalable and reliable cloud storage service, used for storing user-uploaded images.
 
-**Secruity:**
+**Secruity:** <br />
 [bcrypt](https://github.com/kelektiv/node.bcrypt.js): A library for hashing and salting passwords securely.
 
 ### Installation
