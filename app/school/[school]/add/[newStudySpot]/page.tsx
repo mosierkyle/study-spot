@@ -10,6 +10,7 @@ import study from '../../../../../public/study2.jpg';
 import back from '../../../../../public/back.png';
 import upload from '../../../../../public/upload3.png';
 import StudySpotForm from '@/app/components/forms/spotform';
+import ProgressBar from '@/app/components/progressBar/progressBar';
 
 interface Props {
   params: {
@@ -84,8 +85,8 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
         </div>
       </section>
       <section className={styles.form}>
-        <div onClick={goBack} className={styles.formHeader}>
-          <div className={styles.back}>
+        <div className={styles.formHeader}>
+          <div onClick={goBack} className={styles.back}>
             <Image
               className={styles.backButton}
               src={back}
@@ -98,7 +99,15 @@ const NewStudySpot = ({ params: { newStudySpot } }: Props) => {
             </p>
           </div>
         </div>
-        <StudySpotForm userData={user} schoolData={school} />
+        <div className={styles.progressBar}>
+          <ProgressBar formPage={formPage} />
+        </div>
+        <StudySpotForm
+          userData={user}
+          schoolData={school}
+          formPage={formPage}
+          setFormPage={setformPage}
+        />
       </section>
     </div>
   );

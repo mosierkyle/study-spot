@@ -1,6 +1,6 @@
 .schoolCard {
-  height: 400px;
-  width: 350px;
+  height: 300px;
+  width: 250px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   display: flex;
@@ -20,12 +20,14 @@
 .schoolImage {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  height: 100%;
+  width: 250px;
 }
 
 .schoolInfo {
-  height: calc(30% - 20px);
+  height: calc(30%);
   padding: 10px;
-  gap: 15px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -47,5 +49,5 @@
   margin: 0;
   text-align: end;
   /* font-weight: 600; */
-  font-size: 1.1rem;
+  font-size: 1rem;
 }

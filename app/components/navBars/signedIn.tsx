@@ -32,7 +32,7 @@ const SignedInNav: React.FC<SignedInNavProps> = ({
       {profileOptions && (
         <div
           onClick={() => {
-            console.log('we here');
+            // console.log('we here');
             profileOptions && handleProfileOptions();
           }}
           className={styles.profileOverlay}

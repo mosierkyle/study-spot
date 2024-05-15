@@ -362,6 +362,7 @@
 
 .formError {
   margin-bottom: -40px;
+  margin-top: -10px;
   text-align: center;
   color: red;
   font-weight: 600;

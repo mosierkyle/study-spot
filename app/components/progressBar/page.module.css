@@ -1,0 +1,45 @@
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  max-width: 1000px;
+}
+
+.number {
+  background-color: #ff735c;
+  height: 22px;
+  width: 8px;
+  padding: 5px 12px;
+  border-radius: 50%;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bar {
+  width: 50%;
+  background-color: #ff725ce1;
+  height: 8px;
+}
+
+.beforeBar {
+  width: 50%;
+  background-color: rgba(229, 231, 235, 1);
+  height: 8px;
+}
+
+.beforeNumber {
+  background-color: rgba(229, 231, 235, 1);
+  height: 22px;
+  width: 8px;
+  padding: 5px 12px;
+  border-radius: 50%;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

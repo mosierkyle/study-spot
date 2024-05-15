@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  SetStateAction,
+} from 'react';
 import styles from './page.module.css';
 import Image from 'next/image';
 import upload from '../../../public/upload3.png';
@@ -14,14 +20,17 @@ import { useRouter } from 'next/navigation';
 interface StudySpotFormProps {
   schoolData: School | null;
   userData: User | null;
+  formPage: Number;
+  setFormPage: React.Dispatch<React.SetStateAction<Number>>;
 }
 
 const StudySpotForm: React.FC<StudySpotFormProps> = ({
   schoolData,
   userData,
+  formPage,
+  setFormPage,
 }) => {
   const router = useRouter();
-  const [formPage, setFormPage] = useState<number>(1);
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [photos, setPhotos] = useState<File[]>([]);
